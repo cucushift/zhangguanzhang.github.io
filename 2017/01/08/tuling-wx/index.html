@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Zhangguanzhang">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="接入微信公众号图灵机器人api"/>
+  <meta property="og:description" content="记录生活点滴" />
+  <meta property="og:site_name" content="Zhangguanzhang"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://zhangguanzhang.github.ioundefined"/>
+  
+    <link rel="alternate" href="/atom.xml" title="Zhangguanzhang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>Zhangguanzhang</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.dark.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">接入微信公众号图灵机器人api</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/zhangguanzhang">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:zhangguanzhang@qq.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Zhangguanzhang</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-01-08</span>
+            <span class="time">23:48:34</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/日志/">日志</a> / <a href="/categories/日志/心得/">心得</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/微信/">#微信</a> <a class="tag" href="/tags/原创/">#原创</a> <a class="tag" href="/tags/api/">#api</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>最近在弄微信远程控制，闲来无聊把图灵机器人接入自己公众号<br><a id="more"></a></p>
+<h2 id="网上的有的是直接图灵官网那接入，但是那样就完全接管了公众号的消息管理了，自己的就没用了，然后百度了一番，终于弄出来了"><a href="#网上的有的是直接图灵官网那接入，但是那样就完全接管了公众号的消息管理了，自己的就没用了，然后百度了一番，终于弄出来了" class="headerlink" title="网上的有的是直接图灵官网那接入，但是那样就完全接管了公众号的消息管理了，自己的就没用了，然后百度了一番，终于弄出来了"></a>网上的有的是直接图灵官网那接入，但是那样就完全接管了公众号的消息管理了，自己的就没用了，然后百度了一番，终于弄出来了</h2><h3 id="预备条件-服务器-云主机，自己买-，微信公众号，和一个图灵的apikey-图灵官网申请个机器人后就可以获得-会点php基础-我用php开发的"><a href="#预备条件-服务器-云主机，自己买-，微信公众号，和一个图灵的apikey-图灵官网申请个机器人后就可以获得-会点php基础-我用php开发的" class="headerlink" title="预备条件:服务器(云主机，自己买)，微信公众号，和一个图灵的apikey(图灵官网申请个机器人后就可以获得),会点php基础(我用php开发的..)"></a>预备条件:服务器(云主机，自己买)，微信公众号，和一个图灵的apikey(图灵官网申请个机器人后就可以获得),会点php基础(我用php开发的..)</h3><p>#####先自己微信公众号线对接上自己主机。怎么对接有时间我发下教程。。。</p>
+<p>####另外再废话点,微信公众号一般是三种,订阅号(个人),服务号(工商个体户),企业号(企业用),订阅号只能个人用切开启开发者模式后(也就是你对接服务器了后无法自定义菜单，这点很坑….),服务号和企业号不说了,反正个人申请不了…,另外无论你申请了哪种公众号,你都可以开启测试号,测试号是微信官方给开发者开发测试用的,是三种公众号的混合体,但是使用期限只有一年(怎么使用自己想清楚就行了，别瞎打开了)…</p>
+<p>####微信公众号流程是用户发消息给微信服务器,然后微信服务器生成对应的xml转发给你主机,你主机进行处理回应给微信服务器,微信服务器解析xml后返回给用户</p>
+<p>####以下是逻辑处理代码,微信的xml是post过来的先接收post内容,然后判断是否非空,再把xml转成对象,然后几个关键的xml数据非空再往下处理,然后判断用户消息类型也就是Msgtype分类处理,菜单的还有个key的目前还没写完,看下微信公众号官方开发文档就懂了,然后根据关键字回复,default就是非自定义的关键字以外的内容,也就是要交给图灵机器人的,api已打码,自己的填进去就行,目前还没完善,仅供参考<br>$post_data = $GLOBALS[“HTTP_RAW_POST_DATA”];<br>    if(!empty( $post_data) )    {<br>        $post_data=simplexml_load_string($post_data);<br>        if (!empty( $post_data-&gt;FromUserName &amp;&amp;<br>                    $post_data-&gt;ToUserName      &amp;&amp;<br>                    $post_data-&gt;CreateTime     &amp;&amp;<br>                    $post_data-&gt;MsgType ) )   {<br>            $FromUserName = $post_data-&gt;FromUserName;<br>            $ToUserName = $post_data-&gt;ToUserName;<br>            $userword = trim($post_data-&gt;Content);<br>            $MsgType = $post_data-&gt;MsgType;<br>            $Event = $post_data-&gt;Event;<br>            $time = time();<br>            $xml = “<xml><br>            <tousername>&lt;![CDATA[%s]]&gt;</tousername><br>            <fromusername>&lt;![CDATA[%s]]&gt;</fromusername><br>            <createtime>%s</createtime><br>            <msgtype>&lt;![CDATA[%s]]&gt;</msgtype><br>            <content>&lt;![CDATA[%s]]&gt;</content><br>            <funcflag>0</funcflag><br>            </xml>“;<br>            switch ($MsgType) {<br>                case “text”:<br>                            if (!empty($userword)) {<br>                                switch ($userword) {<br>                                    case “开灯”:<br>                                        $Content=”收到开灯”;<br>                                        break;<br>                                    case “关灯”:<br>                                        $Content=”收到关灯”;<br>                                        break;<br>                                    default:<br>                                        $apikey=”<strong>*</strong>“;<br>                                        $url=”<a href="http://www.tuling123.com/openapi/api?key=%s&amp;info=%s" target="_blank" rel="external">http://www.tuling123.com/openapi/api?key=%s&amp;info=%s</a>“;<br>                                        $url=sprintf($url,$apikey,$userword);<br>                                        $json=file_get_contents($url);<br>                                        $json=json_decode($json);<br>                                        $Content=$json-&gt;text;<br>                                        break;<br>                                }<br>                                $reply=sprintf($xml,$FromUserName,$ToUserName,$time,$MsgType,$Content);<br>                                echo $reply;<br>                            }<br>                            else echo “”;<br>                    break;<br>                case “event”:<br>                            $MsgType=”text”;<br>                            switch ($Event) {<br>                                case “subscribe”:<br>                                    $Content=”欢迎订阅测试号”;<br>                                    $reply=sprintf($xml,$FromUserName,$ToUserName,$time,$MsgType,$Content);<br>                                    echo $reply;<br>                                    break;<br>                                case “CLICK”:<br>                                    $Content=”收到菜单点击”;<br>                                    $reply=sprintf($xml,$FromUserName,$ToUserName,$time,$MsgType,$Content);<br>                                    echo $reply;<br>                                    break;<br>                                default:<br>                                    $Content=”收到点击”;<br>                                    $reply=sprintf($xml,$FromUserName,$ToUserName,$time,$MsgType,$Content);<br>                                    echo $reply;<br>                                    break;<br>                            }<br>                    break;<br>                default:</p>
+<pre><code>                # code...
+                break;
+        }
+
+
+    }
+
+}
+else {
+    echo &quot;&quot;;
+    exit;
+}
+</code></pre><p>?&gt;</p>
+<hr>
+<h4 id="以下是效果"><a href="#以下是效果" class="headerlink" title="以下是效果"></a>以下是效果</h4><p><img src="http://oftgpeto9.bkt.clouddn.com/wxt.jpg" alt="jscode"></p>
+<blockquote>
+<p>有疑问的可以致电我邮箱</p>
+</blockquote>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
