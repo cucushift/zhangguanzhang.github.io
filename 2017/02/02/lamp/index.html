@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">17:43:22</span>
+            <span class="time">17:50:34</span>
           </span>
           
           <!--  Categories  -->
@@ -142,17 +142,20 @@ mkdir就是make directory创建目录<br>
 
 <img src="http://oftgpeto9.bkt.clouddn.com/l3.png">
 <img src="http://oftgpeto9.bkt.clouddn.com/l4.png">
+<br>
 然后在ssh软件里下面这输入wget空格并且粘贴链接<br>
 下面全文不会再讲关于命令如何输入的问题了...
-<pre><code>wget http://mirrors.hust.edu.cn/apache/httpd/httpd-2.4.25.tar.gz</code></pre>
+<br>
 wget是从url下载文件
+<pre><code>wget http://mirrors.hust.edu.cn/apache/httpd/httpd-2.4.25.tar.gz</code></pre>
+
 <pre><code>tar zxvf httpd*</code></pre>
 这个是解压一个名字里开头是httpd的tar.gz的压缩包,这里的星号*是通配符<br>
 在解压的时候文件名单一的可以不用输入全名来解压,建议大家以后在删除文件的时候不要这样用通配符<br>
 <pre><code>wget http://archive.apache.org/dist/apr/apr-1.4.5.tar.gz
 wget http://archive.apache.org/dist/apr/apr-util-1.3.12.tar.gz</code></pre>
 apache安装需要apr和apr-util和pcre<br>
-ll命令是ls -l就是列出文件,后面有些命令的间隔里也可以用ll看看这些命令是干啥的
+ll命令是ls -l就是列出文件,后面有些命令的间隔里也可以用ll看看这些命令是干啥的<br>
 <img src="http://oftgpeto9.bkt.clouddn.com/l5.png">
 <pre><code>tar zxvf apr-1.4.5.tar.gz
 tar zxvf apr-util-1.3.12.tar.gz</code></pre>
@@ -175,8 +178,8 @@ cd pcre*</code></pre>
 make就是编译,make install就是编译安装
 <pre><code>cd ../httpd*</code></pre>
 ../是linux里的相对路径,意思是返回上一级目录下<br>
-cd ../httpd*就是进入上一级目录下的一个开头httpd的目录
-
+cd ../httpd*就是进入上一级目录下的一个开头httpd的目录<br>
+配置安装apache并启动
 <pre><code>./configure --prefix=/usr/local/apache -with-pcre=/usr/local/pcre/bin/pcre-config -with-included-apr
 cd /usr/local/apache/bin
 ./apachectl -k start</code></pre>
@@ -187,25 +190,29 @@ cd /usr/local/apache/bin
 输出<pre><code>&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</code></pre>
 本地电脑在浏览器打开服务器ip也能看到网页，成功
 <img src="http://oftgpeto9.bkt.clouddn.com/l7.png">
+<br>
 如果外网打开看不到到:<br>一是可能你的防火墙没有开启80端口<br>二是你的云主机的规则没开放80端口
+<br>
 这里我以腾讯云为例
 <img src="http://oftgpeto9.bkt.clouddn.com/l8.png">
+<br>
 倘若你curl有输出it works字样但你外网打不开，可以在图上里那个全部端口加入你的主机<br>
 apache的配置文件是apache安装目录下的conf文件夹里的httpd.conf,我是安装在/usr/local/apache/conf
+<br>
 <img src="http://oftgpeto9.bkt.clouddn.com/l9.png">
 <pre><code>cp /usr/local/apache/bin/apachectl /etc/init.d/httpd</code></pre>
 经过上面这条命令操作后你以后开启apache或者关闭重启就可以直接输入
 <pre><code>service httpd start</code></pre>
 stop停止,restart是重启
 <hr>
-<<h3>接下来是安装mysql</h3>
+<h3>接下来是安装mysql</h3>
 5.7以及以上安装有点不同
-这里我安装的是5.6.35链接: https://pan.baidu.com/s/1kVc7e9T 密码: wf5v<br>
-mysql的官网下载特慢，这里我用ftp上传到服务器,在xftp和xshell都安装的情况下我们可以在xshell里通过图里打开一个连接主机的ftp窗口
+这里我安装的是5.6.35<br>链接: https://pan.baidu.com/s/1kVc7e9T 密码: wf5v<br>
+mysql的官网下载特慢，这里我用ftp上传到服务器<br>在xftp和xshell都安装的情况下我们可以在xshell里通过图里打开一个连接主机的ftp窗口
 <img src="http://oftgpeto9.bkt.clouddn.com/l10.png">
-
+<br>
 然后把mysql压缩包上传
-
+<br>
 <img src="http://oftgpeto9.bkt.clouddn.com/l11.png">
 
 进入xshell里
@@ -213,7 +220,7 @@ mysql的官网下载特慢，这里我用ftp上传到服务器,在xftp和xshell�
 tar zxvf mysql*</code></pre>
 安装依赖
 <pre><code>yum install cmake ncurses-devel</code></pre>
-
+进入mysql的解压目录并配置
 <pre><code>cd mysql*
 cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/usr/local/mysql/data</code></pre>
 <img src="http://oftgpeto9.bkt.clouddn.com/l12.png">
@@ -256,7 +263,8 @@ flush privileges 命令本质上的作用是将当前user和privilige表中的�
 建立一个软连接,以后我们直接在shell里输入下面命令就可以进入mysql客户端了
 <pre><code>mysql –uroot -p</code></pre>
 
-<p><hr><br>&lt;</p><h3>下面来安装php</h3><br>进入php官网,进入download页面点击tar.gz包<br><img src="http://oftgpeto9.bkt.clouddn.com/l15.png"><br>进去后我们找香港的源，右击后选择复制链接<br><img src="http://oftgpeto9.bkt.clouddn.com/l16.png"><br>在xshell里<p></p>
+<p><hr></p>
+<p></p><h3>下面来安装php</h3><br>进入php官网,进入download页面点击tar.gz包<br><img src="http://oftgpeto9.bkt.clouddn.com/l15.png"><br>进去后我们找香港的源，右击后选择复制链接<br><img src="http://oftgpeto9.bkt.clouddn.com/l16.png"><br>在xshell里<p></p>
 <pre><code>cd /usr/local/download
 wget http://hk1.php.net/get/php-5.6.29.tar.gz/from/this/mirror
 tar zxvf mirror
