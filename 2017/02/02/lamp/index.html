@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">15:35:40</span>
+            <span class="time">16:23:26</span>
           </span>
           
           <!--  Categories  -->
@@ -126,10 +126,145 @@
         <div class="post-content">
           <p>网上杂七杂八的lamp搭建或者到处抄袭的博客<br><a id="more"></a></p>
 <h3 id="自己亲身实践搭建的lamp环境-原创，转载需同意-盗版必究"><a href="#自己亲身实践搭建的lamp环境-原创，转载需同意-盗版必究" class="headerlink" title="自己亲身实践搭建的lamp环境,原创，转载需同意,盗版必究"></a>自己亲身实践搭建的lamp环境,原创，转载需同意,盗版必究</h3><p>主机用的腾讯云的centos 6.7 64位,腾讯云的学生认证后每个月可以领取64元的代金卷,你把配置弄成65左右就是每个月1块钱了,非常优惠<br><img src="http://oftgpeto9.bkt.clouddn.com/ssh.png" alt="ssh"><br>首先我们需要俩工具，左边ftp文件传输用，右边ssh软件<br>链接: <a href="https://pan.baidu.com/s/1pLfMHcf" target="_blank" rel="external">https://pan.baidu.com/s/1pLfMHcf</a> 密码: 3hjn(如果链接失效了自己去网上下吧….)<br>打开xsehll后文件-新建一个链接，主机那填写你的云主机外网ip<br><img src="http://oftgpeto9.bkt.clouddn.com/l1.png" alt="l1"><br>然后文件-打开-双击你新建的,然后保存，用户名为root,密码为你创建时的root密码,链接成功后就是图下的界面<br><img src="http://oftgpeto9.bkt.clouddn.com/l2.png" alt="l2"></p>
-<p><pre><code><br>cd /usr/local<br>mkdir download<br>cd download<br></code></pre><br>cd就是change directory就是改变目录,linux里的切换目录,mkdir就是make directory创建目录，上面三句就是进去/usr/local下创建一个download目录然后进去这个目录<br>首先我们来安装apache,进入官网后点击download,然后点击第一个超链接进去这里右击tar.gz获取链接<br><img src="http://oftgpeto9.bkt.clouddn.com/l3.png" alt="l3"><br><img src="http://oftgpeto9.bkt.clouddn.com/l4.png" alt="l4"><br>然后在ssh软件里下面这输入wget空格并且粘贴链接，下面全文不会再讲关于命令如何输入的问题了…..</p>
-<p><pre><code>wget <a href="http://mirrors.hust.edu.cn/apache/httpd/httpd-2.4.25.tar.gz" target="_blank" rel="external">http://mirrors.hust.edu.cn/apache/httpd/httpd-2.4.25.tar.gz</a></code></pre><br>wget是从url下载文件</p>
-<p><pre><code>tar zxvf httpd<em></em></code></pre><br>这个是解压一个名字里开头是httpd的tar.gz的压缩包,这里的星号是通配符,在解压的时候文件名单一的可以不用输入全名来解压,建议大家以后在删除文件的时候不要这样用通配符</p>
-<p><pre><code>wget <a href="http://archive.apache.org/dist/apr/apr-1.4.5.tar.gz" target="_blank" rel="external">http://archive.apache.org/dist/apr/apr-1.4.5.tar.gz</a><br>wget <a href="http://archive.apache.org/dist/apr/apr-util-1.3.12.tar.gz" target="_blank" rel="external">http://archive.apache.org/dist/apr/apr-util-1.3.12.tar.gz</a></code></pre><br>apache安装需要apr和apr-util和pcre<br>ll命令是ls -l就是列出文件,后面有些命令的间隔里也可以用ll看看这些命令是干啥的</p>
+<pre><code>cd /usr/local
+mkdir download
+cd download</code></pre>
+cd就是change directory就是改变目录,linux里的切换目录,mkdir就是make directory创建目录，上面三句就是进去/usr/local下创建一个download目录然后进去这个目录
+首先我们来安装apache,进入官网后点击download,然后点击第一个超链接进去这里右击tar.gz获取链接
+![l3](http://oftgpeto9.bkt.clouddn.com/l3.png)
+![l4](http://oftgpeto9.bkt.clouddn.com/l4.png)
+然后在ssh软件里下面这输入wget空格并且粘贴链接，下面全文不会再讲关于命令如何输入的问题了…..
+<pre><code>wget http://mirrors.hust.edu.cn/apache/httpd/httpd-2.4.25.tar.gz</code></pre>
+wget是从url下载文件
+<pre><code>tar zxvf httpd*</code></pre>
+这个是解压一个名字里开头是httpd的tar.gz的压缩包,这里的星号*是通配符,在解压的时候文件名单一的可以不用输入全名来解压,建议大家以后在删除文件的时候不要这样用通配符
+<pre><code>wget http://archive.apache.org/dist/apr/apr-1.4.5.tar.gz
+wget http://archive.apache.org/dist/apr/apr-util-1.3.12.tar.gz</code></pre>
+apache安装需要apr和apr-util和pcre
+ll命令是ls -l就是列出文件,后面有些命令的间隔里也可以用ll看看这些命令是干啥的
+![l5](http://oftgpeto9.bkt.clouddn.com/l5.png)
+<pre><code>tar zxvf apr-1.4.5.tar.gz
+tar zxvf apr-util-1.3.12.tar.gz</code></pre>
+mv是移动，倘若加了名字就是重命令
+<pre><code>mv apr-1.4.5 apr
+mv apr-util-1.3.12 apr-util
+mv apr apr-util httpd-2.4.25/srclib/
+wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.39.tar.gz
+tar zxvf pcre-8.39.tar.gz
+cd pcre*</code></pre>
+安装依赖
+<pre><code>yum install gcc gcc-c++</code></pre>
+配置pcre
+<pre><code>./configure --prefix=/usr/local/pcre</code></pre>
+./configure就是配置,参数--prefix=/usr/local/pcre就是说把软件安装在/usr/local/pcre这个目录下
+配置完成如图所示
+![l6](http://oftgpeto9.bkt.clouddn.com/l6.png)
+然后
+<pre><code>make && make install</code></pre>
+make就是编译,make install就是编译安装
+<pre><code>cd ../httpd*</code></pre>
+../是linux里的相对路径,意思是返回上一级目录下，cd ../httpd*就是进入上一级目录下的一个开头httpd的目录
+
+<pre><code>./configure --prefix=/usr/local/apache -with-pcre=/usr/local/pcre/bin/pcre-config -with-included-apr
+cd /usr/local/apache/bin
+./apachectl -k start</code></pre>
+回车后有段输出,那些不用管他,
+<pre><code>curl 127.0.0.1</code></pre>
+输出<pre><code><html><body><h1>It works!</h1></body></html></code></pre>
+本地电脑在浏览器打开服务器ip也能看到网页，成功.
+![l7](http://oftgpeto9.bkt.clouddn.com/l7.png)
+如果外网打开看不到到，一是可能你的防火墙没有开启80端口,二是你的云主机的规则没开放80端口
+这里我以腾讯云为例
+![l8](http://oftgpeto9.bkt.clouddn.com/l8.png)
+倘若你curl有输出it works字样但你外网打不开，可以在图上里那个全部端口加入你的主机
+apache的配置文件是apache安装目录下的conf文件夹里的httpd.conf,我是安装在/usr/local/apache/conf
+![l9](http://oftgpeto9.bkt.clouddn.com/l9.png)
+<pre><code>cp /usr/local/apache/bin/apachectl /etc/init.d/httpd</code></pre>
+经过上面这条命令操作后你以后开启apache或者关闭重启就可以直接输入
+<pre><code>service httpd start</code></pre>
+stop停止,restart是重启
+
+### 接下来是安装mysql
+5.7以及以上安装有点不同
+这里我安装的是5.6.35链接: https://pan.baidu.com/s/1kVc7e9T 密码: wf5v
+mysql的官网下载特慢，这里我用ftp上传到服务器,在xftp和xshell都安装的情况下我们可以在xshell里通过图里打开一个连接主机的ftp窗口
+![l10](http://oftgpeto9.bkt.clouddn.com/l10.png)
+
+然后把mysql压缩包上传
+
+![l11](http://oftgpeto9.bkt.clouddn.com/l11.png)
+
+进入xshell里
+<pre><code>cd /usr/local/download
+tar zxvf mysql*</code></pre>
+安装依赖
+<pre><code>yum install cmake ncurses-devel</code></pre>
+
+<pre><code>cd mysql*
+cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/usr/local/mysql/data</code></pre>
+![l12](http://oftgpeto9.bkt.clouddn.com/l12.png)
+<pre><code>make && make install</code></pre>
+
+<p>创建一个名为mysql且没有登录权限的用户和一个名为mysql的用户组并把mysql用户加进mysql用户组里</p>
+<pre><code>groupadd -r mysql && useradd -r -g mysql -s /bin/false -M mysql</code></pre>
+<pre><code>cd /usr/local/mysql
+chown -R root:mysql /usr/local/mysql</code></pre>
+chown是改变文件所有者,change owner,R参数是递归，遍历目录下所有目录和文件,上面整个命令是改变/usr/local/mysqlxia所有的文件拥有者为root用户，用户组为mysql
+
+初始化mysql
+<pre><code>./scripts/mysql_install_db --user=mysql</code></pre>
+![l13](http://oftgpeto9.bkt.clouddn.com/l13.png)
+完成后如图上面有些信息来叫你如何完善mysql以及安全
+mysql默认的配置文件路径是/etc/my.cnf，我们复制安装自带的默认配置文件过去
+<pre><code>cp support-files/my-default.cnf /etc/my.cnf</code></pre>询问覆盖的时候输入y
+
+启动mysql
+<pre><code>./support-files/mysql.server start</code></pre>
+
+<p>进入mysql客户端<br>bin/mysql -uroot –p  回车后会有个输出提示没有设置密码<br>此时直接回车,然后进去mysql客户端里<br><img src="http://oftgpeto9.bkt.clouddn.com/l14.png" alt="l14"><br>进入mysql的客户端后，我们来在客户端里的命令行设置密码</p>
+<pre><code>use mysql;
+update user set password=password("123456") where user="root";
+flush privileges;
+exit</code></pre>
+其中123456为你要设置的密码
+flush privileges 命令本质上的作用是将当前user和privilige表中的用户信息/权限设置从mysql库(MySQL数据库的内置库)中提取到内存里。MySQL用户数据和权限有修改后，希望在"不重启MySQL服务"的情况下直接生效
+
+<pre><code>cp support-files/mysql.server /etc/init.d/mysqld</code></pre>
+以后我们启动mysql服务直接输入service mysqld start就行了,如果要开机自启就输入下面的命令
+<pre><code>chkconfig --add mysqld</code></pre>
+
+<pre><code>ln -s /usr/local/mysql/bin/mysql /usr/bin/mysql</code></pre>
+建立一个软连接,以后我们直接在shell里输入下面命令就可以进入mysql客户端了
+<pre><code>mysql –uroot -p</code></pre>
+
+
+<h3 id="下面来安装php"><a href="#下面来安装php" class="headerlink" title="下面来安装php"></a>下面来安装php</h3><p>进入php官网,进入download页面点击tar.gz包<br><img src="http://oftgpeto9.bkt.clouddn.com/l15.png" alt="l15"><br>进去后我们找香港的源，右击后选择复制链接<br><img src="http://oftgpeto9.bkt.clouddn.com/l16.png" alt="l16"><br>在xshell里</p>
+<pre><code>cd /usr/local/download
+wget http://hk1.php.net/get/php-5.6.29.tar.gz/from/this/mirror
+tar zxvf mirror
+cd php*</code></pre>
+安装依赖
+<pre><code>yum install gcc gcc-c++ libxml2 libxml2-devel autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel  zlib zlib-devel glibc glibc-devel glib2 glib2-devel</code></pre>
+
+<h3 id="64位"><a href="#64位" class="headerlink" title="64位"></a>64位</h3><pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-pdo-mysql --enable-mbstring --with-gd --with-png-dir=/usr/lib64 --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64</code></pre>
+### 32位
+<pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-pdo-mysql --enable-mbstring --with-gd</code></pre>
+![l17](http://oftgpeto9.bkt.clouddn.com/l17.png)
+配置没错的话就是图里的信息
+然后
+<pre><code>make</code></pre>
+![l18](http://oftgpeto9.bkt.clouddn.com/l18.png)
+make提示complete后直接
+<pre><code>make install</code></pre>
+
+<p>等输出完成后进入php的安装目录</p>
+<p><pre><code>cd /usr/local/php/bin<br>./php –v</code></pre>输出<br><img src="http://oftgpeto9.bkt.clouddn.com/l19.png" alt="l19"><br>成功安装好php</p>
+<p><pre><code>ln –s /usr/local/php/bin/php /usr/bin/php</code></pre><br>然后进入apache的conf配置文件</p>
+<p><pre><code>vim /usr/local/apache/conf/httpd*</code></pre><br>在里面按下i后进去vim的编辑模式,添加一行</p>
+<p><pre><code>AddType application/x-httpd-php .php</code></pre><br><img src="http://oftgpeto9.bkt.clouddn.com/l20.png" alt="l20"></p>
+<p>然后再图中位置那后面加入index.php<br><img src="http://oftgpeto9.bkt.clouddn.com/l21.png" alt="l21"></p>
+<p>然后用ftp在apache的wwwroot目录(默认是你安装的apache里的htdocs,这里是在/usr/local/apache/htdpcs/)把默认的index.html改名为index.php内容为</p>
+<p><pre><code>&lt;?php<br>phpinfo();</code></pre>的页面<br>外网打开服务器ip看到输出，成功apache加载php<br><img src="http://oftgpeto9.bkt.clouddn.com/l22.png" alt="l22"></p>
 
         </div>
       </div>
