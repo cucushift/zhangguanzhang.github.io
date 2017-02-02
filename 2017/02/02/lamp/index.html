@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">17:57:12</span>
+            <span class="time">18:04:12</span>
           </span>
           
           <!--  Categories  -->
@@ -243,23 +243,22 @@ mysql默认的配置文件路径是/etc/my.cnf，我们复制安装自带的默�
 <br>
 启动mysql
 <pre><code>./support-files/mysql.server start</code></pre>
-<br>
 进入mysql客户端<br>
 <pre><code>bin/mysql -uroot –p</code></pre>
 回车后会有个输出提示没有设置密码<br>
 此时直接回车,然后进去mysql客户端里
 <img src="http://oftgpeto9.bkt.clouddn.com/l14.png">
 <br><br>
-进入mysql的客户端后，我们来在客户端里的命令行设置密码<br>
+进入mysql的客户端后，我们来在客户端里的命令行里给mysql设置root密码<br>
 <pre><code>use mysql;
 update user set password=password("123456") where user="root";
 flush privileges;
 exit</code></pre>
 其中123456为你要设置的密码<br>
-flush privileges 命令本质上的作用是将当前user和privilige表中的用户信息/权限设置从mysql库(MySQL数据库的内置库)中提取到内存里。MySQL用户数据和权限有修改后，希望在"不重启MySQL服务"的情况下直接生效
+flush privileges 命令本质上的作用是将当前user和privilige表中的用户信息/权限设置从mysql库(MySQL数据库的内置库)中提取到内存里。MySQL用户数据和权限有修改后，希望在不重启MySQL服务的情况下直接生效
 
 <pre><code>cp support-files/mysql.server /etc/init.d/mysqld</code></pre>
-以后我们启动mysql服务直接输入service mysqld start就行了,如果要开机自启就输入下面的命令
+以后我们启动mysql服务直接输入<pre><code>service mysqld start</code></pre>就行了,如果要开机自启就输入下面的命令
 <pre><code>chkconfig --add mysqld</code></pre>
 
 <pre><code>ln -s /usr/local/mysql/bin/mysql /usr/bin/mysql</code></pre>
@@ -267,7 +266,7 @@ flush privileges 命令本质上的作用是将当前user和privilige表中的�
 <pre><code>mysql –uroot -p</code></pre>
 
 <p><hr></p>
-<p></p><h3>下面来安装php</h3><br>进入php官网,进入download页面点击tar.gz包<br><img src="http://oftgpeto9.bkt.clouddn.com/l15.png"><br>进去后我们找香港的源，右击后选择复制链接<br><img src="http://oftgpeto9.bkt.clouddn.com/l16.png"><br>在xshell里<p></p>
+<p></p><h3>下面来安装php</h3><br>进入php官网,进入download页面点击tar.gz包<br><img src="http://oftgpeto9.bkt.clouddn.com/l15.png"><br><br>进去后我们找香港的源，右击后选择复制链接<br><br><img src="http://oftgpeto9.bkt.clouddn.com/l16.png"><br>在xshell里<p></p>
 <pre><code>cd /usr/local/download
 wget http://hk1.php.net/get/php-5.6.29.tar.gz/from/this/mirror
 tar zxvf mirror
@@ -276,35 +275,38 @@ cd php*</code></pre>
 <pre><code>yum install gcc gcc-c++ libxml2 libxml2-devel autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel  zlib zlib-devel glibc glibc-devel glib2 glib2-devel</code></pre>
 
 <h3 id="64位"><a href="#64位" class="headerlink" title="64位"></a>64位</h3><pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-pdo-mysql --enable-mbstring --with-gd --with-png-dir=/usr/lib64 --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64</code></pre>
-### 32位
+<h3>32位</h3>
 <pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-pdo-mysql --enable-mbstring --with-gd</code></pre>
-<img src="http://oftgpeto9.bkt.clouddn.com/l17.png">
+<img src="http://oftgpeto9.bkt.clouddn.com/l17.png"><br>
 配置没错的话就是图里的信息
 然后
 <pre><code>make</code></pre>
-<img src="http://oftgpeto9.bkt.clouddn.com/l18.png">
+<img src="http://oftgpeto9.bkt.clouddn.com/l18.png"><br>
 make提示complete后直接
 <pre><code>make install</code></pre>
 
 <p>等输出完成后进入php的安装目录</p>
 <pre><code>cd /usr/local/php/bin
-./php –v</code></pre>输出
-<img src="http://oftgpeto9.bkt.clouddn.com/l19.png">
-成功安装好php
+./php –v</code></pre>输出<br>
+<img src="http://oftgpeto9.bkt.clouddn.com/l19.png"><br>
+成功安装好php<br>
+给php建立一个软连接
 <pre><code>ln –s /usr/local/php/bin/php /usr/bin/php</code></pre>
 然后进入apache的conf配置文件
 <pre><code>vim /usr/local/apache/conf/httpd*</code></pre>
 在里面按下i后进去vim的编辑模式,添加一行
 <pre><code>AddType application/x-httpd-php .php</code></pre>
 <img src="http://oftgpeto9.bkt.clouddn.com/l20.png">
-
+<br>
 然后再图中位置那后面加入index.php
+<br>
 <img src="http://oftgpeto9.bkt.clouddn.com/l21.png">
+<br>
 vim的退出和保存操作是按住shift后按分号,也就是键盘L右边的然后下面出现一个冒号进入vim的命令行模式,输入wq回车保存退出<br>
 <br>
 然后用ftp在apache的wwwroot目录(默认是你安装的apache里的htdocs,这里是在/usr/local/apache/htdpcs/)把默认的index.html改名为index.php内容为
-<pre><code><?php
-phpinfo();</code></code></pre>的页面
+<pre><code>&lt;?php
+phpinfo();</code></pre>的页面
 
 然后在xshell里重启apache
 <pre><code>service httpd restart</code></pre>
