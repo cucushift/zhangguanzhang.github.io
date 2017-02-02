@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">16:56:55</span>
+            <span class="time">17:16:33</span>
           </span>
           
           <!--  Categories  -->
@@ -126,32 +126,21 @@
         <div class="post-content">
           <p>网上杂七杂八的lamp搭建或者到处抄袭的博客真是心烦<br><a id="more"></a></p>
 <h3 id="自己亲身实践搭建的lamp环境-原创，转载需同意-盗版必究"><a href="#自己亲身实践搭建的lamp环境-原创，转载需同意-盗版必究" class="headerlink" title="自己亲身实践搭建的lamp环境,原创，转载需同意,盗版必究"></a>自己亲身实践搭建的lamp环境,原创，转载需同意,盗版必究</h3><p>主机用的腾讯云的centos 6.7 64位,腾讯云的学生认证后每个月可以领取64元的代金卷,你把配置弄成65左右就是每个月1块钱了,非常优惠</p>
-<p><img src="http://oftgpeto9.bkt.clouddn.com/ssh.png" alt="ssh"><br>首先我们需要俩工具，左边ftp文件传输用，右边ssh软件<br>链接: <a href="https://pan.baidu.com/s/1pLfMHcf" target="_blank" rel="external">https://pan.baidu.com/s/1pLfMHcf</a> 密码: 3hjn(如果链接失效了自己去网上下吧….)<br>打开xsehll后文件-新建一个链接，主机那填写你的云主机外网ip<br><img src="http://oftgpeto9.bkt.clouddn.com/l1.png" alt="l1"></p>
+<p><img src="http://oftgpeto9.bkt.clouddn.com/ssh.png"><br>首先我们需要俩工具，左边ftp文件传输用，右边ssh软件<br>链接: <a href="https://pan.baidu.com/s/1pLfMHcf" target="_blank" rel="external">https://pan.baidu.com/s/1pLfMHcf</a> 密码: 3hjn(如果链接失效了自己去网上下吧….)<br>打开xsehll后文件-新建一个链接，主机那填写你的云主机外网ip<br><img src="http://oftgpeto9.bkt.clouddn.com/l1.png"></p>
 <p>然后文件-打开-双击你新建的<br>用户名输入root,密码为你创建时的root密码,链接成功后就是图下的界面</p>
-<p><img src="http://oftgpeto9.bkt.clouddn.com/l2.png" alt="l2"></p>
+<p><img src="http://oftgpeto9.bkt.clouddn.com/l2.png"></p>
 <pre><code>cd /usr/local
 mkdir download
 cd download</code></pre>
 cd就是change directory就是改变目录
-
-
-
-
-
-
-
-
-
-
-
 mkdir就是make directory创建目录
 上面三句就是进去/usr/local下创建一个download目录然后进去这个目录
 
 ### 首先我们来安装apache
 进入官网后点击download,然后点击第一个超链接进去这里右击tar.gz获取链接
 
-![l3](http://oftgpeto9.bkt.clouddn.com/l3.png)
-![l4](http://oftgpeto9.bkt.clouddn.com/l4.png)
+<img src="http://oftgpeto9.bkt.clouddn.com/l3.png">
+<img src="http://oftgpeto9.bkt.clouddn.com/l4.png">
 然后在ssh软件里下面这输入wget空格并且粘贴链接
 下面全文不会再讲关于命令如何输入的问题了...
 <pre><code>wget http://mirrors.hust.edu.cn/apache/httpd/httpd-2.4.25.tar.gz</code></pre>
@@ -163,7 +152,7 @@ wget是从url下载文件
 wget http://archive.apache.org/dist/apr/apr-util-1.3.12.tar.gz</code></pre>
 apache安装需要apr和apr-util和pcre
 ll命令是ls -l就是列出文件,后面有些命令的间隔里也可以用ll看看这些命令是干啥的
-![l5](http://oftgpeto9.bkt.clouddn.com/l5.png)
+<img src="http://oftgpeto9.bkt.clouddn.com/l5.png">
 <pre><code>tar zxvf apr-1.4.5.tar.gz
 tar zxvf apr-util-1.3.12.tar.gz</code></pre>
 mv是移动，倘若加了名字就是重命令
@@ -179,7 +168,7 @@ cd pcre*</code></pre>
 <pre><code>./configure --prefix=/usr/local/pcre</code></pre>
 ./configure就是配置,参数--prefix=/usr/local/pcre就是说把软件安装在/usr/local/pcre这个目录下
 配置完成如图所示
-![l6](http://oftgpeto9.bkt.clouddn.com/l6.png)
+<img src="http://oftgpeto9.bkt.clouddn.com/l6.png">
 然后
 <pre><code>make && make install</code></pre>
 make就是编译,make install就是编译安装
@@ -195,13 +184,13 @@ cd /usr/local/apache/bin
 <pre><code>curl 127.0.0.1</code></pre>
 输出<pre><code>&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</code></pre>
 本地电脑在浏览器打开服务器ip也能看到网页，成功
-![abc](http://oftgpeto9.bkt.clouddn.com/l7.png)
+<img src="http://oftgpeto9.bkt.clouddn.com/l7.png">
 如果外网打开看不到到，一是可能你的防火墙没有开启80端口,二是你的云主机的规则没开放80端口
 这里我以腾讯云为例
-![l8](http://oftgpeto9.bkt.clouddn.com/l8.png)
+<img src="http://oftgpeto9.bkt.clouddn.com/l8.png">
 倘若你curl有输出it works字样但你外网打不开，可以在图上里那个全部端口加入你的主机
 apache的配置文件是apache安装目录下的conf文件夹里的httpd.conf,我是安装在/usr/local/apache/conf
-![l9](http://oftgpeto9.bkt.clouddn.com/l9.png)
+<img src="http://oftgpeto9.bkt.clouddn.com/l9.png">
 <pre><code>cp /usr/local/apache/bin/apachectl /etc/init.d/httpd</code></pre>
 经过上面这条命令操作后你以后开启apache或者关闭重启就可以直接输入
 <pre><code>service httpd start</code></pre>
@@ -211,11 +200,11 @@ stop停止,restart是重启
 5.7以及以上安装有点不同
 这里我安装的是5.6.35链接: https://pan.baidu.com/s/1kVc7e9T 密码: wf5v
 mysql的官网下载特慢，这里我用ftp上传到服务器,在xftp和xshell都安装的情况下我们可以在xshell里通过图里打开一个连接主机的ftp窗口
-![l10](http://oftgpeto9.bkt.clouddn.com/l10.png)
+<img src="http://oftgpeto9.bkt.clouddn.com/l10.png">
 
 然后把mysql压缩包上传
 
-![l11](http://oftgpeto9.bkt.clouddn.com/l11.png)
+<img src="http://oftgpeto9.bkt.clouddn.com/l11.png">
 
 进入xshell里
 <pre><code>cd /usr/local/download
@@ -225,7 +214,7 @@ tar zxvf mysql*</code></pre>
 
 <pre><code>cd mysql*
 cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/usr/local/mysql/data</code></pre>
-![l12](http://oftgpeto9.bkt.clouddn.com/l12.png)
+<img src="http://oftgpeto9.bkt.clouddn.com/l12.png">
 <pre><code>make && make install</code></pre>
 
 <p>创建一个名为mysql且没有登录权限的用户和一个名为mysql的用户组并把mysql用户加进mysql用户组里</p>
@@ -236,7 +225,7 @@ chown是改变文件所有者,change owner,R参数是递归，遍历目录下所
 
 初始化mysql
 <pre><code>./scripts/mysql_install_db --user=mysql</code></pre>
-![l13](http://oftgpeto9.bkt.clouddn.com/l13.png)
+<img src="http://oftgpeto9.bkt.clouddn.com/l13.png">
 完成后如图上面有些信息来叫你如何完善mysql以及安全
 mysql默认的配置文件路径是/etc/my.cnf，我们复制安装自带的默认配置文件过去
 <pre><code>cp support-files/my-default.cnf /etc/my.cnf</code></pre>询问覆盖的时候输入y
@@ -244,7 +233,7 @@ mysql默认的配置文件路径是/etc/my.cnf，我们复制安装自带的默�
 启动mysql
 <pre><code>./support-files/mysql.server start</code></pre>
 
-<p>进入mysql客户端<br>bin/mysql -uroot –p  回车后会有个输出提示没有设置密码<br>此时直接回车,然后进去mysql客户端里<br><img src="http://oftgpeto9.bkt.clouddn.com/l14.png" alt="l14"><br>进入mysql的客户端后，我们来在客户端里的命令行设置密码</p>
+<p>进入mysql客户端<br>bin/mysql -uroot –p  回车后会有个输出提示没有设置密码<br>此时直接回车,然后进去mysql客户端里<br><img src="http://oftgpeto9.bkt.clouddn.com/l14.png"><br>进入mysql的客户端后，我们来在客户端里的命令行设置密码</p>
 <pre><code>use mysql;
 update user set password=password("123456") where user="root";
 flush privileges;
@@ -261,7 +250,7 @@ flush privileges 命令本质上的作用是将当前user和privilige表中的�
 <pre><code>mysql –uroot -p</code></pre>
 
 
-<h3 id="下面来安装php"><a href="#下面来安装php" class="headerlink" title="下面来安装php"></a>下面来安装php</h3><p>进入php官网,进入download页面点击tar.gz包<br><img src="http://oftgpeto9.bkt.clouddn.com/l15.png" alt="l15"><br>进去后我们找香港的源，右击后选择复制链接<br><img src="http://oftgpeto9.bkt.clouddn.com/l16.png" alt="l16"><br>在xshell里</p>
+<h3 id="下面来安装php"><a href="#下面来安装php" class="headerlink" title="下面来安装php"></a>下面来安装php</h3><p>进入php官网,进入download页面点击tar.gz包<br><img src="http://oftgpeto9.bkt.clouddn.com/l15.png"><br>进去后我们找香港的源，右击后选择复制链接<br><img src="http://oftgpeto9.bkt.clouddn.com/l16.png"><br>在xshell里</p>
 <pre><code>cd /usr/local/download
 wget http://hk1.php.net/get/php-5.6.29.tar.gz/from/this/mirror
 tar zxvf mirror
@@ -272,28 +261,28 @@ cd php*</code></pre>
 <h3 id="64位"><a href="#64位" class="headerlink" title="64位"></a>64位</h3><pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-pdo-mysql --enable-mbstring --with-gd --with-png-dir=/usr/lib64 --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64</code></pre>
 ### 32位
 <pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-pdo-mysql --enable-mbstring --with-gd</code></pre>
-![l17](http://oftgpeto9.bkt.clouddn.com/l17.png)
+<img src="http://oftgpeto9.bkt.clouddn.com/l17.png">
 配置没错的话就是图里的信息
 然后
 <pre><code>make</code></pre>
-![l18](http://oftgpeto9.bkt.clouddn.com/l18.png)
+<img src="http://oftgpeto9.bkt.clouddn.com/l18.png">
 make提示complete后直接
 <pre><code>make install</code></pre>
 
 <p>等输出完成后进入php的安装目录</p>
 <pre><code>cd /usr/local/php/bin
 ./php –v</code></pre>输出
-![l19](http://oftgpeto9.bkt.clouddn.com/l19.png)
+<img src="http://oftgpeto9.bkt.clouddn.com/l19.png">
 成功安装好php
 <pre><code>ln –s /usr/local/php/bin/php /usr/bin/php</code></pre>
 然后进入apache的conf配置文件
 <pre><code>vim /usr/local/apache/conf/httpd*</code></pre>
 在里面按下i后进去vim的编辑模式,添加一行
 <pre><code>AddType application/x-httpd-php .php</code></pre>
-![l20](http://oftgpeto9.bkt.clouddn.com/l20.png)
+<img src="http://oftgpeto9.bkt.clouddn.com/l20.png">
 
 然后再图中位置那后面加入index.php
-![l21](http://oftgpeto9.bkt.clouddn.com/l21.png)
+<img src="http://oftgpeto9.bkt.clouddn.com/l21.png">
 vim的退出和保存操作是按住shift后按分号,也就是键盘L右边的然后下面出现一个冒号进入vim的命令行模式,输入wq回车保存退出
 
 然后用ftp在apache的wwwroot目录(默认是你安装的apache里的htdocs,这里是在/usr/local/apache/htdpcs/)把默认的index.html改名为index.php内容为
@@ -303,7 +292,7 @@ phpinfo();</code></code></pre>的页面
 然后在xshell里重启apache
 <pre><code>service httpd restart</code></pre>
 
-<p>外网打开服务器ip看到输出，成功apache加载php<br><img src="http://oftgpeto9.bkt.clouddn.com/l22.png" alt="l22"></p>
+<p>外网打开服务器ip看到输出，成功apache加载php<br><img src="http://oftgpeto9.bkt.clouddn.com/l22.png"></p>
 
         </div>
       </div>
