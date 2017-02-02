@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">18:04:12</span>
+            <span class="time">18:07:16</span>
           </span>
           
           <!--  Categories  -->
@@ -277,7 +277,8 @@ cd php*</code></pre>
 <h3 id="64位"><a href="#64位" class="headerlink" title="64位"></a>64位</h3><pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-pdo-mysql --enable-mbstring --with-gd --with-png-dir=/usr/lib64 --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64</code></pre>
 <h3>32位</h3>
 <pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-pdo-mysql --enable-mbstring --with-gd</code></pre>
-<img src="http://oftgpeto9.bkt.clouddn.com/l17.png"><br>
+<img src="http://oftgpeto9.bkt.clouddn.com/l17.png">
+<br><br>
 配置没错的话就是图里的信息
 然后
 <pre><code>make</code></pre>
@@ -289,7 +290,7 @@ make提示complete后直接
 <pre><code>cd /usr/local/php/bin
 ./php –v</code></pre>输出<br>
 <img src="http://oftgpeto9.bkt.clouddn.com/l19.png"><br>
-成功安装好php<br>
+成功安装好php<br><br>
 给php建立一个软连接
 <pre><code>ln –s /usr/local/php/bin/php /usr/bin/php</code></pre>
 然后进入apache的conf配置文件
@@ -301,7 +302,7 @@ make提示complete后直接
 然后再图中位置那后面加入index.php
 <br>
 <img src="http://oftgpeto9.bkt.clouddn.com/l21.png">
-<br>
+<br><br>
 vim的退出和保存操作是按住shift后按分号,也就是键盘L右边的然后下面出现一个冒号进入vim的命令行模式,输入wq回车保存退出<br>
 <br>
 然后用ftp在apache的wwwroot目录(默认是你安装的apache里的htdocs,这里是在/usr/local/apache/htdpcs/)把默认的index.html改名为index.php内容为
