@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">16:43:27</span>
+            <span class="time">16:45:46</span>
           </span>
           
           <!--  Categories  -->
@@ -132,16 +132,22 @@
 <pre><code>cd /usr/local
 mkdir download
 cd download</code></pre>
-cd就是change directory就是改变目录,linux里的切换目录,mkdir就是make directory创建目录，上面三句就是进去/usr/local下创建一个download目录然后进去这个目录
-首先我们来安装apache,进入官网后点击download,然后点击第一个超链接进去这里右击tar.gz获取链接
+cd就是change directory就是改变目录,linux里的切换目录
+mkdir就是make directory创建目录
+上面三句就是进去/usr/local下创建一个download目录然后进去这个目录
+
+### 首先我们来安装apache
+进入官网后点击download,然后点击第一个超链接进去这里右击tar.gz获取链接
 
 ![l3](http://oftgpeto9.bkt.clouddn.com/l3.png)
 ![l4](http://oftgpeto9.bkt.clouddn.com/l4.png)
-然后在ssh软件里下面这输入wget空格并且粘贴链接，下面全文不会再讲关于命令如何输入的问题了…..
+然后在ssh软件里下面这输入wget空格并且粘贴链接
+下面全文不会再讲关于命令如何输入的问题了…..
 <pre><code>wget http://mirrors.hust.edu.cn/apache/httpd/httpd-2.4.25.tar.gz</code></pre>
 wget是从url下载文件
 <pre><code>tar zxvf httpd*</code></pre>
-这个是解压一个名字里开头是httpd的tar.gz的压缩包,这里的星号*是通配符,在解压的时候文件名单一的可以不用输入全名来解压,建议大家以后在删除文件的时候不要这样用通配符
+这个是解压一个名字里开头是httpd的tar.gz的压缩包,这里的星号*是通配符
+在解压的时候文件名单一的可以不用输入全名来解压,建议大家以后在删除文件的时候不要这样用通配符
 <pre><code>wget http://archive.apache.org/dist/apr/apr-1.4.5.tar.gz
 wget http://archive.apache.org/dist/apr/apr-util-1.3.12.tar.gz</code></pre>
 apache安装需要apr和apr-util和pcre
