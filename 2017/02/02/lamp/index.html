@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">17:50:34</span>
+            <span class="time">17:54:09</span>
           </span>
           
           <!--  Categories  -->
@@ -138,11 +138,11 @@ mkdir就是make directory创建目录<br>
 
 <hr>
 <h3>首先我们来安装apache</h3>
-<br>进入官网后点击download,然后点击第一个超链接进去这里右击tar.gz获取链接
+<br>进入官网后点击download,然后点击第一个超链接进去这里<br>右击tar.gz获取链接
 
 <img src="http://oftgpeto9.bkt.clouddn.com/l3.png">
 <img src="http://oftgpeto9.bkt.clouddn.com/l4.png">
-<br>
+<br><br>
 然后在ssh软件里下面这输入wget空格并且粘贴链接<br>
 下面全文不会再讲关于命令如何输入的问题了...
 <br>
@@ -154,7 +154,7 @@ wget是从url下载文件
 在解压的时候文件名单一的可以不用输入全名来解压,建议大家以后在删除文件的时候不要这样用通配符<br>
 <pre><code>wget http://archive.apache.org/dist/apr/apr-1.4.5.tar.gz
 wget http://archive.apache.org/dist/apr/apr-util-1.3.12.tar.gz</code></pre>
-apache安装需要apr和apr-util和pcre<br>
+apache安装需要apr和apr-util和pcre,所以下载apr和apr-util<br>
 ll命令是ls -l就是列出文件,后面有些命令的间隔里也可以用ll看看这些命令是干啥的<br>
 <img src="http://oftgpeto9.bkt.clouddn.com/l5.png">
 <pre><code>tar zxvf apr-1.4.5.tar.gz
