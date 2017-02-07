@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">23:20:52</span>
+            <span class="time">00:08:08</span>
           </span>
           
           <!--  Categories  -->
@@ -238,7 +238,7 @@ chown是改变文件所有者,change owner,R参数是递归，遍历目录下所
 上面整个命令是改变/usr/local/mysqlxia所有的文件拥有者为root用户，用户组为mysql<br>
 <br>
 初始化mysql
-<pre><code>./scripts/mysql_install_db --user=mysql</code></pre>
+<pre><code>./scripts/mysql_install_db --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data</code></pre>
 <img src="http://oftgpeto9.bkt.clouddn.com/l13.png">
 完成后如图上面有些信息来叫你如何完善mysql以及安全<br>
 mysql默认的配置文件路径是/etc/my.cnf，我们复制安装自带的默认配置文件过去
