@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">19:44:55</span>
+            <span class="time">23:20:52</span>
           </span>
           
           <!--  Categories  -->
@@ -181,6 +181,8 @@ make就是编译,make install就是编译安装
 cd ../httpd*就是进入上一级目录下的一个开头httpd的目录<br>
 配置安装apache并启动
 <pre><code>./configure --prefix=/usr/local/apache -with-pcre=/usr/local/pcre/bin/pcre-config -with-included-apr
+make
+make install
 cd /usr/local/apache/bin
 ./apachectl -k start</code></pre>
 回车后有段输出,那些不用管他
