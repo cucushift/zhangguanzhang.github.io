@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">19:05:19</span>
+            <span class="time">19:39:31</span>
           </span>
           
           <!--  Categories  -->
@@ -284,8 +284,8 @@ wget后看看文件保存的名字,有时候被保存为php加版本号,有时�
 <br>
 安装依赖
 <pre><code>yum install libxml2 libxml2-devel autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel  zlib zlib-devel glibc glibc-devel glib2 glib2-devel</code></pre>
-如果提示有问题最后俩glibc依赖先不装试试(centos6.7的没问题，6.5的最后俩依赖别安装了)
-### 64位
+如果提示有问题最后俩glibc依赖先不装试试(centos6.7的没问题，6.5的最后俩依赖别安装了)<br>
+<h3>64位</h3>
 <pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-pdo-mysql --enable-mbstring --with-gd --with-png-dir=/usr/lib64 --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64</code></pre>
 <h3>32位</h3>
 <pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-pdo-mysql --enable-mbstring --with-gd</code></pre>
