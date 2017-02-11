@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">23:03:11</span>
+            <span class="time">15:05:16</span>
           </span>
           
           <!--  Categories  -->
@@ -293,8 +293,12 @@ wget后看看文件保存的名字,有时候被保存为php加版本号,有时�
 配置没错的话就是图里的信息
 然后
 <pre><code>make</code></pre>
-<img src="http://oftgpeto9.bkt.clouddn.com/l18.png"><br>
+<img src="http://oftgpeto9.bkt.clouddn.com/l18.png"><br><br>
+<br>报错有时候会中断make关键字有memory字样，因为编译php需要资源，所以建议先关闭apache和mysqld<br>
+<pre><code>service httpd stop</code></pre>
+<pre><code>service mysqld stop</code></pre>
 make提示complete后直接
+
 <pre><code>make install</code></pre>
 
 <p>等输出完成后进入php的安装目录</p>
