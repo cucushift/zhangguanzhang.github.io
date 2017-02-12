@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-12</span>
-            <span class="time">18:30:53</span>
+            <span class="time">18:35:00</span>
           </span>
           
           <!--  Categories  -->
@@ -125,7 +125,7 @@
         <!-- Post Main Content -->
         <div class="post-content">
           <p>图文讲解下微信接入自己云主机<br><a id="more"></a></p>
-<h3 id="之前在网上摸索的接入微信整理下"><a href="#之前在网上摸索的接入微信整理下" class="headerlink" title="之前在网上摸索的接入微信整理下"></a>之前在网上摸索的接入微信整理下</h3><p>现在很多东西都依赖微信，微信公众号开发很方便，不用去适配app之类的客户端<br><br>接入微信第一步准备条件:<br><br>一台能外网80端口访问的主机<br><br>一个公众号<br><br>主机可以看我之前的教程来搭建<br><br><img src="http://p1.bqimg.com/4851/097c4b8d0c25a4da.png" alt="t1"><br>自己去注册一个公众号，关于公众号，个人性质只能注册一个订阅号,服务号得有工商注册证明,企业号就不用说了,小程序个人不能申请<br><br>所以说自己去申请一个订阅号<br>微信公众平台地址：<a href="https://mp.weixin.qq.com" target="_blank" rel="external">https://mp.weixin.qq.com</a><br><img src="http://i1.piimg.com/4851/e58b0100bf86baa2.png" alt="t2"><br>登录微信公众平台后台，在左侧列表中最下方，找到“ 基本配置 ”，点击进入<br>填写信息，第一个是你服务器ip/脚本文件,这个脚本文件用来对接微信服务器检测用的<br><br>第二个token是对接的关键字，随便写,但要记住后面要用<br><br>第三个随机生成就行了加密方式选明文，后期懂了可以选安全模式<br>在网站根目录新建一个tesp.php(因为图里我写的test.php)<br>写下面代码</p>
+<h3 id="之前在网上摸索的接入微信整理下"><a href="#之前在网上摸索的接入微信整理下" class="headerlink" title="之前在网上摸索的接入微信整理下"></a>之前在网上摸索的接入微信整理下</h3><p>现在很多东西都依赖微信，微信公众号开发很方便，不用去适配app之类的客户端<br><br>接入微信第一步准备条件:<br><br>一台能外网80端口访问的主机<br>一个公众号<br><br>主机可以看我之前的教程来搭建<br><br><img src="http://p1.bqimg.com/4851/097c4b8d0c25a4da.png" alt="t1"><br>自己去注册一个公众号，关于公众号，个人性质只能注册一个订阅号,服务号得有工商注册证明,企业号就不用说了,小程序个人不能申请<br><br>所以说自己去申请一个订阅号<br>微信公众平台地址：<a href="https://mp.weixin.qq.com" target="_blank" rel="external">https://mp.weixin.qq.com</a><br><img src="http://i1.piimg.com/4851/e58b0100bf86baa2.png" alt="t2"><br>登录微信公众平台后台，在左侧列表中最下方，找到“ 基本配置 ”，点击进入<br>填写信息，第一个是你服务器ip/脚本文件,这个脚本文件用来对接微信服务器检测用的<br><br>第二个token是对接的关键字，随便写,但要记住后面要用<br><br>第三个随机生成就行了加密方式选明文，后期懂了可以选安全模式<br>在网站根目录新建一个tesp.php(因为图里我写的test.php)<br>写下面代码</p>
 <p><pre><code><br>&lt;?php<br>$timestramp = $_GET[‘timestamp’];<br>$nonce = $_GET[‘nonce’];<br>$token = “123456”;<br>$signature = $_GET[‘signature’];<br>$array = array($timestramp, $nonce, $token);<br>sort($array);<br>$timpstr = implode(‘’, $array);<br>$timpstr = sha1($timpstr);<br>if($timpstr == $signature){<br>    echo $_GET[‘echostr’];<br>    exit;<br>}<br></code></pre><br><br><br>token那你写你公众号页面填写的token就行了<br><br>开发者通过检验signature对请求进行校验（下面有校验方式）。若确认此次GET请求来自微信服务器，请原样返回echostr参数内容，则接入生效，成为开发者成功，否则接入失败。</p>
 <p>加密/校验流程如下：</p>
 <ol>
