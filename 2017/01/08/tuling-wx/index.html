@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-01-08</span>
-            <span class="time">19:39:31</span>
+            <span class="time">12:22:33</span>
           </span>
           
           <!--  Categories  -->
@@ -139,14 +139,14 @@ $post_data = $GLOBALS["HTTP_RAW_POST_DATA"];
             $MsgType = $post_data->MsgType;
             $Event = $post_data->Event;
             $time = time();
-            $xml = "<xml>
-            <tousername><!--[CDATA[%s]]--></tousername>
-            <fromusername><!--[CDATA[%s]]--></fromusername>
-            <createtime>%s</createtime>
-            <msgtype><!--[CDATA[%s]]--></msgtype>
-            <content><!--[CDATA[%s]]--></content>
-            <funcflag>0</funcflag>
-            </xml>";
+            $xml = "&lt;xml&gt;
+            &lt;ToUserName&gt;&lt;![CDATA[%s]]&gt;&lt;/ToUserName&gt;
+            &lt;FromUserName&gt;&lt;![CDATA[%s]]&gt;&lt;/FromUserName&gt;
+            &lt;CreateTime&gt;%s&lt;/CreateTime&gt;
+            &lt;MsgType&gt;&lt;![CDATA[%s]]&gt;&lt;/MsgType&gt;
+            &lt;Content&gt;&lt;![CDATA[%s]]&gt;&lt;/Content&gt;
+            &lt;FuncFlag&gt;0&lt;/FuncFlag&gt;
+            &lt;/xml&gt;";
             switch ($MsgType) {
                 case "text":
                             if (!empty($userword)) {
