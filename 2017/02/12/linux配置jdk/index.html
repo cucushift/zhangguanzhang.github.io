@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="Zhangguanzhang">
   <!-- Open Graph Data -->
-  <meta property="og:title" content="hello world"/>
+  <meta property="og:title" content="linux配置jdk"/>
   <meta property="og:description" content="记录生活点滴" />
   <meta property="og:site_name" content="Zhangguanzhang"/>
   <meta property="og:type" content="article" />
@@ -44,7 +44,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="page-title with-background-image">
-          <p class="title">hello world</p>
+          <p class="title">linux配置jdk</p>
           <p class="subtitle"></p>
         </div>
         <div class="site-menu with-background-image">
@@ -101,14 +101,14 @@
           
           <!-- Date -->
           <span class="date-time info">On
-            <span class="date">2016-10-28</span>
-            <span class="time">16:47:59</span>
+            <span class="date">2017-02-12</span>
+            <span class="time">16:48:00</span>
           </span>
           
           <!--  Categories  -->
             <span class="categories info">Under 
 
-<a href="/categories/日志/">日志</a> / <a href="/categories/日志/闲聊/">闲聊</a>
+<a href="/categories/日志/">日志</a> / <a href="/categories/日志/心得/">心得</a>
 </span>
           
         </div>
@@ -117,14 +117,23 @@
           <div class="post-tags text-muted">
             Tags: 
 
-<a class="tag" href="/tags/hello-world/">#hello world</a>
+<a class="tag" href="/tags/linux/">#linux</a> <a class="tag" href="/tags/jdk/">#jdk</a>
 
 
           </div>
         
         <!-- Post Main Content -->
         <div class="post-content">
-          <p>花了一两个小时终于弄好了第一个博客<br><a id="more"></a><br>正文:<br>花了一两个小时终于弄好了博客<br>然后又弄了一个小时弄好主题，没有艺术细胞<br>就这样吧虽然是静态的，以后了解多了弄个域名在我云主机上弄个wordpress的试试</p>
+          <p>防止别人问我怎么配置jdk所以写个博客。。。。<br><a id="more"></a></p>
+<h3 id="linux下配置jdk"><a href="#linux下配置jdk" class="headerlink" title="linux下配置jdk"></a>linux下配置jdk</h3><p>我用ubuntu来演示(毕竟很多人也是用ubuntu。。)<br><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">点我进入下载jdk的页面</a>&gt;<br>我用wget莫名其妙出问题，我就下载后ftp传过去的<br><img src="http://i1.piimg.com/4851/2c7e1f4b79b690fd.png" alt="ls"><br \=""><br>进到目录后解压<br><img src="http://p1.bqimg.com/4851/acd1a91125bd88a0.png" alt="ls2"><br \=""><br>然后创建一个文件夹存放jdk，并且把解压后的jdk移动进去<br><img src="http://p1.bqimg.com/4851/826e89158e4c5bb8.png" alt="ls3"><br \=""><br>然后在root身份下(设置好root密码后终端输入su回车后输入root密码就行)用vim来配置环境变量(/etc/profile权限用户组默认没有写权限,是只读的)</p>
+<pre><code>vim /etc/profile</code></pre>
+进入这个文件后按下i进入vim的编辑状态，移动光标在最后一行加入
+在结尾处加上
+<pre><code>export JAVA_HOME=/usr/java/jdk1.8.0_121
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</code></pre>
+
+<p><img src="http://p1.bqimg.com/4851/7ea48e209c4d7a47.png" alt="profile"><br>然后按esc退出vim的编辑状态,然后按住shift下按下L键右侧的冒号进入vim的命令行<br \=""><br>输入wq回车,意思是保存退出<br><img src="http://p1.bqimg.com/4851/5386b07fd09b7261.png" alt="sou"><br>然后source是不需要重启下让配置文件生效,教程结束</p>
 
         </div>
       </div>
