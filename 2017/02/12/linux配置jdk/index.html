@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-12</span>
-            <span class="time">16:48:00</span>
+            <span class="time">17:24:52</span>
           </span>
           
           <!--  Categories  -->
@@ -125,7 +125,7 @@
         <!-- Post Main Content -->
         <div class="post-content">
           <p>防止别人问我怎么配置jdk所以写个博客。。。。<br><a id="more"></a></p>
-<h3 id="linux下配置jdk"><a href="#linux下配置jdk" class="headerlink" title="linux下配置jdk"></a>linux下配置jdk</h3><p>我用ubuntu来演示(毕竟很多人也是用ubuntu。。)<br><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">点我进入下载jdk的页面</a>&gt;<br>我用wget莫名其妙出问题，我就下载后ftp传过去的<br><img src="http://i1.piimg.com/4851/2c7e1f4b79b690fd.png" alt="ls"><br \=""><br>进到目录后解压<br><img src="http://p1.bqimg.com/4851/acd1a91125bd88a0.png" alt="ls2"><br \=""><br>然后创建一个文件夹存放jdk，并且把解压后的jdk移动进去<br><img src="http://p1.bqimg.com/4851/826e89158e4c5bb8.png" alt="ls3"><br \=""><br>然后在root身份下(设置好root密码后终端输入su回车后输入root密码就行)用vim来配置环境变量(/etc/profile权限用户组默认没有写权限,是只读的)</p>
+<h3 id="linux下配置jdk"><a href="#linux下配置jdk" class="headerlink" title="linux下配置jdk"></a>linux下配置jdk</h3><p>我用ubuntu来演示(毕竟很多人也是用ubuntu。。)<br><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">点我进入下载jdk的页面</a><br>我用wget莫名其妙出问题，我就下载后ftp传过去的<br><img src="http://i1.piimg.com/4851/2c7e1f4b79b690fd.png" alt="ls"><br \=""><br>进到目录后解压<br><img src="http://p1.bqimg.com/4851/acd1a91125bd88a0.png" alt="ls2"><br \=""><br>然后创建一个文件夹存放jdk，并且把解压后的jdk移动进去<br><img src="http://i1.piimg.com/4851/63ba4a808999bbb9.png" alt="ls3"><br \=""><br>然后在root身份下(设置好root密码后终端输入su回车后输入root密码就行)用vim来配置环境变量(/etc/profile权限用户组默认没有写权限,是只读的)</p>
 <pre><code>vim /etc/profile</code></pre>
 进入这个文件后按下i进入vim的编辑状态，移动光标在最后一行加入
 在结尾处加上
@@ -133,7 +133,8 @@
 export PATH=$JAVA_HOME/bin:$PATH
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</code></pre>
 
-<p><img src="http://p1.bqimg.com/4851/7ea48e209c4d7a47.png" alt="profile"><br>然后按esc退出vim的编辑状态,然后按住shift下按下L键右侧的冒号进入vim的命令行<br \=""><br>输入wq回车,意思是保存退出<br><img src="http://p1.bqimg.com/4851/5386b07fd09b7261.png" alt="sou"><br>然后source是不需要重启下让配置文件生效,教程结束</p>
+<p><img src="http://p1.bqimg.com/4851/7ea48e209c4d7a47.png" alt="profile"><br>然后按esc退出vim的编辑状态,然后按住shift下按下L键右侧的冒号进入vim的命令行<br \=""><br>输入wq回车,意思是保存退出<br><img src="http://p1.bqimg.com/4851/5386b07fd09b7261.png" alt="sou"><br \=""></p>
+<p>然后source是不需要重启下让配置文件生效<br>教程结束<img src="http://static.tieba.baidu.com/tb/editor/images/client/image_emoticon66.png" alt="p"></p>
 
         </div>
       </div>
