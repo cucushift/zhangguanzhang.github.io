@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-12</span>
-            <span class="time">18:24:51</span>
+            <span class="time">18:30:53</span>
           </span>
           
           <!--  Categories  -->
@@ -131,7 +131,7 @@
 <ol>
 <li>将token、timestamp、nonce三个参数进行字典序排序</li>
 <li>将三个参数字符串拼接成一个字符串进行sha1加密</li>
-<li>开发者获得加密后的字符串可与signature对比，标识该请求来源于微信<br>启用接口是由代码中的checkSignature()函数来实现校验的。如果对这一原理难以理解，可以暂时不用深究，继续看下面。<br>保存代码后再公众号的页面同样位置点击启用，提示操作错误的话多点击几次就成功了<br><br>订阅号只能个人用并且开启开发者模式后(也就是你对接服务器了后无法自定义菜单，这点很坑….),服务号和企业号不说了,反正个人申请不了…,另外无论你申请了哪种公众号,你都可以开启测试号,测试号是微信官方给开发者开发测试用的,是三种公众号的混合体,但是使用期限只有一年(怎么使用自己想清楚就行了，别瞎打开了)…<br><br>开启测试号在下面的界面开启<br><img src="http://i1.piimg.com/4851/2dd76b2c72c6f698.png" alt="t3"><br><img src="http://i1.piimg.com/4851/33ad7607eccc80d1.png" alt="t4"><br>接入测试号步骤一样，建议分开弄成俩文件对接<br><img src="http://p1.bqimg.com/4851/60660c83788f382a.png" alt="t5"><br>我暂时php只会基础，所以我是向上图里把代码注释掉引入一个php文件，在那个php文件里对微信服务器发过来的消息进行处理<br>当初是参照方倍工作室的教程,他们教程是新浪云申请的sae,大家也可以去参考参考<br><a href="http://www.cnblogs.com/txw1958/p/wechat-tutorial.html" target="_blank">方倍工作室微信公众平台开发</a><br><br>微信公众平台开发文档地址是<a href="https://mp.weixin.qq.com/wiki" target="_blank">https://mp.weixin.qq.com/wiki</a><br>接收普通消息<br>当普通微信用户向公众账号发消息时，微信服务器将POST消息的XML数据包到开发者填写的URL上<br>也就是说你脚本文件要提取post里的xml内容,然后再分离,提取和分离看我之前那篇<a href="https://zhangguanzhang.github.io/2017/01/08/tuling-wx/">微信公众号接入图灵机器人api</a>里前面的一部分代码就是<br><br>剩下的自己玩吧，我没怎么深入过</li>
+<li>开发者获得加密后的字符串可与signature对比，标识该请求来源于微信<br>启用接口是由代码中的checkSignature()函数来实现校验的。如果对这一原理难以理解，可以暂时不用深究，继续看下面。<br><br>保存代码后在公众号的页面同样位置点击提交<br><img src="http://images.cnitblog.com/blog/340216/201410/230854277309950.jpg" alt="tt1"><br>在弹出的提示框中，点击“确定”,然后点击启用，确定<br><img src="http://images.cnitblog.com/blog/340216/201410/230855416993454.jpg" alt="tt2"><br>提示操作错误的话多点击几次就成功了<br><br>订阅号只能个人用并且开启开发者模式后(也就是你对接服务器了后无法自定义菜单，这点很坑….),服务号和企业号不说了,反正个人申请不了…,另外无论你申请了哪种公众号,你都可以开启测试号,测试号是微信官方给开发者开发测试用的,是三种公众号的混合体,但是使用期限只有一年(怎么使用自己想清楚就行了，别瞎打开了)…<br><br>开启测试号在下面的界面开启<br><img src="http://i1.piimg.com/4851/2dd76b2c72c6f698.png" alt="t3"><br><img src="http://i1.piimg.com/4851/33ad7607eccc80d1.png" alt="t4"><br>接入测试号步骤一样，建议分开弄成俩文件对接<br><img src="http://p1.bqimg.com/4851/60660c83788f382a.png" alt="t5"><br>我暂时php只会基础，所以我是向上图里把代码注释掉引入一个php文件，在那个php文件里对微信服务器发过来的消息进行处理<br>当初是参照方倍工作室的教程,他们教程是新浪云申请的sae,大家也可以去参考参考<br><a href="http://www.cnblogs.com/txw1958/p/wechat-tutorial.html" target="_blank">方倍工作室微信公众平台开发</a><br><br>微信公众平台开发文档地址是<a href="https://mp.weixin.qq.com/wiki" target="_blank">https://mp.weixin.qq.com/wiki</a><br>接收普通消息<br>当普通微信用户向公众账号发消息时，微信服务器将POST消息的XML数据包到开发者填写的URL上<br>也就是说你脚本文件要提取post里的xml内容,然后再分离,提取和分离看我之前那篇<a href="https://zhangguanzhang.github.io/2017/01/08/tuling-wx/">微信公众号接入图灵机器人api</a>里前面的一部分代码就是<br><br>剩下的自己玩吧，我没怎么深入过</li>
 </ol>
 
         </div>
