@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">21:34:57</span>
+            <span class="time">23:41:26</span>
           </span>
           
           <!--  Categories  -->
@@ -271,6 +271,18 @@ flush privileges 命令本质上的作用是将当前user和privilige表中的�
 <br>
 <hr>
 <h3>下面来安装php</h3>
+先安装curl为了后面给php添加curl扩展<a href="https://curl.haxx.se/download" target="_blank"><span style="font-size: 20px">点我进入curl下载页面</span></a>
+注意curl页面里的最新版本在网页里的最下面
+也可以直接wget下载
+<pre><code>
+cd /usr/local/download
+wget https://curl.haxx.se/download/curl-7.52.1.tar.gz --no-check-certificate
+tar -zxvf curl-7.52.1.tar.gz
+cd curl-7.52.1
+./configure --prefix=/usr/local/curl
+make && make install
+</code></pre>
+然后解压进入解压目录
 进入php官网,进入download页面点击tar.gz包
 <img src="http://oftgpeto9.bkt.clouddn.com/l15.png"><br><br>
 进去后我们找香港的源，右击后选择复制链接<br><br>
@@ -286,16 +298,16 @@ wget后看看文件保存的名字,有时候被保存为php加版本号,有时�
 <pre><code>yum install libxml2 libxml2-devel autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel  zlib zlib-devel glibc glibc-devel glib2 glib2-devel</code></pre>
 如果提示有问题最后俩glibc依赖先不装试试(centos6.7的没问题，6.5的最后俩依赖别安装了)<br>
 <h3>64位</h3>
-<pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-pdo-mysql --enable-mbstring --with-gd --with-png-dir=/usr/lib64 --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64</code></pre>
+<pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-pdo-mysql --enable-mbstring --with-gd --with-png-dir=/usr/lib64 --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64 --with-curl=/usr/local/curl</code></pre>
 <h3>32位</h3>
-<pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-pdo-mysql --enable-mbstring --with-gd</code></pre>
+<pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-pdo-mysql --enable-mbstring --with-gd --with-curl=/usr/local/curl</code></pre>
 <img src="http://oftgpeto9.bkt.clouddn.com/l17.png">
 <br><br>
 配置没错的话就是图里的信息
 然后
 <pre><code>make</code></pre>
 <img src="http://oftgpeto9.bkt.clouddn.com/l18.png"><br><br>
-<br>报错有时候会中断make关键字有memory字样，因为编译php需要资源，所以建议先关闭apache和mysqld<br>
+<br>报错有时候会中断make关键字有memory字样,因为编译php需要资源,所以建议先关闭apache和mysqld<br>
 <pre><code>service httpd stop</code></pre>
 <pre><code>service mysqld stop</code></pre>
 make提示complete后直接
