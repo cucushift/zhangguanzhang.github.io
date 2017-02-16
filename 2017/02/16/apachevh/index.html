@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="Zhangguanzhang">
   <!-- Open Graph Data -->
-  <meta property="og:title" content="感觉可能要失败了"/>
+  <meta property="og:title" content="apache配置虚拟主机建立多个网站"/>
   <meta property="og:description" content="记录生活点滴" />
   <meta property="og:site_name" content="Zhangguanzhang"/>
   <meta property="og:type" content="article" />
@@ -44,7 +44,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="page-title with-background-image">
-          <p class="title">感觉可能要失败了</p>
+          <p class="title">apache配置虚拟主机建立多个网站</p>
           <p class="subtitle"></p>
         </div>
         <div class="site-menu with-background-image">
@@ -101,14 +101,14 @@
           
           <!-- Date -->
           <span class="date-time info">On
-            <span class="date">2016-10-30</span>
+            <span class="date">2017-02-16</span>
             <span class="time">23:58:45</span>
           </span>
           
           <!--  Categories  -->
             <span class="categories info">Under 
 
-<a href="/categories/日志/">日志</a> / <a href="/categories/日志/闲搞/">闲搞</a>
+<a href="/categories/日志/">日志</a> / <a href="/categories/日志/心得/">心得</a>
 </span>
           
         </div>
@@ -117,14 +117,15 @@
           <div class="post-tags text-muted">
             Tags: 
 
-<a class="tag" href="/tags/迷茫/">#迷茫</a>
+<a class="tag" href="/tags/apache/">#apache</a> <a class="tag" href="/tags/虚拟主机/">#虚拟主机</a>
 
 
           </div>
         
         <!-- Post Main Content -->
         <div class="post-content">
-          <p>似乎和自己预想的不一样<br><a id="more"></a><br><img src="http://imgsrc.baidu.com/forum/w%3D580/sign=ea0d923589cb39dbc1c0675ee01409a7/4e849001a18b87d610b65dc00f0828381d30fd96.jpg" alt="vu"><br>不知道为啥全部都亮了，不应该阿，3914有输出是低电平，然后低电平通过场馆才有输出，现在居然全部都亮了，感觉3914有问题，但是不确定，还是得后面花时间来测试了。<br>如果还是找不到是啥问题，真的会有种啥事情都没做到最后，突然发现好几个东西都没做到最后弃坑了，好像除了cad啥事都没干成<br><img src="http://imgsrc.baidu.com/forum/w%3D580/sign=d52e7fee4290f60304b09c4f0910b370/6dca8f22720e0cf38866bd240246f21fbc09aaf1.jpg" alt="2"></p>
+          <p>配置虚拟主机并且发现了一个apache虚拟主机的坑<br><a id="more"></a></p>
+<h3 id="总结下如何搭建虚拟主机"><a href="#总结下如何搭建虚拟主机" class="headerlink" title="总结下如何搭建虚拟主机"></a>总结下如何搭建虚拟主机</h3><p>首先你得有个域名,没有的话去买一个,一年要不了多少钱<br>买了后尽量早点备案<br>cn域名一定要备案,其他域名如果你主机非大陆的就可以不用备案<br>不备案备扫到就会封你ip好像<br>域名这个东西就是个名字,服务器都是ip的,假设没有域名,你要访问别人网站输入ip岂不是很麻烦<br>域名就是个别名可以理解为<br><br \=""><br><img src="http://p1.bpimg.com/4851/ef749c4a22298a32.png" alt="y1"><br>在域名解析那里添加一个www和@记录,这样别人就可以通过www和不带www访问你的页面了<br>不过这样俩种url访问的都是你的index页面<br>我们可以通过配置虚拟主机来让俩种不一样的页面<br><img src="http://p1.bpimg.com/4851/9b6c59c7ee8098a8.png" alt="f1"><br>如果你不习惯vim可以在ftp里这样选择你的windows下的编辑器<br>我安装了sublime,然后xftp的使用本地编辑器那设置成sublime的安装路径<br>然后你这样点击了后本地保存后会自动上传的<br>httpd.conf里<br><br \=""><br>取消这俩段前面的#号<br><img src="http://p1.bpimg.com/4851/cbeb38de309efb60.png" alt="d1"><br><img src="http://p1.bpimg.com/4851/d5700f3447bd2150.png" alt="d2"><br><br \=""><br \=""><br>然后去你apache安装目录下的conf/extra里打开httpd-vhosts.conf<br \=""><br><img src="http://i1.piimg.com/4851/d335d0e92797b677.png" alt="v1"><br>带www的就参照第一个，不带就参照我第二个<br>刚开始我没写ServerAlias一直打不开第二个<br><br \=""><br>www是主页,blog是我当博客用,写的目录一定要在httpd.conf里填写的DocumentRoot目录下的子目录<br>编辑完成后在www和blog文件夹下写一个内容不同的index.html或者index.php看看访问带www和不带www的域名是否可以访问<br>可以访问的话你就把域名解析暂停了赶紧去备案,一般是两个星期左右</p>
 
         </div>
       </div>
