@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">22:56:34</span>
+            <span class="time">23:24:39</span>
           </span>
           
           <!--  Categories  -->
@@ -304,12 +304,12 @@ cd php*</code></pre>
 <img src="http://oftgpeto9.bkt.clouddn.com/l17.png">
 <br><br>
 配置没错的话就是图里的信息
-然后
-<pre><code>make</code></pre>
-<img src="http://oftgpeto9.bkt.clouddn.com/l18.png"><br><br>
-<br><span style="font-size: 20px;color: red">报错有时候会中断make关键字有memory字样,因为编译php需要资源,所以建议先关闭apache和mysqld</span><br>
+然后<br><span style="font-size: 20px;color: red">报错编译php需要资源,make的时候有时候会因为内存不够而中断,关键字memory字样,所以建议先关闭apache和mysqld</span><br>
 <pre><code>service httpd stop</code></pre>
 <pre><code>service mysqld stop</code></pre>
+<pre><code>make</code></pre>
+<img src="http://oftgpeto9.bkt.clouddn.com/l18.png"><br><br>
+
 make提示complete后直接
 
 <pre><code>make install</code></pre>
