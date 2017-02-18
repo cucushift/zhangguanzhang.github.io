@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">23:09:25</span>
+            <span class="time">16:25:44</span>
           </span>
           
           <!--  Categories  -->
@@ -289,10 +289,10 @@ make && make install
 <img src="http://oftgpeto9.bkt.clouddn.com/l16.png"><br><br>
 在xshell里
 <pre><code>cd /usr/local/download
-wget http://hk1.php.net/get/php-5.6.29.tar.gz/from/this/mirror
-tar zxvf mirror
+wget http://hk1.php.net/get/php-5.6.29.tar.gz/from/this/mirror -O php.tar.gz
+tar zxvf php*
 cd php*</code></pre>
-<span style="font-size:18px;color: red">wget后看看文件保存的名字,有时候被保存为php加版本号,有时候保存为mirror,所以上面解压时名字不要完全照着我做</span>
+<span style="font-size:18px;color: red">这里wget下载php有时候被保存为mirrors,有时候被保存为php加版本号,所以上面wget后面我加了-O参数下载保存为php.tat.gz</span>
 <br>
 安装依赖
 <pre><code>yum install libxml2 libxml2-devel autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel  zlib zlib-devel glibc glibc-devel glib2 glib2-devel</code></pre>
