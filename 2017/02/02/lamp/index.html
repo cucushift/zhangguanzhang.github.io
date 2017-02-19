@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">19:27:28</span>
+            <span class="time">22:03:44</span>
           </span>
           
           <!--  Categories  -->
@@ -297,10 +297,11 @@ cd php*</code></pre>
 安装依赖
 <pre><code>yum install libxml2 libxml2-devel autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel  zlib zlib-devel glibc glibc-devel glib2 glib2-devel</code></pre>
 <span style="font-size: 20px;color: red">如果输出提示有问题最后俩glibc依赖先不装试试(centos6.7的偶尔没问题，6.5的话最后俩依赖别安装了)</span><br>
+<span style="font-size: 18px;color: red">下面参数开启了很多功能,等你以后熟悉了就会知道这步位你带来的多方便了</span>
 <h3>64位</h3>
-<pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-pdo-mysql --enable-mbstring --with-gd --with-png-dir=/usr/lib64 --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64 --with-curl=/usr/local/curl</code></pre>
+<pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-mysqli --with-pdo-mysql --enable-mbstring --with-gd --with-png-dir=/usr/lib64 --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64 --with-curl=/usr/local/curl</code></pre>
 <h3>32位</h3>
-<pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-pdo-mysql --enable-mbstring --with-gd --with-curl=/usr/local/curl</code></pre>
+<pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-mysqli --with-pdo-mysql --enable-mbstring --with-gd --with-curl=/usr/local/curl</code></pre>
 <img src="http://oftgpeto9.bkt.clouddn.com/l17.png">
 <br><br>
 配置没错的话就是图里的信息
