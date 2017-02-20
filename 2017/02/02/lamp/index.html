@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">19:38:53</span>
+            <span class="time">20:03:55</span>
           </span>
           
           <!--  Categories  -->
@@ -346,7 +346,7 @@ cd redis*
 /usr/local/php/bin/phpize
 ./configure --with-php-config=/usr/local/php/bin/php-config
 make && make install
-echo -e "extension=\"/usr/local/php/lib/php/extensions/no-debug-zts-20131226/redis.so\"" >> /usr/local/php/etc/php.ini
+echo -e "extension=/usr/local/php/lib/php/extensions/no-debug-zts-20131226/redis.so" >> /usr/local/php/etc/php.ini
 </code></pre>
 <br><br>
 然后进入apache的conf配置文件
