@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">12:48:00</span>
+            <span class="time">12:57:09</span>
           </span>
           
           <!--  Categories  -->
@@ -134,7 +134,8 @@ cd download</code></pre>
 cd就是change directory就是改变目录<br>
 mkdir就是make directory创建目录<br>
 上面三句就是进去/usr/local下创建一个download目录然后进去这个目录<br>
-
+安装基本依赖
+<pre><code>yum install gcc gcc-c++</code></pre>
 <hr>
 <h3>首先我们来安装apache</h3>
 <br>进入官网后点击download,然后点击第一个超链接进去这里<br>右击tar.gz获取链接
@@ -267,8 +268,8 @@ flush privileges 命令本质上的作用是将当前user和privilige表中的�
 <br><br>
 把mysql的安装目录下的bin加入环境变量里
 <pre><code>vim /etc/profile</code></pre>
-在里面按下i后进去vim的编辑模式
-结尾追加
+在里面按下i后进入vim的编辑模式
+结尾回车追加
 <pre><code>export PATH=/usr/local/mysql/bin:$PATH</code></pre>
 然后按下esc退出编辑模式,按住shift后按L键右侧的分号进入vim的命令行模式,输入wq回车保存退出
 然后让配置文件生效<pre><code>source /etc/profile</code></pre>
@@ -321,7 +322,7 @@ make提示complete后直接
 php默认的配置文件php.ini是不存在的我们需要手背拷贝过去
 在源码包里有俩ini,php.ini-development和php.ini-production
 我是拷贝的development
-<pre><code>cp ./php.ini-development /usr/local/php/etc/php.ini<pre><code>
+<pre><code>cp ./php.ini-development /usr/local/php/etc/php.ini</code></pre>
 成功安装php后我们要吧php安装目录下的bin弄到环境变量里面
 <pre><code>vim /etc/profile</code></pre>
 在里面按下i后进去vim的编辑模式
@@ -370,7 +371,7 @@ phpinfo();</code></pre>的页面
 <pre><code>service httpd restart</code></pre>
 
 <p>外网打开服务器ip看到输出，成功apache加载php<br><img src="http://oftgpeto9.bkt.clouddn.com/l22.png"></p>
-</code></pre></code></pre></span>
+</span>
         </div>
       </div>
     </div>
