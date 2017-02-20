@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">12:57:09</span>
+            <span class="time">12:59:33</span>
           </span>
           
           <!--  Categories  -->
@@ -332,7 +332,7 @@ php默认的配置文件php.ini是不存在的我们需要手背拷贝过去
 输入<pre><code>php -v</code></pre>
 成功安装好php并且配置环境变量
 <img src="http://p1.bqimg.com/567571/387e6bc17a413815.png"><br>
-
+<br><br>
 <span style="font-size: 18px">然后按需求给php开启redis</span>
 <a href="http://pecl.php.net/package/redis" target="_blank"><span style="font-size: 20px">点我进入redis下载页面</span></a>
 网站下面的Dependencies说明redis版本对应的php版本
@@ -348,8 +348,8 @@ cd redis*
 make && make install
 echo -e "extension=\"/usr/local/php/lib/php/extensions/no-debug-zts-20131226/redis.so\"" >> /usr/local/php/etc/php.ini
 </code></pre>
-
-<p>然后进入apache的conf配置文件</p>
+<br><br>
+然后进入apache的conf配置文件
 <pre><code>vim /usr/local/apache/conf/httpd*</code></pre>
 在里面按下i后进去vim的编辑模式,添加一行
 <pre><code>AddType application/x-httpd-php .php</code></pre>
