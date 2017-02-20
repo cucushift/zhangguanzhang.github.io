@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">20:03:55</span>
+            <span class="time">23:23:53</span>
           </span>
           
           <!--  Categories  -->
@@ -166,15 +166,15 @@ mv apr apr-util httpd-2.4.25/srclib/
 wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.39.tar.gz
 tar zxvf pcre-8.39.tar.gz
 cd pcre*</code></pre><br><br>
-<span style="font-size: 20px;color: red>如果上面的wget下载pcre失败了在xshell里按方向键上可以使用上一次命令,也就是重试</span>
-<br/><br/>
+<span style="font-size: 20px;color: red">如果上面的wget下载pcre失败了在xshell里按方向键上可以使用上一次命令,也就是重试</span>
+<br><br>
 安装依赖
 <pre><code>yum install gcc gcc-c++</code></pre>
 配置pcre
 <pre><code>./configure --prefix=/usr/local/pcre</code></pre>
-./configure就是配置,参数--prefix=/usr/local/pcre就是说把软件安装在/usr/local/pcre这个目录下<br/>
+./configure就是配置,参数--prefix=/usr/local/pcre就是说把软件安装在/usr/local/pcre这个目录下<br>
 配置完成如图所示
-<img src=" http:="" oftgpeto9.bkt.clouddn.com="" l6.png"="">
+<img src="http://oftgpeto9.bkt.clouddn.com/l6.png">
 然后
 <pre><code>make && make install</code></pre>
 make就是编译,make install就是编译安装
@@ -348,6 +348,7 @@ cd redis*
 make && make install
 echo -e "extension=/usr/local/php/lib/php/extensions/no-debug-zts-20131226/redis.so" >> /usr/local/php/etc/php.ini
 </code></pre>
+关于php-fpm的配置参考这个链接<a href="http://www.jb51.net/article/42716.htm" target="_blank" rel="external">php配置php-fpm启动参数及配置详解</a>
 <br><br>
 然后进入apache的conf配置文件
 <pre><code>vim /usr/local/apache/conf/httpd*</code></pre>
@@ -371,7 +372,7 @@ phpinfo();</code></pre>的页面
 <pre><code>service httpd restart</code></pre>
 
 <p>外网打开服务器ip看到输出，成功apache加载php<br><img src="http://oftgpeto9.bkt.clouddn.com/l22.png"></p>
-</span>
+
         </div>
       </div>
     </div>
