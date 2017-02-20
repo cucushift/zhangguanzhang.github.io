@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">22:14:39</span>
+            <span class="time">12:48:00</span>
           </span>
           
           <!--  Categories  -->
@@ -265,8 +265,14 @@ flush privileges 命令本质上的作用是将当前user和privilige表中的�
 以后我们启动mysql服务直接输入<pre><code>service mysqld start</code></pre>就行了,如果要开机自启就输入下面的命令
 <pre><code>chkconfig --add mysqld</code></pre>
 <br><br>
-<pre><code>ln -s /usr/local/mysql/bin/mysql /usr/bin/mysql</code></pre>
-建立一个软连接,以后我们直接在shell里输入下面命令就可以进入mysql客户端了
+把mysql的安装目录下的bin加入环境变量里
+<pre><code>vim /etc/profile</code></pre>
+在里面按下i后进去vim的编辑模式
+结尾追加
+<pre><code>export PATH=/usr/local/mysql/bin:$PATH</code></pre>
+然后按下esc退出编辑模式,按住shift后按L键右侧的分号进入vim的命令行模式,输入wq回车保存退出
+然后让配置文件生效<pre><code>source /etc/profile</code></pre>
+以后进入mysql客户端输入下面命令就可以了
 <pre><code>mysql -uroot -p</code></pre>
 <br>
 <hr>
@@ -274,6 +280,7 @@ flush privileges 命令本质上的作用是将当前user和privilige表中的�
 先安装curl为了后面给php添加curl扩展<a href="https://curl.haxx.se/download" target="_blank"><span style="font-size: 20px">点我进入curl下载页面</span></a>
 注意curl页面里的最新版本在网页里的最下面
 也可以直接wget下载,wget下载的话输入!!回车就是重新下载
+然后解压进入解压目录
 <pre><code>
 cd /usr/local/download
 wget https://curl.haxx.se/download/curl-7.52.1.tar.gz --no-check-certificate
@@ -282,12 +289,8 @@ cd curl-7.52.1
 ./configure --prefix=/usr/local/curl
 make && make install
 </code></pre>
-然后解压进入解压目录
-进入php官网,进入download页面点击tar.gz包
-<img src="http://oftgpeto9.bkt.clouddn.com/l15.png"><br><br>
-进去后我们找香港的源，右击后选择复制链接<br><br>
-<img src="http://oftgpeto9.bkt.clouddn.com/l16.png"><br><br>
-在xshell里
+
+<p>进入php官网,进入download页面点击tar.gz包<br><img src="http://oftgpeto9.bkt.clouddn.com/l15.png"><br><br><br>进去后我们找香港的源，右击后选择复制链接<br><br><br><img src="http://oftgpeto9.bkt.clouddn.com/l16.png"><br><br><br>在xshell里</p>
 <pre><code>cd /usr/local/download
 wget http://hk1.php.net/get/php-5.6.29.tar.gz/from/this/mirror -O php.tar.gz
 tar zxvf php*
@@ -299,9 +302,9 @@ cd php*</code></pre>
 <span style="font-size: 20px;color: red">如果输出提示有问题最后俩glibc依赖先不装试试(centos6.7的偶尔没问题，6.5的话最后俩依赖别安装了)</span><br>
 <span style="font-size: 18px;color: red">下面参数开启了很多功能,等你以后熟悉了就会知道这步位你带来的多方便了</span>
 <h3>64位</h3>
-<pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-mysqli --with-pdo-mysql --enable-mbstring --with-gd --with-png-dir=/usr/lib64 --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64 --with-curl=/usr/local/curl</code></pre>
+<pre><code>./configure --prefix=/usr/local/php --enable-fpm --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-mysqli --with-pdo-mysql --enable-mbstring --with-gd --with-png-dir=/usr/lib64 --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64 --with-curl=/usr/local/curl --with-config-file-path=/usr/local/php/etc</code></pre>
 <h3>32位</h3>
-<pre><code>./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-mysqli --with-pdo-mysql --enable-mbstring --with-gd --with-curl=/usr/local/curl</code></pre>
+<pre><code>./configure --prefix=/usr/local/php --enable-fpm --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-mysqli --with-pdo-mysql --enable-mbstring --with-gd --with-curl=/usr/local/curl --with-config-file-path=/usr/local/php/etc</code></pre>
 <img src="http://oftgpeto9.bkt.clouddn.com/l17.png">
 <br><br>
 配置没错的话就是图里的信息
@@ -314,15 +317,38 @@ cd php*</code></pre>
 make提示complete后直接
 
 <pre><code>make install</code></pre>
+等输出完成后
+php默认的配置文件php.ini是不存在的我们需要手背拷贝过去
+在源码包里有俩ini,php.ini-development和php.ini-production
+我是拷贝的development
+<pre><code>cp ./php.ini-development /usr/local/php/etc/php.ini<pre><code>
+成功安装php后我们要吧php安装目录下的bin弄到环境变量里面
+<pre><code>vim /etc/profile</code></pre>
+在里面按下i后进去vim的编辑模式
+结尾追加<pre><code>export PATH=/usr/local/php/bin:$PATH</code></pre>
+然后让配置文件生效<pre><code>source /etc/profile</code></pre>
+然后按下esc退出编辑模式,按住shift后按L键右侧的分号进入vim的命令行模式,输入wq回车保存退出
+输入<pre><code>php -v</code></pre>
+成功安装好php并且配置环境变量
+<img src="http://p1.bqimg.com/567571/387e6bc17a413815.png"><br>
 
-<p>等输出完成后进入php的安装目录</p>
-<pre><code>cd /usr/local/php/bin
-./php -v</code></pre>输出<br>
-<img src="http://oftgpeto9.bkt.clouddn.com/l19.png"><br>
-成功安装好php<br><br>
-给php建立一个软连接
-<pre><code>ln -s /usr/local/php/bin/php /usr/bin/php</code></pre>
-然后进入apache的conf配置文件
+<span style="font-size: 18px">然后按需求给php开启redis</span>
+<a href="http://pecl.php.net/package/redis" target="_blank"><span style="font-size: 20px">点我进入redis下载页面</span></a>
+网站下面的Dependencies说明redis版本对应的php版本
+Release 3.1.1:    PHP Version: PHP version 7.9.99 or older
+PHP Version: PHP 5.2.0 or newer
+3.1.1的支持5.2.0或者更新的
+<pre><code>cd /usr/local/dowonload/
+wget http://pecl.php.net/get/redis-3.1.1.tgz
+tar -zxvf redis*
+cd redis*
+/usr/local/php/bin/phpize
+./configure --with-php-config=/usr/local/php/bin/php-config
+make && make install
+echo -e "extension=\"/usr/local/php/lib/php/extensions/no-debug-zts-20131226/redis.so\"" >> /usr/local/php/etc/php.ini
+</code></pre>
+
+<p>然后进入apache的conf配置文件</p>
 <pre><code>vim /usr/local/apache/conf/httpd*</code></pre>
 在里面按下i后进去vim的编辑模式,添加一行
 <pre><code>AddType application/x-httpd-php .php</code></pre>
@@ -344,7 +370,7 @@ phpinfo();</code></pre>的页面
 <pre><code>service httpd restart</code></pre>
 
 <p>外网打开服务器ip看到输出，成功apache加载php<br><img src="http://oftgpeto9.bkt.clouddn.com/l22.png"></p>
-</span>
+</code></pre></code></pre></span>
         </div>
       </div>
     </div>
