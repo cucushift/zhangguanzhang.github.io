@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">23:26:11</span>
+            <span class="time">18:41:12</span>
           </span>
           
           <!--  Categories  -->
@@ -266,12 +266,8 @@ flush privileges 命令本质上的作用是将当前user和privilige表中的�
 <pre><code>chkconfig --add mysqld</code></pre>
 <br><br>
 把mysql的安装目录下的bin加入环境变量里
-<pre><code>vim /etc/profile</code></pre>
-在里面按下i后进入vim的编辑模式
-结尾回车追加
-<pre><code>export PATH=/usr/local/mysql/bin:$PATH</code></pre>
-然后按下esc退出编辑模式,按住shift后按L键右侧的分号进入vim的命令行模式,输入wq回车保存退出
-然后让配置文件生效<pre><code>source /etc/profile</code></pre>
+<pre><code>echo 'export PATH=/usr/local/mysql/bin:$PATH'>>/etc/profile
+source /etc/profile</code></pre>
 以后进入mysql客户端输入下面命令就可以了
 <pre><code>mysql -uroot -p</code></pre>
 <br>
@@ -291,11 +287,14 @@ make && make install
 </code></pre>
 
 <p>进入php官网,进入download页面点击tar.gz包<br><img src="http://oftgpeto9.bkt.clouddn.com/l15.png"><br><br><br>进去后我们找香港的源，右击后选择复制链接<br><br><br><img src="http://oftgpeto9.bkt.clouddn.com/l16.png"><br><br><br>在xshell里</p>
-<pre><code>cd /usr/local/download
-wget http://hk1.php.net/get/php-5.6.29.tar.gz/from/this/mirror -O php.tar.gz
-tar zxvf php*
+<pre><code>cd /usr/local/download</code></pre>
+<br>
+<pre><code>wget http://hk1.php.net/get/php-5.6.29.tar.gz/from/this/mirror -O php-5.6.29.tar.gz</code></pre>
+<span style="font-size: 20px;color: red">上面的wget下载失败的话尝试下面这个</span>
+<pre><code>wget http://ojt8x896o.bkt.clouddn.com/php-5.6.29.tar.gz -O php-5.6.29.tar.gz</code></pre>
+<pre><code>tar zxvf php*
 cd php*</code></pre>
-<span style="font-size:18px;color: red">这里wget下载php有时候被保存为mirrors,有时候被保存为php加版本号,所以上面wget后面我加了-O参数下载保存为php.tat.gz</span>
+<span style="font-size:18px;color: red">这里wget下载php有时候被保存为mirrors,有时候被保存为php加版本号,所以上面wget后面我加了-O参数下载保存为php-5.6.29.tar.gz</span>
 <br>
 安装依赖
 <pre><code>yum install libxml2 libxml2-devel autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel  zlib zlib-devel glibc glibc-devel glib2 glib2-devel</code></pre>
@@ -323,11 +322,8 @@ php默认的配置文件php.ini是不存在的我们需要手背拷贝过去
 我是拷贝的development
 <pre><code>cp ./php.ini-development /usr/local/php/etc/php.ini</code></pre>
 成功安装php后我们要吧php安装目录下的bin弄到环境变量里面
-<pre><code>vim /etc/profile</code></pre>
-在里面按下i后进去vim的编辑模式
-结尾追加<pre><code>export PATH=/usr/local/php/bin:$PATH</code></pre>
-然后让配置文件生效<pre><code>source /etc/profile</code></pre>
-然后按下esc退出编辑模式,按住shift后按L键右侧的分号进入vim的命令行模式,输入wq回车保存退出
+<pre><code>echo 'export PATH=/usr/local/php/bin:$PATH'>>/etc/profile
+source /etc/profile</code></pre>
 输入<pre><code>php -v</code></pre>
 成功安装好php并且配置环境变量
 <img src="http://p1.bqimg.com/567571/387e6bc17a413815.png"><br>
