@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-25</span>
-            <span class="time">09:57:43</span>
+            <span class="time">10:03:01</span>
           </span>
           
           <!--  Categories  -->
@@ -129,8 +129,8 @@
 <pre><code>yum install cmake gcc-c++ openssl-devel  c-ares-devel</code></pre>
 
 <p>我下载的1.4.5,因为我是只用客户端来接收消息,没必要那么高</p>
-<p><pre><code>wget <a href="http://mosquitto.org/files/source/mosquitto-1.4.5.tar.gz" target="_blank" rel="external">http://mosquitto.org/files/source/mosquitto-1.4.5.tar.gz</a><br>tar zxfv mosquitto-1.4.5.tar.gz<br>cd mosquitto-1.4.5.tar.gz<br>cmake .<br>make<br>make install</code></pre><br><img src="http://p1.bpimg.com/4851/10731e924769f5da.png" alt="install"><br>看下图里的输出就能看到mosquitto安装在哪了<br>相关配置文件在这个路径下/usr/local/etc/mosquitto/<br>配置的是server端的,我只用客户端所以不用配置<br>如果你用server端的话<br>启动mosquitto并载入配置文件</p>
-<p><pre><code>cd /usr/local/etc/mosquitto/<br>mosquitto -c mosquitto.conf -d</code></pre><br><br><br><span style="font-size: 18px;color: blue">推送和订阅的话使用mosquitto_pub和mosquitto_sub<br>只列出了一些参数,完整的话可以man下这俩命令看看手册就知道了<br></span><br>mosquitto_pub 命令参数说明</p>
+<p><pre><code>wget <a href="http://mosquitto.org/files/source/mosquitto-1.4.5.tar.gz" target="_blank" rel="external">http://mosquitto.org/files/source/mosquitto-1.4.5.tar.gz</a><br>tar zxfv mosquitto-1.4.5.tar.gz<br>cd mosquitto-1.4.5.tar.gz<br>cmake .<br>make<br>make install</code></pre><br><img src="http://p1.bpimg.com/4851/10731e924769f5da.png" alt="install"><br><br><br><br>看下图里的输出就能看到mosquitto安装在哪了<br>相关配置文件在这个路径下/usr/local/etc/mosquitto/<br>配置的是server端的,我只用客户端所以不用配置<br>如果你用server端的话<br>启动mosquitto并载入配置文件</p>
+<p><pre><code>cd /usr/local/etc/mosquitto/<br>mosquitto -c mosquitto.conf -d</code></pre><br><br><br><br><span style="font-size: 18px;color: blue">推送和订阅的话使用mosquitto_pub和mosquitto_sub<br>只列出了一些参数,完整的话可以man下这俩命令看看手册就知道了<br></span><br>mosquitto_pub 命令参数说明</p>
 <ol>
 <li><p>-d  打印debug信息</p>
 </li>
