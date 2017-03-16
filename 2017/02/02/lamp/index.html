@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">11:19:48</span>
+            <span class="time">11:24:34</span>
           </span>
           
           <!--  Categories  -->
@@ -206,6 +206,9 @@ apache的配置文件是apache安装目录下的conf文件夹里的httpd.conf,�
 <pre><code>cp /usr/local/apache/bin/apachectl /etc/init.d/httpd</code></pre>
 经过上面这条命令操作后你以后开启apache或者关闭重启就可以直接输入
 <pre><code>service httpd start</code></pre>
+把apache下的bin加入环境变量里
+<pre><code>echo 'export PATH=/usr/local/apache/bin:$PATH'>>/etc/profile
+source /etc/profile</code></pre>
 stop停止,restart是重启
 <br><br><br>
 <hr>
