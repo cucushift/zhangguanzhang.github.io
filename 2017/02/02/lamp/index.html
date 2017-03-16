@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">18:34:07</span>
+            <span class="time">11:19:48</span>
           </span>
           
           <!--  Categories  -->
@@ -297,7 +297,7 @@ cd php*</code></pre>
 <span style="font-size:18px;color: red">这里wget下载php有时候被保存为mirrors,有时候被保存为php加版本号,所以上面wget后面我加了-O参数下载保存为php-5.6.29.tar.gz</span>
 <br>
 安装依赖
-<pre><code>yum install libxml2 libxml2-devel autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel  zlib zlib-devel glibc glibc-devel glib2 glib2-devel</code></pre>
+<pre><code>yum install openssl openssl-devel libxml2 libxml2-devel autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel  zlib zlib-devel glibc glibc-devel glib2 glib2-devel</code></pre>
 <span style="font-size: 20px;color: red">如果输出提示有问题最后俩glibc依赖先不装试试(centos6.7的偶尔没问题，6.5的话最后俩依赖别安装了)</span><br>
 <span style="font-size: 18px;color: red">下面参数开启了很多功能,等你以后熟悉了就会知道这步位你带来的多方便了</span>
 <h3>64位</h3>
@@ -343,6 +343,15 @@ cd redis*
 make && make install
 echo -e "extension=/usr/local/php/lib/php/extensions/no-debug-zts-20131226/redis.so" >> /usr/local/php/etc/php.ini
 </code></pre>
+<span style="font-size: 18px">然后按需求给php开启openssl</span>
+<pre><code>cd /usr/local/download/php*/ext/openssl
+mv config0.m4 config.m4
+/usr/local/php/bin/phpize
+./configure --with-openssl --with-php-config=/usr/local/php/bin/php-config
+make
+make install
+echo -e "extension=/usr/local/php/lib/php/extensions/no-debug-zts-20131226/openssl.so" >> /usr/local/php/etc/php.ini
+</code></pre>
 关于php-fpm的配置参考这个链接<a href="http://www.jb51.net/article/42716.htm" target="_blank" rel="external">php配置php-fpm启动参数及配置详解</a>
 <br><br>
 然后进入apache的conf配置文件
@@ -359,7 +368,7 @@ echo -e "extension=/usr/local/php/lib/php/extensions/no-debug-zts-20131226/redis
 <br>
 vim的退出和保存操作是按住shift后按分号,也就是键盘L右边的然后下面出现一个冒号进入vim的命令行模式,输入wq回车保存退出<br>
 <br>
-然后用ftp在apache的wwwroot目录(默认是你安装的apache里的htdocs,这里是在/usr/local/apache/htdpcs/)把默认的index.html改名为index.php内容为
+然后用ftp在apache的wwwroot目录(默认是你安装的apache里的htdocs,这里是在/usr/local/apache/htdocs/)把默认的index.html改名为index.php内容为
 <pre><code>&lt;?php
 phpinfo();</code></pre>的页面
 
