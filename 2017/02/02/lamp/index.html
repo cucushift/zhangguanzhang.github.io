@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">14:51:20</span>
+            <span class="time">10:43:07</span>
           </span>
           
           <!--  Categories  -->
@@ -259,9 +259,11 @@ mysql默认的配置文件路径是/etc/my.cnf，我们复制安装自带的默�
 进入mysql的客户端后，我们来在客户端里的命令行里给mysql设置root密码<br>
 <pre><code>use mysql;
 update user set password=password("123456") where user="root";
+delete from mysql.user where user='';
 flush privileges;
 exit</code></pre>
 其中123456为你要设置的密码<br>
+第三行是删除mysql的匿名用户
 flush privileges 命令本质上的作用是将当前user和privilige表中的用户信息/权限设置从mysql库(MySQL数据库的内置库)中提取到内存里。MySQL用户数据和权限有修改后，希望在不重启MySQL服务的情况下直接生效
 
 <pre><code>cp support-files/mysql.server /etc/init.d/mysqld</code></pre>
@@ -300,11 +302,11 @@ cd php*</code></pre>
 <span style="font-size:18px;color: red">这里wget下载php有时候被保存为mirrors,有时候被保存为php加版本号,所以上面wget后面我加了-O参数下载保存为php-5.6.29.tar.gz</span>
 <br>
 安装依赖
-<pre><code>yum install openssl openssl-devel libxslt libxslt-devel libmcrypt libmcrypt-devel libxml2 libxml2-devel autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel  zlib zlib-devel glibc glibc-devel glib2 glib2-devel</code></pre>
+<pre><code>yum install openssl openssl-devel bzip2-devel libxslt libxslt-devel libmcrypt libmcrypt-devel libxml2 libxml2-devel autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel  zlib zlib-devel glibc glibc-devel glib2 glib2-devel</code></pre>
 <span style="font-size: 20px;color: red">如果输出提示有问题最后俩glibc依赖先不装试试(centos6.7的偶尔没问题，6.5的话最后俩依赖别安装了)</span><br>
 <span style="font-size: 18px;color: red">下面参数开启了很多功能,等你以后熟悉了就会知道这步位你带来的多方便了</span>
 <h3>64位</h3>
-<pre><code>./configure --prefix=/usr/local/php --with-mcrypt --enable-fpm --enable-bcmath --enable-sysvsem --enable-zip --enable-ftp --enable-sockets --enable-shmop --enable-pcntl --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-openssl --with-xmlrpc --with-xsl --with-zlib --with-mysqli --with-pdo-mysql --enable-mbstring --with-gd --with-png-dir=/usr/lib64 --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64 --with-curl=/usr/local/curl --with-config-file-path=/usr/local/php/etc/</code></pre>
+<pre><code>./configure --prefix=/usr/local/php --with-gettext --with-mcrypt --enable-fpm --enable-bcmath --enable-sysvsem --enable-zip --enable-ftp --enable-sockets --enable-shmop --enable-pcntl --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-openssl --with-xmlrpc --with-xsl --with-zlib --with-mysqli --with-pdo-mysql --enable-mbstring --with-bz2 --with-gd --with-png-dir=/usr/lib64 --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64 --with-curl=/usr/local/curl --with-config-file-path=/usr/local/php/etc/</code></pre>
 <h3>32位</h3>
 <pre><code>./configure --prefix=/usr/local/php --enable-fpm --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-mysqli --with-pdo-mysql --enable-mbstring --with-gd --with-curl=/usr/local/curl --with-config-file-path=/usr/local/php/etc/</code></pre>
 <img src="http://oftgpeto9.bkt.clouddn.com/l17.png">
@@ -325,6 +327,9 @@ php默认的配置文件php.ini是不存在的我们需要手背拷贝过去
 我是拷贝的development
 <pre><code>cp ./php.ini-development /usr/local/php/etc/php.ini</code></pre>
 成功安装php后我们要吧php安装目录下的bin弄到环境变量里面
+<pre><code>cp sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm
+chmod u+x /etc/init.d/php-fpm</code></pre>
+将php-fpm加入系统服务并加入运行权限
 <pre><code>echo 'export PATH=/usr/local/php/bin:$PATH'>>/etc/profile
 source /etc/profile</code></pre>
 输入<pre><code>php -v</code></pre>
