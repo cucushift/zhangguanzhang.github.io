@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">12:06:01</span>
+            <span class="time">16:54:21</span>
           </span>
           
           <!--  Categories  -->
@@ -226,20 +226,42 @@ mysql的官网下载特慢，这里我用ftp上传到服务器<br>在xftp和xshe
 <pre><code>cd /usr/local/download
 tar zxvf mysql*</code></pre>
 安装依赖
-<pre><code>yum install cmake ncurses-devel</code></pre>
+<pre><code>yum install cmake ncurses-devel bison -y</code></pre>
+创建一个名为mysql且没有登录权限的用户和一个名为mysql的用户组并把mysql用户加进mysql用户组里
+<pre><code>groupadd -r mysql && useradd -r -g mysql -s /bin/false -M mysql</code></pre>
 进入mysql的解压目录并配置
 <pre><code>cd mysql*
-cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/usr/local/mysql/data</code></pre>
+cmake \
+-DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
+-DMYSQL_DATADIR=/usr/local/mysql/data \
+-DSYSCONFDIR=/etc \
+-DMYSQL_USER=mysql \
+-DWITH_MYISAM_STORAGE_ENGINE=1 \
+-DWITH_INNOBASE_STORAGE_ENGINE=1 \
+-DWITH_ARCHIVE_STORAGE_ENGINE=1 \
+-DWITH_MEMORY_STORAGE_ENGINE=1 \
+-DWITH_READLINE=1 \
+-DMYSQL_UNIX_ADDR=/var/run/mysql/mysql.sock \
+-DMYSQL_TCP_PORT=3306 \
+-DENABLED_LOCAL_INFILE=1 \
+-DENABLE_DOWNLOADS=1 \
+-DWITH_PARTITION_STORAGE_ENGINE=1 \
+-DEXTRA_CHARSETS=all \
+-DDEFAULT_CHARSET=utf8 \
+-DDEFAULT_COLLATION=utf8_general_ci \
+-DWITH_DEBUG=0 \
+-DMYSQL_MAINTAINER_MODE=0 \
+-DWITH_SSL:STRING=bundled \
+-DWITH_ZLIB:STRING=bundled
+</code></pre>
 <img src="http://oftgpeto9.bkt.clouddn.com/l12.png">
 <br><br>
 <pre><code>make && make install</code></pre>
 
-<p>创建一个名为mysql且没有登录权限的用户和一个名为mysql的用户组并把mysql用户加进mysql用户组里</p>
-<pre><code>groupadd -r mysql && useradd -r -g mysql -s /bin/false -M mysql</code></pre>
 <pre><code>cd /usr/local/mysql
-chown -R root:mysql /usr/local/mysql</code></pre>
+chown -R mysql:mysql /usr/local/mysql</code></pre>
 chown是改变文件所有者,change owner,R参数是递归，遍历目录下所有目录和文件<br>
-上面整个命令是改变/usr/local/mysqlxia所有的文件拥有者为root用户，用户组为mysql<br>
+上面整个命令是改变/usr/local/mysqlxia所有的文件拥有者为mysql用户，用户组为mysql<br>
 <br>
 初始化mysql
 <pre><code>./scripts/mysql_install_db --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data</code></pre>
@@ -248,6 +270,18 @@ chown是改变文件所有者,change owner,R参数是递归，遍历目录下所
 mysql默认的配置文件路径是/etc/my.cnf，我们复制安装自带的默认配置文件过去
 <pre><code>cp support-files/my-default.cnf /etc/my.cnf</code></pre>询问覆盖的时候输入y
 <br>
+配置/etc/my.cnf
+<pre><code>sed -i 's/# basedir = \.\.\.\.\./ basedir = \/usr\/local\/mysql/' /etc/my.cnf
+sed -i 's/# datadir = \.\.\.\.\./ datadir = \/usr\/local\/mysql\/data/' /etc/my.cnf
+sed -i 's/# port = \.\.\.\.\./ port = 3306/' /etc/my.cnf
+sed -i 's/# socket = \.\.\.\.\./ socket = \/var\/run\/mysql\/mysql.sock/' /etc/my.cnf
+num=$(sed -n '/socket/=' /etc/my.cnf)
+sed -i "$num a[mysqld_safe]\nlog-error=/var/log/mysqld.log\npid-file=/var/run/mysqld/mysqld.pid\n" /etc/my.cnf</code></pre>
+<br>
+cmake的时候把mysql的sock文件指定到/var/run/mysql里符合linux文件目录规范方便日后管理,但是默认没有这个文件夹,手动创建
+<pre><code>
+mkdir /var/run/mysql
+chown mysql:mysql /var/run/mysql</code></pre>
 启动mysql
 <pre><code>./support-files/mysql.server start</code></pre>
 进入mysql客户端<br>
@@ -265,8 +299,11 @@ exit</code></pre>
 其中123456为你要设置的密码<br>
 第三行是删除mysql的匿名用户
 flush privileges 命令本质上的作用是将当前user和privilige表中的用户信息/权限设置从mysql库(MySQL数据库的内置库)中提取到内存里。MySQL用户数据和权限有修改后，希望在不重启MySQL服务的情况下直接生效
-
-<pre><code>cp support-files/mysql.server /etc/init.d/mysqld</code></pre>
+<br>
+添加到service里
+<pre><code>cp support-files/mysql.server /etc/init.d/mysqld
+chmod u+x /etc/init.d/mysqld
+</code></pre>
 以后我们启动mysql服务直接输入<pre><code>service mysqld start</code></pre>就行了,如果要开机自启就输入下面的命令
 <pre><code>chkconfig --add mysqld</code></pre>
 <br><br>
