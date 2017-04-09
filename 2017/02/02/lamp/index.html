@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">23:56:06</span>
+            <span class="time">23:57:32</span>
           </span>
           
           <!--  Categories  -->
@@ -364,10 +364,6 @@ php默认的配置文件php.ini是不存在的我们需要手背拷贝过去
 我是拷贝的development
 <pre><code>cp ./php.ini-development /usr/local/php/etc/php.ini</code></pre>
 成功安装php后我们要吧php安装目录下的bin弄到环境变量里面
-<pre><code>cp sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm
-cp /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf
-chmod u+x /etc/init.d/php-fpm</code></pre>
-将php-fpm加入系统服务并加入运行权限
 <pre><code>echo 'export PATH=/usr/local/php/bin:$PATH'>>/etc/profile
 source /etc/profile</code></pre>
 输入<pre><code>php -v</code></pre>
