@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-15</span>
-            <span class="time">15:36:06</span>
+            <span class="time">15:38:35</span>
           </span>
           
           <!--  Categories  -->
@@ -126,8 +126,8 @@
         <div class="post-content">
           <p>shell的字符串截取<br><a id="more"></a></p>
 <p>提取子串</p>
-<p>${string:position}<br>&nbsp;&nbsp;&nbsp;&nbsp;在$string中从位置$position开始提取子串.<br>如果$string是”*”或者”@”, 那么将会提取从位置$position开始的位置参数.</p>
-<p>${string:position:length}<br>&nbsp;&nbsp;&nbsp;&nbsp;在$string中从位置$position开始提取$length长度的子串.</p>
+<p>${string:position}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在$string中从位置$position开始提取子串.<br>如果$string是”*”或者”@”, 那么将会提取从位置$position开始的位置参数.</p>
+<p>${string:position:length}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在$string中从位置$position开始提取$length长度的子串.</p>
 <pre><code>
     1 stringZ=abcABC123ABCabc
     2 # 0123456789.....
@@ -166,10 +166,10 @@
 <br><hr><br>
 子串削除
 ${string#substring}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;从$string的开头位置截掉最短匹配的$substring.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;从$string的开头位置截掉最短匹配的$substring.
 
 ${string##substring}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;从$string的开头位置截掉最长匹配的$substring.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;从$string的开头位置截掉最长匹配的$substring.
 <pre><code>    1 stringZ=abcABC123ABCabc
     2 #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|----|
     3 #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|----------|
@@ -181,53 +181,53 @@ ${string##substring}<br>
     9 # 截掉'a' 到'C' 之间最长的匹配字符串.
 </code></pre>
 ${string%substring}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;从$string的结尾位置截掉最短匹配的$substring.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;从$string的结尾位置截掉最短匹配的$substring.<br>
 
 ${string%%substring}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;从$string的结尾位置截掉最长匹配的$substring.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;从$string的结尾位置截掉最长匹配的$substring.<br>
 
 以上摘录自高级bash脚本编写指南<br>
-&nbsp;&nbsp;&nbsp;&nbsp;记忆方法:#是左边开始,%是右边开始,单个符号是最短,俩符号就是最长<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记忆方法:#是左边开始,%是右边开始,单个符号是最短,俩符号就是最长<br>
 
 &nbsp;&nbsp;来实际操作一遍<br>
 <pre><code>[root@guan ~]# str=resources/mapper/jxc/authority/IstorageMapper.xml
 </code></pre>
 
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;从例子里可以看出来可以用通配符,那随便测试下<br>&nbsp;&nbsp;&nbsp;&nbsp;首先是#测试<br>&nbsp;&nbsp;&nbsp;&nbsp;去掉r到第一个s</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;从例子里可以看出来可以用通配符,那随便测试下<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;首先是#测试<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;去掉r到第一个s</p>
 <pre><code>[root@guan ~]# echo ${str#r*s}
 ources/mapper/jxc/authority/IstorageMapper.xml</code></pre>
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;去掉r到最后一个s</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;去掉r到最后一个s</p>
 <pre><code>[root@guan ~]# echo ${str##r*s}
 torageMapper.xml</code></pre>
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;删掉第一部分路径</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;删掉第一部分路径</p>
 <pre><code>[root@guan ~]# echo ${str#*/}
 mapper/jxc/authority/IstorageMapper.xml</code></pre>
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;提取基本文件名</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提取基本文件名</p>
 <pre><code>[root@guan ~]# echo ${str##*/}
 IstorageMapper.xml</code></pre>
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;提取后缀</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提取后缀</p>
 <pre><code>[root@guan ~]# echo ${str#*.}
 xml</code></pre>
 
 <hr>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;其次%测试<br>&nbsp;&nbsp;&nbsp;&nbsp;删掉最后的文件名部分,即提取文件所在路径</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;其次%测试<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;删掉最后的文件名部分,即提取文件所在路径</p>
 <pre><code>[root@guan ~]# echo ${str%/*}
 resources/mapper/jxc/authority</code></pre>
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;也可以</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;也可以</p>
 <pre><code>[root@guan ~]# echo ${str%/*l}
 resources/mapper/jxc/authority</code></pre>
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;提取顶层路径</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提取顶层路径</p>
 <pre><code>[root@guan ~]# echo ${str%%/*}
 resources</code></pre>
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;也可以</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;也可以</p>
 <pre><code>[root@guan ~]# echo ${str%%/*}
 resources</code></pre>
 
