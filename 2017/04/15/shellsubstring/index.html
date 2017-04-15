@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-15</span>
-            <span class="time">15:23:12</span>
+            <span class="time">15:24:54</span>
           </span>
           
           <!--  Categories  -->
@@ -157,11 +157,12 @@
 </code></pre>
 如果$string参数是"*"或"@", 那么将会从$position位置开始提取$length个位置参数, 但是由于
 可能没有$length个位置参数了, 那么就有几个位置参数就提取几个位置参数.
-<pre><code>     1 echo ${*:2} # 打印出第2个和后边所有的位置参数.
+<pre><code>
+     1 echo ${*:2} # 打印出第2个和后边所有的位置参数.
      2 echo ${@:2} # 同上.
      3
      4 echo ${*:2:3} # 从第2个开始, 连续打印3个位置参数.
-     </code></pre>
+</code></pre>
 <br><hr><br>
 子串削除
 ${string#substring}
