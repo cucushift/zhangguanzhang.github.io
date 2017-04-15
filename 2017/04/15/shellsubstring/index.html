@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Zhangguanzhang">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="shell的字符串截取"/>
+  <meta property="og:description" content="记录生活点滴" />
+  <meta property="og:site_name" content="Zhangguanzhang"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://zhangguanzhang.github.ioundefined"/>
+  <meta name="baidu-site-verification" content="RqbanSZBE3" />
+  
+    <link rel="alternate" href="/atom.xml" title="Zhangguanzhang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>Zhangguanzhang</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.dark.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">shell的字符串截取</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/zhangguanzhang">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:zhangguanzhang@qq.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Zhangguanzhang</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-04-15</span>
+            <span class="time">15:03:46</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/日志/">日志</a> / <a href="/categories/日志/总结/">总结</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/shell/">#shell</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>shell的字符串截取<br><a id="more"></a></p>
+<p>提取子串</p>
+<p>${string:position}<br>    在$string中从位置$position开始提取子串.<br>如果$string是”*”或者”@”, 那么将会提取从位置$position开始的位置参数.</p>
+<p>${string:position:length}<br>    在$string中从位置$position开始提取$length长度的子串.</p>
+<pre><code>1 stringZ=abcABC123ABCabc
+2 # 0123456789.....
+3 # 0-based indexing.
+4
+5 echo ${stringZ:0} # abcABC123ABCabc
+6 echo ${stringZ:1} # bcABC123ABCabc
+7 echo ${stringZ:7} # 23ABCabc
+8
+9 echo ${stringZ:7:3} # 23A
+10  # 提取子串长度为3.
+11
+12
+13
+14 # 能不能从字符串的右边(也就是结尾) 部分开始提取子串?
+15
+16 echo ${stringZ:-4} # abcABC123ABCabc
+17 # 默认是提取整个字符串, 就象${parameter:-default} 一样.
+18 # 然而 . . .
+19
+20 echo ${stringZ:(-4)} # Cabc
+21 echo ${stringZ: -4} # Cabc
+22 # 这样, 它就可以工作了.
+23 # 使用圆括号或者添加一个空格可以&quot;转义&quot;这个位置参数.
+24
+25 # 感谢, Dan Jacobson, 指出这点.
+</code></pre><p>如果$string参数是”<em>“或”@”, 那么将会从$position位置开始提取$length个位置参数, 但是由于<br>可能没有$length个位置参数了, 那么就有几个位置参数就提取几个位置参数.<br>     1 echo ${</em>:2} # 打印出第2个和后边所有的位置参数.<br>     2 echo ${@:2} # 同上.<br>     3<br>     4 echo ${*:2:3} # 从第2个开始, 连续打印3个位置参数.<br><br><hr><br><br>子串削除<br>${string#substring}<br>    从$string的开头位置截掉最短匹配的$substring.</p>
+<p>${string##substring}<br>    从$string的开头位置截掉最长匹配的$substring.</p>
+<pre><code>1 stringZ=abcABC123ABCabc
+2 # |----|
+3 # |----------|
+4
+5 echo ${stringZ#a*C} # 123ABCabc
+6 # 截掉&apos;a&apos; 到&apos;C&apos; 之间最短的匹配字符串.
+7
+8 echo ${stringZ##a*C} # abc
+9 # 截掉&apos;a&apos; 到&apos;C&apos; 之间最长的匹配字符串.
+</code></pre><p>${string%substring}<br>    从$string的结尾位置截掉最短匹配的$substring.</p>
+<p>${string%%substring}<br>    从$string的结尾位置截掉最长匹配的$substring.</p>
+<p>以上摘录自高级bash脚本编写指南<br>来实际操作一遍<br>[root@guan ~]# str=resources/mapper/jxc/authority/IstorageMapper.xml<br>    记忆方法:#是左边开始,%是右边开始,单个符号是最短,俩符号就是最长<br>    从例子里可以看出来可以用通配符,那随便测试下<br>    首先是#测试<br>    去掉r到第一个s<br>[root@guan ~]# echo ${str#r*s}<br>ources/mapper/jxc/authority/IstorageMapper.xml</p>
+<pre><code>去掉r到最后一个s
+</code></pre><p>[root@guan ~]# echo ${str##r*s}<br>torageMapper.xml</p>
+<pre><code>删掉第一部分路径
+</code></pre><p>[root@guan ~]# echo ${str#*/}<br>mapper/jxc/authority/IstorageMapper.xml</p>
+<pre><code>提取基本文件名
+</code></pre><p>[root@guan ~]# echo ${str##*/}<br>IstorageMapper.xml</p>
+<pre><code>提取后缀
+</code></pre><p>[root@guan ~]# echo ${str#*.}<br>xml</p>
+<hr>
+<pre><code>其次%测试
+删掉最后的文件名部分,即提取文件所在路径
+</code></pre><p>[root@guan ~]# echo ${str%/*}<br>resources/mapper/jxc/authority</p>
+<pre><code>也可以
+</code></pre><p>[root@guan ~]# echo ${str%/*l}<br>resources/mapper/jxc/authority</p>
+<pre><code>提取顶层路径
+</code></pre><p>[root@guan ~]# echo ${str%%/*}<br>resources</p>
+<pre><code>也可以
+</code></pre><p>[root@guan ~]# echo ${str%%/*}<br>resources</p>
+<hr>
+<p>也可以对变量值里的字符串作替换：<br>假设我们定义了一个变量为：<br>file=/dir1/dir2/dir3/my.file.txt</p>
+<p>${file/dir/path}：将第一个dir 替换为path：/path1/dir2/dir3/my.file.txt<br>${file//dir/path}：将全部dir 替换为 path：/path1/path2/path3/my.file.txt</p>
+<p>留下一个练习题大家做做看<br>最后前不久在群里看到有人说怎么把文件夹下面的文件全部改为包含组名<br>例如a.txt组是test，那么变更后就是a[test].txt<br>所有文件改成这样的类型<br><span style="font-size: 22px"><a href="http://i2.muimg.com/567571/467cfb42848b697e.png" target="_blank">答案点我</a></span></p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
