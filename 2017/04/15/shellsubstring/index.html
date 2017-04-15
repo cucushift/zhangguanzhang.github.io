@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-15</span>
-            <span class="time">15:28:12</span>
+            <span class="time">15:31:42</span>
           </span>
           
           <!--  Categories  -->
@@ -191,12 +191,12 @@ ${string%%substring}<br>
 &nbsp;记忆方法:#是左边开始,%是右边开始,单个符号是最短,俩符号就是最长
 
 来实际操作一遍<br>
-<pre><code>[root@guan ~]# str=resources/mapper/jxc/authority/IstorageMapper.xml<pre><code>
+<pre><code>
+[root@guan ~]# str=resources/mapper/jxc/authority/IstorageMapper.xml
+</code></pre>
 
 
-&nbsp;从例子里可以看出来可以用通配符,那随便测试下
-&nbsp;首先是#测试
-&nbsp;去掉r到第一个s
+<p>&nbsp;从例子里可以看出来可以用通配符,那随便测试下<br>&nbsp;首先是#测试<br>&nbsp;去掉r到第一个s</p>
 <pre><code>[root@guan ~]# echo ${str#r*s}
 ources/mapper/jxc/authority/IstorageMapper.xml</code></pre>
 
@@ -237,7 +237,7 @@ resources</code></pre>
 <p>也可以对变量值里的字符串作替换：<br>假设我们定义了一个变量为：<br>file=/dir1/dir2/dir3/my.file.txt</p>
 <p>${file/dir/path}：将第一个dir 替换为path：/path1/dir2/dir3/my.file.txt<br>${file//dir/path}：将全部dir 替换为 path：/path1/path2/path3/my.file.txt</p>
 <p>留下一个练习题大家做做看<br>最后前不久在群里看到有人说怎么把文件夹下面的文件全部改为包含组名<br>例如a.txt组是test，那么变更后就是a[test].txt<br>所有文件改成这样的类型<br><span style="font-size: 22px"><a href="http://i2.muimg.com/567571/467cfb42848b697e.png" target="_blank">答案点我</a></span></p>
-</code></pre></code></pre>
+
         </div>
       </div>
     </div>
