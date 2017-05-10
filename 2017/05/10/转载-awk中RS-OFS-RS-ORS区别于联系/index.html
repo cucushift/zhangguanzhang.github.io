@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Zhangguanzhang">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="[转载]awk中RS,OFS,RS,ORS区别于联系"/>
+  <meta property="og:description" content="记录生活点滴" />
+  <meta property="og:site_name" content="Zhangguanzhang"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://zhangguanzhang.github.ioundefined"/>
+  <meta name="baidu-site-verification" content="RqbanSZBE3" />
+  
+    <link rel="alternate" href="/atom.xml" title="Zhangguanzhang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>Zhangguanzhang</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.dark.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">[转载]awk中RS,OFS,RS,ORS区别于联系</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/zhangguanzhang">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:zhangguanzhang@qq.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Zhangguanzhang</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-05-10</span>
+            <span class="time">15:45:59</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/日志/">日志</a> / <a href="/categories/日志/总结/">总结</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/awk/">#awk</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>awk中RS,OFS,RS,ORS区别于联系<br><a id="more"></a><br>转载地址<a href="http://blog.51yip.com/shell/1151.html" target="_blank" rel="external">http://blog.51yip.com/shell/1151.html</a><br>学习awk时，一定要记得动手去实践，只有在实践中才能发现问题，以下就我在学习中和实践中的经验，总结一下RS,ORS,FS,OFS的区别和联系。</p>
+<p>一，RS与ORS<br>1，RS是记录分隔符，默认的分隔符是\n，具体用法看下</p>
+<p><pre><code><br>[root@guan test]# cat test1     //测试文件<br> 111 222<br> 333 444<br> 555 666<br></code></pre><br>2，RS默认分割符\n</p>
+<p><pre><code><br>[root@guan test]# awk ‘{print $0}’ test1  //awk ‘BEGIN{RS=”\n”}{print $0}’ test1 这二个是一样的<br>111 222<br>333 444<br>555 666<br></code></pre><br>其实你可以把上面test1文件里的内容理解为，111 222\n333 444\n555 6666，利用\n进行分割。看下一个例子<br>3，自定义RS分割符</p>
+<p><pre><code><br>[zhang@guan test]$ echo “111 222|333 444|555 666”|awk ‘BEGIN{RS=”|”}{print $0,RT}’<br> 111 222 |<br> 333 444 |<br> 555 666<br></code></pre><br>结合上面一个例子，就很容易理解RS的用法了。<br>4，RS也可能是正则表达式</p>
+<p><pre><code><br>[zhang@guan test]$ echo “111 222a333 444b555 666”|awk ‘BEGIN{RS=”[a-z]+”}{print $1,RS,RT}’<br> 111 [a-z]+ a<br> 333 [a-z]+ b<br> 555 [a-z]+<br></code></pre><br>从例3和例4，我们可以发现一点，当RT是利用RS匹配出来的内容。如果RS是某个固定的值时，RT就是RS的内容。<br>5，RS为空时</p>
+<p><pre><code><br>[zhang@guan test]$ cat -n test2<br> 1  111 222<br> 2<br> 3  333 444<br> 4  333 444<br> 5<br> 6<br> 7  555 666<br>[zhang@guan test]$ awk ‘BEGIN{RS=””}{print $0}’ test2<br>111 222<br>333 444<br>333 444<br>555 666<br>[zhang@guan test]$ awk ‘BEGIN{RS=””;}{print “&lt;”,$0,”&gt;”}’ test2  //这个例子看着比较明显<br>&lt; 111 222 &gt;<br>&lt; 333 444     //这一行和下面一行，是一行<br>333 444 &gt;<br>&lt; 555 666 &gt;<br> </code></pre><br>从这个例子，可以看出当RS为空时，awk会自动以多行来做为分割符。<br>6，ORS记录输出分符符，默认值是\n<br>把ORS理解成RS反过程，这样更容易记忆和理解，看下面的例子。</p>
+<p><pre><code><br>[zhang@guan test]$ awk ‘BEGIN{ORS=”\n”}{print $0}’ test1  //awk ‘{print $0}’ test1二者是一样的<br>111 222<br>333 444<br>555 666<br>[zhang@guan test]$ awk ‘BEGIN{ORS=”|”}{print $0}’ test1<br>111 222|333 444|555 666|<br></code></pre><br>二，FS与OFS<br>1，FS指定列分割符</p>
+<p><pre><code><br>[zhang@guan test]$ echo “111|222|333”|awk ‘{print $1}’<br> 111|222|333<br>[zhang@guan test]$ echo “111|222|333”|awk ‘BEGIN{FS=”|”}{print $1}’<br> 111<br> </code></pre><br>2，FS也可以用正则</p>
+<p><pre><code><br>[zhang@guan test]$ echo “111||222|333”|awk ‘BEGIN{FS=”[|]+”}{print $1}’<br>111  </code></pre></p>
+<p>3，FS为空的时候</p>
+<p><pre><code><br>[zhang@guan test]$ echo “111|222|333”|awk ‘BEGIN{FS=””}{NF++;print $0}’<br>1 1 1 | 2 2 2 | 3 3 3<br></code></pre><br>当FS为空的时候，awk会把一行中的每个字符，当成一列来处理。</p>
+<p>4，RS被设定成非\n时，\n会成FS分割符中的一个</p>
+<p><pre><code><br>[zhang@guan test]$ cat test1<br> 111 222<br> 333 444<br> 555 666<br>[zhang@guan test]$ awk ‘BEGIN{RS=”444”;}{print $2,$3}’ test1<br> 222 333<br> 666<br></code></pre><br>222和333之间是有一个\n的，当RS设定成444后，222和333被认定成同一行的二列了，其实按常规思想是二行的一列才对。</p>
+<p>5，OFS列输出分隔符</p>
+<p><pre><code><br>[zhang@guan test]$ awk ‘BEGIN{OFS=”|”;}{print $1,$2}’ test1<br> 111|222<br> 333|444<br> 555|666<br>[zhang@guan test]$ awk ‘BEGIN{OFS=”|”;}{print $1 OFS $2}’ test1<br> 111|222<br> 333|444<br> 555|666<br></code></pre><br>test1只有二列，如果100列，都写出来太麻烦了吧。</p>
+<p><pre><code><br>[zhang@guan test]$ awk ‘BEGIN{OFS=”|”;}{print $0}’ test1<br> 111 222<br> 333 444<br> 555 666<br>[zhang@guan test]$ awk ‘BEGIN{OFS=”|”;}{NF=NF;print $0}’ test1<br> 111|222<br> 333|444<br> 555|666<br></code></pre><br>为什么第二种方法中的OFS生效呢？个人觉得，awk觉查到列有所变化时，就会让OFS生效，没变化直接输出了。</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
