@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-25</span>
-            <span class="time">15:50:05</span>
+            <span class="time">15:53:18</span>
           </span>
           
           <!--  Categories  -->
@@ -194,9 +194,8 @@
 111</code></pre>
 
 <p>3，FS为空的时候</p>
-<p><pre><code><br>[zhang@guan test]$ echo “111|222|333”|awk ‘BEGIN{FS=””}{NF++;print $0}’<br>1 1 1 | 2 2 2 | 3 3 3</code></pre><br>当FS为空的时候，awk会把一行中的每个字符，当成一列来处理。</p>
-<p>4，RS被设定成非\n时，\n会成FS分割符中的一个</p>
-<p><pre><code><br>[zhang@guan test]$ cat test1<br> 111 222<br> 333 444<br> 555 666<br>[zhang@guan test]$ awk ‘BEGIN{RS=”444”;}{print $2,$3}’ test1<br> 222 333<br> 666  </code></pre><br>222和333之间是有一个\n的，当RS设定成444后，222和333被认定成同一行的二列了，其实按常规思想是二行的一列才对。</p>
+<p><pre><code><br>[zhang@guan test]$ echo “111|222|333”|awk ‘BEGIN{FS=””}{NF++;print $0}’<br>1 1 1 | 2 2 2 | 3 3 3</code></pre>当FS为空的时候，awk会把一行中的每个字符，当成一列来处理。<br>4，RS被设定成非\n时，\n会成FS分割符中的一个</p>
+<p><pre><code><br>[zhang@guan test]$ cat test1<br> 111 222<br> 333 444<br> 555 666<br>[zhang@guan test]$ awk ‘BEGIN{RS=”444”;}{print $2,$3}’ test1<br> 222 333<br> 666</code></pre><br>222和333之间是有一个\n的，当RS设定成444后，222和333被认定成同一行的二列了，其实按常规思想是二行的一列才对。</p>
 <p>5，OFS列输出分隔符</p>
 <p><pre><code><br>[zhang@guan test]$ awk ‘BEGIN{OFS=”|”;}{print $1,$2}’ test1<br> 111|222<br> 333|444<br> 555|666<br>[zhang@guan test]$ awk ‘BEGIN{OFS=”|”;}{print $1 OFS $2}’ test1<br> 111|222<br> 333|444<br> 555|666  </code></pre><br>test1只有二列，如果100列，都写出来太麻烦了吧。</p>
 <p><pre><code><br>[zhang@guan test]$ awk ‘BEGIN{OFS=”|”;}{print $0}’ test1<br> 111 222<br> 333 444<br> 555 666<br>[zhang@guan test]$ awk ‘BEGIN{OFS=”|”;}{NF=NF;print $0}’ test1<br> 111|222<br> 333|444<br> 555|666</code></pre><br>为什么第二种方法中的OFS生效呢？个人觉得，awk觉查到列有所变化时，就会让OFS生效，没变化直接输出了。</p>
