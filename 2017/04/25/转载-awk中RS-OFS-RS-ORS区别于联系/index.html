@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-25</span>
-            <span class="time">16:04:27</span>
+            <span class="time">16:08:01</span>
           </span>
           
           <!--  Categories  -->
@@ -137,19 +137,19 @@
 555 666  </code></pre>
 其实你可以把上面test1文件里的内容理解为，111 222\n333 444\n555 6666，利用\n进行分割。看下一个例子
 3，自定义RS分割符
-<pre><code>[zhang@guan test]$ echo "111 222|333 444|555 666"|awk 'BEGIN{RS="|"}{print $0,RT}'  
+<pre><code>[root@guan test]# echo "111 222|333 444|555 666"|awk 'BEGIN{RS="|"}{print $0,RT}'  
  111 222 |  
  333 444 |  
  555 666  </code></pre>
 结合上面一个例子，就很容易理解RS的用法了。<br>
 4，RS也可能是正则表达式
-<pre><code>[zhang@guan test]$ echo "111 222a333 444b555 666"|awk 'BEGIN{RS="[a-z]+"}{print $1,RS,RT}'  
+<pre><code>[root@guan test]# echo "111 222a333 444b555 666"|awk 'BEGIN{RS="[a-z]+"}{print $1,RS,RT}'  
  111 [a-z]+ a  
  333 [a-z]+ b  
  555 [a-z]+  </code></pre>
 从例3和例4，我们可以发现一点，当RT是利用RS匹配出来的内容。如果RS是某个固定的值时，RT就是RS的内容。<br>
 5，RS为空时
-<pre><code>[zhang@guan test]$ cat -n test2  
+<pre><code>[root@guan test]# cat -n test2  
  1  111 222  
  2  
  3  333 444  
@@ -157,12 +157,12 @@
  5  
  6  
  7  555 666  
-[zhang@guan test]$ awk 'BEGIN{RS=""}{print $0}' test2  
+[root@guan test]# awk 'BEGIN{RS=""}{print $0}' test2  
 111 222  
 333 444  
 333 444  
 555 666  
-[zhang@guan test]$ awk 'BEGIN{RS="";}{print "<",$0,">"}' test2  //这个例子看着比较明显  
+[root@guan test]# awk 'BEGIN{RS="";}{print "<",$0,">"}' test2  //这个例子看着比较明显  
 < 111 222 >  
 < 333 444     //这一行和下面一行，是一行  
 333 444 >  
@@ -170,27 +170,27 @@
 从这个例子，可以看出当RS为空时，awk会自动以多行来做为分割符。<br>
 6，ORS记录输出分符符，默认值是\n
 把ORS理解成RS反过程，这样更容易记忆和理解，看下面的例子。
-<pre><code>[zhang@guan test]$ awk 'BEGIN{ORS="\n"}{print $0}' test1  //awk '{print $0}' test1二者是一样的  
+<pre><code>[root@guan test]# awk 'BEGIN{ORS="\n"}{print $0}' test1  //awk '{print $0}' test1二者是一样的  
 111 222  
 333 444  
 555 666  
-[zhang@guan test]$ awk 'BEGIN{ORS="|"}{print $0}' test1  
+[root@guan test]# awk 'BEGIN{ORS="|"}{print $0}' test1  
 111 222|333 444|555 666|  </code></pre>
 二，FS与OFS
-1，FS指定列分割符<pre><code>[zhang@guan test]$ echo "111|222|333"|awk '{print $1}'  
+1，FS指定列分割符<pre><code>[root@guan test]# echo "111|222|333"|awk '{print $1}'  
  111|222|333  
-[zhang@guan test]$ echo "111|222|333"|awk 'BEGIN{FS="|"}{print $1}'  
+[root@guan test]# echo "111|222|333"|awk 'BEGIN{FS="|"}{print $1}'  
  111</code></pre>
 2，FS也可以用正则
-<pre><code>[zhang@guan test]$ echo "111||222|333"|awk 'BEGIN{FS="[|]+"}{print $1}'  
+<pre><code>[root@guan test]# echo "111||222|333"|awk 'BEGIN{FS="[|]+"}{print $1}'  
 111</code></pre>
 
 <p>3，FS为空的时候</p>
-<p><pre><code>[zhang@guan test]$ echo “111|222|333”|awk ‘BEGIN{FS=””}{NF++;print $0}’<br>1 1 1 | 2 2 2 | 3 3 3</code></pre>当FS为空的时候，awk会把一行中的每个字符，当成一列来处理。<br>4，RS被设定成非\n时，\n会成FS分割符中的一个</p>
-<p><pre><code>[zhang@guan test]$ cat test1<br> 111 222<br> 333 444<br> 555 666<br>[zhang@guan test]$ awk ‘BEGIN{RS=”444”;}{print $2,$3}’ test1<br> 222 333<br> 666</code></pre>222和333之间是有一个\n的，当RS设定成444后，222和333被认定成同一行的二列了，其实按常规思想是二行的一列才对。</p>
+<p><pre><code>[root@guan test]# echo “111|222|333”|awk ‘BEGIN{FS=””}{NF++;print $0}’<br>1 1 1 | 2 2 2 | 3 3 3</code></pre>当FS为空的时候，awk会把一行中的每个字符，当成一列来处理。<br>4，RS被设定成非\n时，\n会成FS分割符中的一个</p>
+<p><pre><code>[root@guan test]# cat test1<br> 111 222<br> 333 444<br> 555 666<br>[root@guan test]# awk ‘BEGIN{RS=”444”;}{print $2,$3}’ test1<br> 222 333<br> 666</code></pre>222和333之间是有一个\n的，当RS设定成444后，222和333被认定成同一行的二列了，其实按常规思想是二行的一列才对。</p>
 <p>5，OFS列输出分隔符</p>
-<p><pre><code>[zhang@guan test]$ awk ‘BEGIN{OFS=”|”;}{print $1,$2}’ test1<br> 111|222<br> 333|444<br> 555|666<br>[zhang@guan test]$ awk ‘BEGIN{OFS=”|”;}{print $1 OFS $2}’ test1<br> 111|222<br> 333|444<br> 555|666  </code></pre><br>test1只有二列，如果100列，都写出来太麻烦了吧。</p>
-<p><pre><code>[zhang@guan test]$ awk ‘BEGIN{OFS=”|”;}{print $0}’ test1<br> 111 222<br> 333 444<br> 555 666<br>[zhang@guan test]$ awk ‘BEGIN{OFS=”|”;}{NF=NF;print $0}’ test1<br> 111|222<br> 333|444<br> 555|666</code></pre><br>为什么第二种方法中的OFS生效呢？个人觉得，awk觉查到列有所变化时，就会让OFS生效，没变化直接输出了。</p>
+<p><pre><code>[root@guan test]# awk ‘BEGIN{OFS=”|”;}{print $1,$2}’ test1<br> 111|222<br> 333|444<br> 555|666<br>[root@guan test]# awk ‘BEGIN{OFS=”|”;}{print $1 OFS $2}’ test1<br> 111|222<br> 333|444<br> 555|666  </code></pre><br>test1只有二列，如果100列，都写出来太麻烦了吧。</p>
+<p><pre><code>[root@guan test]# awk ‘BEGIN{OFS=”|”;}{print $0}’ test1<br> 111 222<br> 333 444<br> 555 666<br>[root@guan test]# awk ‘BEGIN{OFS=”|”;}{NF=NF;print $0}’ test1<br> 111|222<br> 333|444<br> 555|666</code></pre><br>为什么第二种方法中的OFS生效呢？个人觉得，awk觉查到列有所变化时，就会让OFS生效，没变化直接输出了。</p>
 
         </div>
       </div>
