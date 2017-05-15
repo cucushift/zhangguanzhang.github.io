@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-20</span>
-            <span class="time">17:52:03</span>
+            <span class="time">18:01:28</span>
           </span>
           
           <!--  Categories  -->
@@ -493,7 +493,25 @@ Filesystem                    Size  Used Avail Use% Mounted on
 /dev/mapper/test_vg-test_233   50G  180M   47G   1% /mnt/test
 </code></pre>
 
-<p>7,给卷组VG扩容<br>没办法,分区全部分完了…大致就是分一个区然后用pvcreate来转成物理卷<br>然后用vgextend vgname /dev/partname加进卷组然后用vgdisplay查看下容量是否扩大,然后如果是卷组不够用下想给逻辑卷扩容的话最后参照第六步用lvextend扩容下逻辑卷</p>
+<p>7,给卷组VG扩容</p>
+<pre><code>
+没办法,分区全部分完了...大致就是分一个区然后用pvcreate来转成物理卷
+然后用vgextend vgname /dev/partname加进卷组然后用vgdisplay查看下容量是否扩大,然后如果是卷组不够用下想给逻辑卷扩容的话最后参照第六步用lvextend扩容下逻辑卷
+8,删除LVM
+[root@guan ~]# umount /mnt/test
+[root@guan ~]# lvremove /dev/test_vg/test_233 
+Do you really want to remove active logical volume test_233? [y/n]: y
+  Logical volume "test_233" successfully removed
+[root@guan ~]# vgremove test_vg 
+  Volume group "test_vg" successfully removed
+[root@guan ~]# pvremove /dev/vdb{1,2,3,5}
+  Labels on physical volume "/dev/vdb1" successfully wiped
+  Labels on physical volume "/dev/vdb2" successfully wiped
+  Labels on physical volume "/dev/vdb3" successfully wiped
+  Labels on physical volume "/dev/vdb5" successfully wiped
+[root@guan ~]# 
+</code></pre>
+
 <p>!!!生产环境里调整文件系统大小前一定要做好数据备份</p>
 
         </div>
