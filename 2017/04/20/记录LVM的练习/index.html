@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-20</span>
-            <span class="time">17:35:50</span>
+            <span class="time">17:37:25</span>
           </span>
           
           <!--  Categories  -->
@@ -125,7 +125,7 @@
         <!-- Post Main Content -->
         <div class="post-content">
           <p>LVM的创建和调整<br><a id="more"></a><br>LVM就不用讲了,动态调整大小…<br>总结来说就是:<br>    分区创建成PV物理卷<br>    PV物理卷组成VG卷组<br>    然后在卷组上创建LV<br><a href="http://i1.piimg.com/1949/d42a0767ce28dca6.png" target="_blank"><img src="http://i1.piimg.com/1949/d42a0767ce28dca6.png" alt=""></a><br>1,创建分区给LVM实例使用(没有多个硬盘,没办法,只有用一个盘分成多个分区来模仿实际生活里的多块硬盘了)<br>用的云主机,俩块硬盘,用另一块没使用的数据盘做例子,分成四个分区</p>
-<p><pre><code>[root@guan ~]# fdisk -l<br><br>Disk /dev/vda: 21.5 GB, 21474836480 bytes<br>255 heads, 63 sectors/track, 2610 cylinders<br>Units = cylinders of 16065 <em> 512 = 8225280 bytes<br>Sector size (logical/physical): 512 bytes / 512 bytes<br>I/O size (minimum/optimal): 512 bytes / 512 bytes<br>Disk identifier: 0x000736d7<br><br>   Device Boot      Start         End      Blocks   Id  System<br>/dev/vda1   </em>           1        2611    20970496   83  Linux<br><br>Disk /dev/vdb: 75.2 GB, 75161927680 bytes<br>16 heads, 63 sectors/track, 145635 cylinders<br>Units = cylinders of 1008 * 512 = 516096 bytes<br>Sector size (logical/physical): 512 bytes / 512 bytes<br>I/O size (minimum/optimal): 512 bytes / 512 bytes<br>Disk identifier: 0x32af4d52<br><br><br>   Device Boot      Start         End      Blocks   Id  System<br><br><br>[root@guan ~]# fdisk /dev/vdb</code></pre></p>
+<p><pre><code>[root@guan ~]# fdisk -l<br><br>Disk /dev/vda: 21.5 GB, 21474836480 bytes<br>255 heads, 63 sectors/track, 2610 cylinders<br>Units = cylinders of 16065 <em> 512 = 8225280 bytes<br>Sector size (logical/physical): 512 bytes / 512 bytes<br>I/O size (minimum/optimal): 512 bytes / 512 bytes<br>Disk identifier: 0x000736d7<br><br>   Device Boot      Start         End      Blocks   Id  System<br>/dev/vda1   </em>           1        2611    20970496   83  Linux<br><br>Disk /dev/vdb: 75.2 GB, 75161927680 bytes<br>16 heads, 63 sectors/track, 145635 cylinders<br>Units = cylinders of 1008 * 512 = 516096 bytes<br>Sector size (logical/physical): 512 bytes / 512 bytes<br>I/O size (minimum/optimal): 512 bytes / 512 bytes<br>Disk identifier: 0x32af4d52<br><br>   Device Boot      Start         End      Blocks   Id  System<br><br>[root@guan ~]# fdisk /dev/vdb</code></pre></p>
 <p>WARNING: DOS-compatible mode is deprecated. It’s strongly recommended to<br>         switch off the mode (command ‘c’) and change display units to<br>         sectors (command ‘u’).</p>
 <p>Command (m for help): n<br>Command action<br>   e   extended<br>   p   primary partition (1-4)<br>p<br>Partition number (1-4): 1<br>First cylinder (1-145635, default 1):<br>Using default value 1<br>Last cylinder, +cylinders or +size{K,M,G} (1-145635, default 145635): +18G</p>
 <p>Command (m for help): n<br>Command action<br>   e   extended<br>   p   primary partition (1-4)<br>p<br>Partition number (1-4): 1<br>Partition 1 is already defined.  Delete it before re-adding it.</p>
