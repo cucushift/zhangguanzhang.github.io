@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-20</span>
-            <span class="time">17:37:25</span>
+            <span class="time">17:52:03</span>
           </span>
           
           <!--  Categories  -->
@@ -125,54 +125,375 @@
         <!-- Post Main Content -->
         <div class="post-content">
           <p>LVM的创建和调整<br><a id="more"></a><br>LVM就不用讲了,动态调整大小…<br>总结来说就是:<br>    分区创建成PV物理卷<br>    PV物理卷组成VG卷组<br>    然后在卷组上创建LV<br><a href="http://i1.piimg.com/1949/d42a0767ce28dca6.png" target="_blank"><img src="http://i1.piimg.com/1949/d42a0767ce28dca6.png" alt=""></a><br>1,创建分区给LVM实例使用(没有多个硬盘,没办法,只有用一个盘分成多个分区来模仿实际生活里的多块硬盘了)<br>用的云主机,俩块硬盘,用另一块没使用的数据盘做例子,分成四个分区</p>
-<p><pre><code>[root@guan ~]# fdisk -l<br><br>Disk /dev/vda: 21.5 GB, 21474836480 bytes<br>255 heads, 63 sectors/track, 2610 cylinders<br>Units = cylinders of 16065 <em> 512 = 8225280 bytes<br>Sector size (logical/physical): 512 bytes / 512 bytes<br>I/O size (minimum/optimal): 512 bytes / 512 bytes<br>Disk identifier: 0x000736d7<br><br>   Device Boot      Start         End      Blocks   Id  System<br>/dev/vda1   </em>           1        2611    20970496   83  Linux<br><br>Disk /dev/vdb: 75.2 GB, 75161927680 bytes<br>16 heads, 63 sectors/track, 145635 cylinders<br>Units = cylinders of 1008 * 512 = 516096 bytes<br>Sector size (logical/physical): 512 bytes / 512 bytes<br>I/O size (minimum/optimal): 512 bytes / 512 bytes<br>Disk identifier: 0x32af4d52<br><br>   Device Boot      Start         End      Blocks   Id  System<br><br>[root@guan ~]# fdisk /dev/vdb</code></pre></p>
-<p>WARNING: DOS-compatible mode is deprecated. It’s strongly recommended to<br>         switch off the mode (command ‘c’) and change display units to<br>         sectors (command ‘u’).</p>
-<p>Command (m for help): n<br>Command action<br>   e   extended<br>   p   primary partition (1-4)<br>p<br>Partition number (1-4): 1<br>First cylinder (1-145635, default 1):<br>Using default value 1<br>Last cylinder, +cylinders or +size{K,M,G} (1-145635, default 145635): +18G</p>
-<p>Command (m for help): n<br>Command action<br>   e   extended<br>   p   primary partition (1-4)<br>p<br>Partition number (1-4): 1<br>Partition 1 is already defined.  Delete it before re-adding it.</p>
-<p>Command (m for help): n<br>Command action<br>   e   extended<br>   p   primary partition (1-4)<br>p<br>Partition number (1-4): 2<br>First cylinder (37451-145635, default 37451):<br>Using default value 37451<br>Last cylinder, +cylinders or +size{K,M,G} (37451-145635, default 145635): +18G</p>
-<p>Command (m for help): p</p>
-<p>Disk /dev/vdb: 75.2 GB, 75161927680 bytes<br>16 heads, 63 sectors/track, 145635 cylinders<br>Units = cylinders of 1008 * 512 = 516096 bytes<br>Sector size (logical/physical): 512 bytes / 512 bytes<br>I/O size (minimum/optimal): 512 bytes / 512 bytes<br>Disk identifier: 0x32af4d52</p>
-<p>   Device Boot      Start         End      Blocks   Id  System<br>/dev/vdb1               1       37450    18874768+  83  Linux<br>/dev/vdb2           37451       74900    18874800   83  Linux</p>
-<p>Command (m for help): n<br>Command action<br>   e   extended<br>   p   primary partition (1-4)<br>p<br>Partition number (1-4): 3<br>First cylinder (74901-145635, default 74901):<br>Using default value 74901<br>Last cylinder, +cylinders or +size{K,M,G} (74901-145635, default 145635): +18G</p>
-<p>Command (m for help): p</p>
-<p>Disk /dev/vdb: 75.2 GB, 75161927680 bytes<br>16 heads, 63 sectors/track, 145635 cylinders<br>Units = cylinders of 1008 * 512 = 516096 bytes<br>Sector size (logical/physical): 512 bytes / 512 bytes<br>I/O size (minimum/optimal): 512 bytes / 512 bytes<br>Disk identifier: 0x32af4d52</p>
-<p>   Device Boot      Start         End      Blocks   Id  System<br>/dev/vdb1               1       37450    18874768+  83  Linux<br>/dev/vdb2           37451       74900    18874800   83  Linux<br>/dev/vdb3           74901      112350    18874800   83  Linux</p>
-<p>Command (m for help): n<br>Command action<br>   e   extended<br>   p   primary partition (1-4)<br>e<br>Selected partition 4<br>First cylinder (112351-145635, default 112351):<br>Using default value 112351<br>Last cylinder, +cylinders or +size{K,M,G} (112351-145635, default 145635):<br>Using default value 145635</p>
-<p>Command (m for help): n<br>First cylinder (112351-145635, default 112351):<br>Using default value 112351<br>Last cylinder, +cylinders or +size{K,M,G} (112351-145635, default 145635): +15G</p>
-<p>Command (m for help): p</p>
-<p>Disk /dev/vdb: 75.2 GB, 75161927680 bytes<br>16 heads, 63 sectors/track, 145635 cylinders<br>Units = cylinders of 1008 * 512 = 516096 bytes<br>Sector size (logical/physical): 512 bytes / 512 bytes<br>I/O size (minimum/optimal): 512 bytes / 512 bytes<br>Disk identifier: 0x32af4d52</p>
-<p>   Device Boot      Start         End      Blocks   Id  System<br>/dev/vdb1               1       37450    18874768+  83  Linux<br>/dev/vdb2           37451       74900    18874800   83  Linux<br>/dev/vdb3           74901      112350    18874800   83  Linux<br>/dev/vdb4          112351      145635    16775640    5  Extended<br>/dev/vdb5          112351      143559    15729304+  83  Linux</p>
-<p>Command (m for help): t<br>Partition number (1-5): 1<br>Hex code (type L to list codes): 8e      #修改分区编号<br>Changed system type of partition 1 to 8e (Linux LVM)</p>
-<p>Command (m for help): t<br>Partition number (1-5): 2<br>Hex code (type L to list codes): 8e     #修改分区编号<br>Changed system type of partition 2 to 8e (Linux LVM)</p>
-<p>Command (m for help): t<br>Partition number (1-5): 3<br>Hex code (type L to list codes): 8e     #修改分区编号<br>Changed system type of partition 3 to 8e (Linux LVM)</p>
-<p>Command (m for help): t<br>Partition number (1-5): 5<br>Hex code (type L to list codes): 8e     #修改分区编号<br>Changed system type of partition 5 to 8e (Linux LVM)</p>
-<p>Command (m for help): p</p>
-<p>Disk /dev/vdb: 75.2 GB, 75161927680 bytes<br>16 heads, 63 sectors/track, 145635 cylinders<br>Units = cylinders of 1008 * 512 = 516096 bytes<br>Sector size (logical/physical): 512 bytes / 512 bytes<br>I/O size (minimum/optimal): 512 bytes / 512 bytes<br>Disk identifier: 0x32af4d52</p>
-<p>   Device Boot      Start         End      Blocks   Id  System<br>/dev/vdb1               1       37450    18874768+  8e  Linux LVM<br>/dev/vdb2           37451       74900    18874800   8e  Linux LVM<br>/dev/vdb3           74901      112350    18874800   8e  Linux LVM<br>/dev/vdb4          112351      145635    16775640    5  Extended<br>/dev/vdb5          112351      143559    15729304+  8e  Linux LVM</p>
-<p>Command (m for help): w<br>The partition table has been altered!</p>
-<p>Calling ioctl() to re-read partition table.<br>Syncing disks.<br>[root@guan ~]# fdisk -l</p>
-<p>Disk /dev/vda: 21.5 GB, 21474836480 bytes<br>255 heads, 63 sectors/track, 2610 cylinders<br>Units = cylinders of 16065 * 512 = 8225280 bytes<br>Sector size (logical/physical): 512 bytes / 512 bytes<br>I/O size (minimum/optimal): 512 bytes / 512 bytes<br>Disk identifier: 0x000736d7</p>
-<p>   Device Boot      Start         End      Blocks   Id  System<br>/dev/vda1   *           1        2611    20970496   83  Linux</p>
-<p>Disk /dev/vdb: 75.2 GB, 75161927680 bytes<br>16 heads, 63 sectors/track, 145635 cylinders<br>Units = cylinders of 1008 * 512 = 516096 bytes<br>Sector size (logical/physical): 512 bytes / 512 bytes<br>I/O size (minimum/optimal): 512 bytes / 512 bytes<br>Disk identifier: 0x32af4d52</p>
-<p>   Device Boot      Start         End      Blocks   Id  System<br>/dev/vdb1               1       37450    18874768+  8e  Linux LVM<br>/dev/vdb2           37451       74900    18874800   8e  Linux LVM<br>/dev/vdb3           74901      112350    18874800   8e  Linux LVM<br>/dev/vdb4          112351      145635    16775640    5  Extended<br>/dev/vdb5          112351      143559    15729304+  8e  Linux LVM<br>[root@guan ~]# parted<br>GNU Parted 2.1<br>Using /dev/vda<br>Welcome to GNU Parted! Type ‘help’ to view a list of commands.<br>(parted) print list                 #查看下分区<br>Model: Virtio Block Device (virtblk)<br>Disk /dev/vda: 21.5GB<br>Sector size (logical/physical): 512B/512B<br>Partition Table: msdos</p>
-<p>Number  Start   End     Size    Type     File system  Flags<br> 1      1049kB  21.5GB  21.5GB  primary  ext3         boot</p>
-<p>Model: Virtio Block Device (virtblk)<br>Disk /dev/vdb: 75.2GB<br>Sector size (logical/physical): 512B/512B<br>Partition Table: msdos</p>
-<p>Number  Start   End     Size    Type      File system  Flags<br> 1      32.3kB  19.3GB  19.3GB  primary   ext3         lvm<br> 2      19.3GB  38.7GB  19.3GB  primary                lvm<br> 3      38.7GB  58.0GB  19.3GB  primary                lvm<br> 4      58.0GB  75.2GB  17.2GB  extended<br> 5      58.0GB  74.1GB  16.1GB  logical                lvm</p>
-<p>(parted) q<br>2,创建PV物理卷并查看</p>
-<p><pre><code>[root@guan ~]# pvcreate /dev/vdb{1,2,3,5}<br>  Physical volume “/dev/vdb1” successfully created<br>  Physical volume “/dev/vdb2” successfully created<br>  Physical volume “/dev/vdb3” successfully created<br>  Physical volume “/dev/vdb5” successfully created<br>[root@guan ~]# pvdisplay<br>  “/dev/vdb1” is a new physical volume of “18.00 GiB”<br>  — NEW Physical volume —<br>  PV Name               /dev/vdb1<br>  VG Name<br>  PV Size               18.00 GiB<br>  Allocatable           NO<br>  PE Size               0<br>  Total PE              0<br>  Free PE               0<br>  Allocated PE          0<br>  PV UUID               iBGa4M-ek2A-ZMjT-fogT-V8Y3-Rpk5-XJJIRx</code></pre></p>
-<p>  “/dev/vdb2” is a new physical volume of “18.00 GiB”<br>  — NEW Physical volume —<br>  PV Name               /dev/vdb2<br>  VG Name<br>  PV Size               18.00 GiB<br>  Allocatable           NO<br>  PE Size               0<br>  Total PE              0<br>  Free PE               0<br>  Allocated PE          0<br>  PV UUID               dx1VH5-NHTv-XlnV-cJdJ-7a2a-cMcg-GjKdMJ</p>
-<p>  “/dev/vdb3” is a new physical volume of “18.00 GiB”<br>  — NEW Physical volume —<br>  PV Name               /dev/vdb3<br>  VG Name<br>  PV Size               18.00 GiB<br>  Allocatable           NO<br>  PE Size               0<br>  Total PE              0<br>  Free PE               0<br>  Allocated PE          0<br>  PV UUID               kY3170-RecU-l4Ag-Ct96-i3qn-cHk4-hsXfTQ</p>
-<p>  “/dev/vdb5” is a new physical volume of “15.00 GiB”<br>  — NEW Physical volume —<br>  PV Name               /dev/vdb5<br>  VG Name<br>  PV Size               15.00 GiB<br>  Allocatable           NO<br>  PE Size               0<br>  Total PE              0<br>  Free PE               0<br>  Allocated PE          0<br>  PV UUID               iXsXMU-xtF1-HU5H-1Shu-qk0a-Gfhz-CufnJf<br><br>3,创建卷组VG并查看</p>
-<p><pre><code>[root@guan ~]# vgcreate test_vg /dev/vdb{1,2,3,5}<br>  Volume group “test_vg” successfully created<br>[root@guan ~]# vgdisplay<br>  — Volume group —<br>  VG Name               test_vg<br>  System ID<br>  Format                lvm2<br>  Metadata Areas        4<br>  Metadata Sequence No  1<br>  VG Access             read/write<br>  VG Status             resizable<br>  MAX LV                0<br>  Cur LV                0<br>  Open LV               0<br>  Max PV                0<br>  Cur PV                4<br>  Act PV                4<br>  VG Size               68.98 GiB<br>  PE Size               4.00 MiB<br>  Total PE              17660<br>  Alloc PE / Size       0 / 0<br>  Free  PE / Size       17660 / 68.98 GiB<br>  VG UUID               uApKmt-Bnpz-yYKo-lK4B-u6RU-tbQf-HXpctt<br></code></pre><br>4,创建LV逻辑卷并查看</p>
-<p><pre><code>[root@guan ~]# lvcreate -n test_233 -L 40G test_vg<br>  Logical volume “test_233” created<br>[root@guan ~]# lvdisplay<br>  — Logical volume —<br>  LV Path                /dev/test_vg/test_233<br>  LV Name                test_233<br>  VG Name                test_vg<br>  LV UUID                dPfsbR-P3xZ-fFWW-G5CG-Cbvg-QwW2-eLgzfK<br>  LV Write Access        read/write<br>  LV Creation host, time guan, 2017-05-15 16:27:22 +0800<br>  LV Status              available</code></pre></p>
-<h1 id="open-0"><a href="#open-0" class="headerlink" title="open                 0"></a>open                 0</h1><p>  LV Size                40.00 GiB<br>  Current LE             10240<br>  Segments               3<br>  Allocation             inherit<br>  Read ahead sectors     auto</p>
-<ul>
-<li>currently set to     256<br>Block device           253:0<br><br>5,格式化并且挂载<br><pre><code>[root@guan ~]# mkfs.ext3 /dev/test_vg/test_233<br>mke2fs 1.41.12 (17-May-2010)<br>Filesystem label=<br>OS type: Linux<br>Block size=4096 (log=2)<br>Fragment size=4096 (log=2)<br>Stride=0 blocks, Stripe width=0 blocks<br>2621440 inodes, 10485760 blocks<br>524288 blocks (5.00%) reserved for the super user<br>First data block=0<br>Maximum filesystem blocks=4294967296<br>320 block groups<br>32768 blocks per group, 32768 fragments per group<br>8192 inodes per group<br>Superblock backups stored on blocks:<br>32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208,<br>4096000, 7962624</code></pre></li>
-</ul>
-<p>Writing inode tables: done<br>Creating journal (32768 blocks): done<br>Writing superblocks and filesystem accounting information: done</p>
-<p>This filesystem will be automatically checked every 30 mounts or<br>180 days, whichever comes first.  Use tune2fs -c or -i to override.<br>[root@guan ~]# mkdir /mnt/test<br>[root@guan ~]# mount /dev/test_vg/test_233 /mnt/test<br>[root@guan ~]# df -h<br>Filesystem                    Size  Used Avail Use% Mounted on<br>/dev/vda1                      20G  8.3G   11G  45% /<br>/dev/mapper/test_vg-test_233   40G  177M   38G   1% /mnt/test<br><br>6,给LVM扩容</p>
-<p><pre><code>[root@guan ~]# lvextend -L +10G /dev/test_vg/test_233<br>  Extending logical volume test_233 to 50.00 GiB<br>  Logical volume test_233 successfully resized<br>[root@guan ~]# resize2fs /dev/test_vg/test_233<br>resize2fs 1.41.12 (17-May-2010)<br>Filesystem at /dev/test_vg/test_233 is mounted on /mnt/test; on-line resizing required<br>old desc_blocks = 3, new_desc_blocks = 4<br>Performing an on-line resize of /dev/test_vg/test_233 to 13107200 (4k) blocks.<br>The filesystem on /dev/test_vg/test_233 is now 13107200 blocks long.</code></pre></p>
-<p>[root@guan ~]# df -h<br>Filesystem                    Size  Used Avail Use% Mounted on<br>/dev/vda1                      20G  8.3G   11G  45% /<br>/dev/mapper/test_vg-test_233   50G  180M   47G   1% /mnt/test<br><br>7,给卷组VG扩容<br>没办法,分区全部分完了…大致就是分一个区然后用pvcreate来转成物理卷<br>然后用vgextend vgname /dev/partname加进卷组然后用vgdisplay查看下容量是否扩大,然后如果是卷组不够用下想给逻辑卷扩容的话最后参照第六步用lvextend扩容下逻辑卷</p>
+<pre><code>[root@guan ~]# fdisk -l<br>
+Disk /dev/vda: 21.5 GB, 21474836480 bytes
+255 heads, 63 sectors/track, 2610 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x000736d7<br>
+   Device Boot      Start         End      Blocks   Id  System
+/dev/vda1   *           1        2611    20970496   83  Linux<br>
+Disk /dev/vdb: 75.2 GB, 75161927680 bytes
+16 heads, 63 sectors/track, 145635 cylinders
+Units = cylinders of 1008 * 512 = 516096 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x32af4d52<br>
+   Device Boot      Start         End      Blocks   Id  System<br>
+[root@guan ~]# fdisk /dev/vdb
+
+WARNING: DOS-compatible mode is deprecated. It's strongly recommended to
+         switch off the mode (command 'c') and change display units to
+         sectors (command 'u').
+
+Command (m for help): n
+Command action
+   e   extended
+   p   primary partition (1-4)
+p
+Partition number (1-4): 1
+First cylinder (1-145635, default 1): 
+Using default value 1
+Last cylinder, +cylinders or +size{K,M,G} (1-145635, default 145635): +18G
+
+Command (m for help): n
+Command action
+   e   extended
+   p   primary partition (1-4)
+p
+Partition number (1-4): 1
+Partition 1 is already defined.  Delete it before re-adding it.
+
+Command (m for help): n
+Command action
+   e   extended
+   p   primary partition (1-4)
+p
+Partition number (1-4): 2
+First cylinder (37451-145635, default 37451): 
+Using default value 37451
+Last cylinder, +cylinders or +size{K,M,G} (37451-145635, default 145635): +18G
+
+Command (m for help): p
+
+Disk /dev/vdb: 75.2 GB, 75161927680 bytes
+16 heads, 63 sectors/track, 145635 cylinders
+Units = cylinders of 1008 * 512 = 516096 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x32af4d52
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/vdb1               1       37450    18874768+  83  Linux
+/dev/vdb2           37451       74900    18874800   83  Linux
+
+Command (m for help): n
+Command action
+   e   extended
+   p   primary partition (1-4)
+p
+Partition number (1-4): 3
+First cylinder (74901-145635, default 74901): 
+Using default value 74901
+Last cylinder, +cylinders or +size{K,M,G} (74901-145635, default 145635): +18G
+
+Command (m for help): p
+
+Disk /dev/vdb: 75.2 GB, 75161927680 bytes
+16 heads, 63 sectors/track, 145635 cylinders
+Units = cylinders of 1008 * 512 = 516096 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x32af4d52
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/vdb1               1       37450    18874768+  83  Linux
+/dev/vdb2           37451       74900    18874800   83  Linux
+/dev/vdb3           74901      112350    18874800   83  Linux
+
+Command (m for help): n
+Command action
+   e   extended
+   p   primary partition (1-4)
+e
+Selected partition 4
+First cylinder (112351-145635, default 112351): 
+Using default value 112351
+Last cylinder, +cylinders or +size{K,M,G} (112351-145635, default 145635): 
+Using default value 145635
+
+Command (m for help): n
+First cylinder (112351-145635, default 112351): 
+Using default value 112351
+Last cylinder, +cylinders or +size{K,M,G} (112351-145635, default 145635): +15G
+
+Command (m for help): p
+
+Disk /dev/vdb: 75.2 GB, 75161927680 bytes
+16 heads, 63 sectors/track, 145635 cylinders
+Units = cylinders of 1008 * 512 = 516096 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x32af4d52
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/vdb1               1       37450    18874768+  83  Linux
+/dev/vdb2           37451       74900    18874800   83  Linux
+/dev/vdb3           74901      112350    18874800   83  Linux
+/dev/vdb4          112351      145635    16775640    5  Extended
+/dev/vdb5          112351      143559    15729304+  83  Linux
+
+Command (m for help): t
+Partition number (1-5): 1
+Hex code (type L to list codes): 8e      #修改分区编号
+Changed system type of partition 1 to 8e (Linux LVM)
+
+Command (m for help): t
+Partition number (1-5): 2
+Hex code (type L to list codes): 8e     #修改分区编号
+Changed system type of partition 2 to 8e (Linux LVM)
+
+Command (m for help): t
+Partition number (1-5): 3
+Hex code (type L to list codes): 8e     #修改分区编号
+Changed system type of partition 3 to 8e (Linux LVM)
+
+Command (m for help): t
+Partition number (1-5): 5
+Hex code (type L to list codes): 8e     #修改分区编号
+Changed system type of partition 5 to 8e (Linux LVM)
+
+Command (m for help): p
+
+Disk /dev/vdb: 75.2 GB, 75161927680 bytes
+16 heads, 63 sectors/track, 145635 cylinders
+Units = cylinders of 1008 * 512 = 516096 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x32af4d52
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/vdb1               1       37450    18874768+  8e  Linux LVM
+/dev/vdb2           37451       74900    18874800   8e  Linux LVM
+/dev/vdb3           74901      112350    18874800   8e  Linux LVM
+/dev/vdb4          112351      145635    16775640    5  Extended
+/dev/vdb5          112351      143559    15729304+  8e  Linux LVM
+
+Command (m for help): w
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+Syncing disks.
+[root@guan ~]# fdisk -l
+
+Disk /dev/vda: 21.5 GB, 21474836480 bytes
+255 heads, 63 sectors/track, 2610 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x000736d7
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/vda1   *           1        2611    20970496   83  Linux
+
+Disk /dev/vdb: 75.2 GB, 75161927680 bytes
+16 heads, 63 sectors/track, 145635 cylinders
+Units = cylinders of 1008 * 512 = 516096 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x32af4d52
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/vdb1               1       37450    18874768+  8e  Linux LVM
+/dev/vdb2           37451       74900    18874800   8e  Linux LVM
+/dev/vdb3           74901      112350    18874800   8e  Linux LVM
+/dev/vdb4          112351      145635    16775640    5  Extended
+/dev/vdb5          112351      143559    15729304+  8e  Linux LVM
+[root@guan ~]# parted
+GNU Parted 2.1
+Using /dev/vda
+Welcome to GNU Parted! Type 'help' to view a list of commands.
+(parted) print list                 #查看下分区
+Model: Virtio Block Device (virtblk)
+Disk /dev/vda: 21.5GB
+Sector size (logical/physical): 512B/512B
+Partition Table: msdos
+
+Number  Start   End     Size    Type     File system  Flags
+ 1      1049kB  21.5GB  21.5GB  primary  ext3         boot
+
+
+Model: Virtio Block Device (virtblk)
+Disk /dev/vdb: 75.2GB
+Sector size (logical/physical): 512B/512B
+Partition Table: msdos
+
+Number  Start   End     Size    Type      File system  Flags
+ 1      32.3kB  19.3GB  19.3GB  primary   ext3         lvm
+ 2      19.3GB  38.7GB  19.3GB  primary                lvm
+ 3      38.7GB  58.0GB  19.3GB  primary                lvm
+ 4      58.0GB  75.2GB  17.2GB  extended
+ 5      58.0GB  74.1GB  16.1GB  logical                lvm
+
+
+(parted) q</code></pre>
+
+<p>2,创建PV物理卷并查看</p>
+<pre><code>[root@guan ~]# pvcreate /dev/vdb{1,2,3,5}
+  Physical volume "/dev/vdb1" successfully created
+  Physical volume "/dev/vdb2" successfully created
+  Physical volume "/dev/vdb3" successfully created
+  Physical volume "/dev/vdb5" successfully created
+[root@guan ~]# pvdisplay 
+  "/dev/vdb1" is a new physical volume of "18.00 GiB"
+  --- NEW Physical volume ---
+  PV Name               /dev/vdb1
+  VG Name               
+  PV Size               18.00 GiB
+  Allocatable           NO
+  PE Size               0   
+  Total PE              0
+  Free PE               0
+  Allocated PE          0
+  PV UUID               iBGa4M-ek2A-ZMjT-fogT-V8Y3-Rpk5-XJJIRx
+
+  "/dev/vdb2" is a new physical volume of "18.00 GiB"
+  --- NEW Physical volume ---
+  PV Name               /dev/vdb2
+  VG Name               
+  PV Size               18.00 GiB
+  Allocatable           NO
+  PE Size               0   
+  Total PE              0
+  Free PE               0
+  Allocated PE          0
+  PV UUID               dx1VH5-NHTv-XlnV-cJdJ-7a2a-cMcg-GjKdMJ
+
+  "/dev/vdb3" is a new physical volume of "18.00 GiB"
+  --- NEW Physical volume ---
+  PV Name               /dev/vdb3
+  VG Name               
+  PV Size               18.00 GiB
+  Allocatable           NO
+  PE Size               0   
+  Total PE              0
+  Free PE               0
+  Allocated PE          0
+  PV UUID               kY3170-RecU-l4Ag-Ct96-i3qn-cHk4-hsXfTQ
+
+  "/dev/vdb5" is a new physical volume of "15.00 GiB"
+  --- NEW Physical volume ---
+  PV Name               /dev/vdb5
+  VG Name               
+  PV Size               15.00 GiB
+  Allocatable           NO
+  PE Size               0   
+  Total PE              0
+  Free PE               0
+  Allocated PE          0
+  PV UUID               iXsXMU-xtF1-HU5H-1Shu-qk0a-Gfhz-CufnJf
+</code></pre>
+
+<p>3,创建卷组VG并查看</p>
+<pre><code>[root@guan ~]# vgcreate test_vg /dev/vdb{1,2,3,5}
+  Volume group "test_vg" successfully created
+[root@guan ~]# vgdisplay 
+  --- Volume group ---
+  VG Name               test_vg
+  System ID             
+  Format                lvm2
+  Metadata Areas        4
+  Metadata Sequence No  1
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                0
+  Open LV               0
+  Max PV                0
+  Cur PV                4
+  Act PV                4
+  VG Size               68.98 GiB
+  PE Size               4.00 MiB
+  Total PE              17660
+  Alloc PE / Size       0 / 0   
+  Free  PE / Size       17660 / 68.98 GiB
+  VG UUID               uApKmt-Bnpz-yYKo-lK4B-u6RU-tbQf-HXpctt
+</code></pre>
+
+<p>4,创建LV逻辑卷并查看</p>
+<pre><code>[root@guan ~]# lvcreate -n test_233 -L 40G test_vg
+  Logical volume "test_233" created
+[root@guan ~]# lvdisplay 
+  --- Logical volume ---
+  LV Path                /dev/test_vg/test_233
+  LV Name                test_233
+  VG Name                test_vg
+  LV UUID                dPfsbR-P3xZ-fFWW-G5CG-Cbvg-QwW2-eLgzfK
+  LV Write Access        read/write
+  LV Creation host, time guan, 2017-05-15 16:27:22 +0800
+  LV Status              available
+  # open                 0
+  LV Size                40.00 GiB
+  Current LE             10240
+  Segments               3
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:0
+</code></pre>
+
+<p>5,格式化并且挂载</p>
+<pre><code>[root@guan ~]# mkfs.ext3 /dev/test_vg/test_233 
+mke2fs 1.41.12 (17-May-2010)
+Filesystem label=
+OS type: Linux
+Block size=4096 (log=2)
+Fragment size=4096 (log=2)
+Stride=0 blocks, Stripe width=0 blocks
+2621440 inodes, 10485760 blocks
+524288 blocks (5.00%) reserved for the super user
+First data block=0
+Maximum filesystem blocks=4294967296
+320 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Superblock backups stored on blocks: 
+    32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, 
+    4096000, 7962624
+
+Writing inode tables: done                            
+Creating journal (32768 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+This filesystem will be automatically checked every 30 mounts or
+180 days, whichever comes first.  Use tune2fs -c or -i to override.
+[root@guan ~]# mkdir /mnt/test
+[root@guan ~]# mount /dev/test_vg/test_233 /mnt/test
+[root@guan ~]# df -h
+Filesystem                    Size  Used Avail Use% Mounted on
+/dev/vda1                      20G  8.3G   11G  45% /
+/dev/mapper/test_vg-test_233   40G  177M   38G   1% /mnt/test
+</code></pre>
+
+<p>6,给LVM扩容</p>
+<pre><code>[root@guan ~]# lvextend -L +10G /dev/test_vg/test_233 
+  Extending logical volume test_233 to 50.00 GiB
+  Logical volume test_233 successfully resized
+[root@guan ~]# resize2fs /dev/test_vg/test_233 
+resize2fs 1.41.12 (17-May-2010)
+Filesystem at /dev/test_vg/test_233 is mounted on /mnt/test; on-line resizing required
+old desc_blocks = 3, new_desc_blocks = 4
+Performing an on-line resize of /dev/test_vg/test_233 to 13107200 (4k) blocks.
+The filesystem on /dev/test_vg/test_233 is now 13107200 blocks long.
+
+[root@guan ~]# df -h
+Filesystem                    Size  Used Avail Use% Mounted on
+/dev/vda1                      20G  8.3G   11G  45% /
+/dev/mapper/test_vg-test_233   50G  180M   47G   1% /mnt/test
+</code></pre>
+
+<p>7,给卷组VG扩容<br>没办法,分区全部分完了…大致就是分一个区然后用pvcreate来转成物理卷<br>然后用vgextend vgname /dev/partname加进卷组然后用vgdisplay查看下容量是否扩大,然后如果是卷组不够用下想给逻辑卷扩容的话最后参照第六步用lvextend扩容下逻辑卷</p>
 <p>!!!生产环境里调整文件系统大小前一定要做好数据备份</p>
 
         </div>
