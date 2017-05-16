@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-20</span>
-            <span class="time">14:12:58</span>
+            <span class="time">14:18:08</span>
           </span>
           
           <!--  Categories  -->
@@ -660,7 +660,10 @@ This filesystem will be automatically checked every 39 mounts or
 DEVICE /dev/vdb1 /dev/vdb2
 ARRAY /dev/md0 metadata=1.2 name=guan:0 UUID=c5875719:bcd15fa1:26644829:7adb57db
 [root@guan ~]# echo '/dev/md0               /raid0             ext3     defaults       0 0'>>/etc/fstab
-测试下速度
+</code></pre>
+
+<p>测试下速度</p>
+<pre><code>
 [root@guan ~]# time dd if=/dev/zero of=md bs=1M count=1000
 1000+0 records in
 1000+0 records out
@@ -895,7 +898,7 @@ Working Devices : 3
        0     252       17        -      faulty   /dev/vdb1
 </code></pre>
 
-<p>可以看到热备盘vdb5顶替了手动模拟损坏的损坏盘vdb1后raid5在进行数据检验与恢复<br>过程好慢….<br>中途创建了文件也可以,在数据恢复的过程中raid5设备的性能会明显下降</p>
+<p>可以看到热备盘vdb5顶替了手动模拟损坏的损坏盘vdb1后raid5在进行数据检验与恢复<br>构建过程好慢….<br>中途创建了文件也可以,在数据恢复的过程中raid5设备的性能会明显下降</p>
 <pre><code>
 [root@guan ~]# mdadm /dev/md0 -r /dev/vdb1
 mdadm: hot removed /dev/vdb1 from /dev/md0
