@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-20</span>
-            <span class="time">14:18:08</span>
+            <span class="time">14:19:33</span>
           </span>
           
           <!--  Categories  -->
@@ -1009,8 +1009,12 @@ Working Devices : 4
        5     252       17        3      active sync   /dev/vdb1
 </code></pre>
 
-<p>可以看到正在构建<br>将磁盘阵列设备设置为开机自动挂载的话参照上面的部分<br>RAID设备的删除<br>[root@guan test]# umount /mnt/raid5/<br>[root@guan test]# mdadm -S /dev/md0<br>mdadm: stopped /dev/md0</p>
-
+<p>可以看到正在构建<br>将磁盘阵列设备设置为开机自动挂载的话参照上面的部分<br>RAID设备的删除</p>
+<pre><code>
+[root@guan test]# umount /mnt/raid5/
+[root@guan test]# mdadm -S /dev/md0
+mdadm: stopped /dev/md0
+</code></pre>
         </div>
       </div>
     </div>
