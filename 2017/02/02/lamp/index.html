@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">21:00:46</span>
+            <span class="time">14:13:07</span>
           </span>
           
           <!--  Categories  -->
@@ -343,13 +343,52 @@ cd php*</code></pre>
 <span style="font-size: 20px;color: red">如果输出提示有问题最后俩glibc依赖先不装试试(centos6.7的偶尔没问题，6.5的话最后俩依赖别安装了)</span><br>
 <span style="font-size: 18px;color: red">下面参数开启了很多功能,等你以后熟悉了就会知道这步位你带来的多方便了</span>
 <h3>64位</h3>
-<pre><code>./configure --prefix=/usr/local/php --with-gettext --with-mcrypt --enable-bcmath --enable-sysvsem --enable-zip --enable-ftp --enable-sockets --enable-shmop --enable-pcntl --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-openssl --with-xmlrpc --with-xsl --with-zlib --with-mysqli --with-pdo-mysql --enable-mbstring --with-bz2 --with-gd --with-png-dir=/usr/lib64 --with-jpeg-dir=/usr/lib64 --with-freetype-dir=/usr/lib64 --with-curl=/usr/local/curl --with-config-file-path=/usr/local/php/etc/</code></pre>
+
+<pre><code>./configure --prefix=/usr/local/php \
+--with-gettext \
+--with-mcrypt \
+--enable-bcmath \
+--enable-sysvsem \
+--enable-zip \
+--enable-ftp \
+--enable-sockets \
+--enable-shmop \
+--enable-pcntl \
+--enable-mbstring \
+--with-apxs2=/usr/local/apache/bin/apxs \
+--with-zlib \
+--with-mysql \
+--with-openssl \
+--with-xmlrpc \
+--with-xsl \
+--with-zlib \
+--with-mysqli \
+--with-pdo-mysql \
+--with-bz2 \
+--with-gd \
+--with-png-dir=/usr/lib64 \
+--with-jpeg-dir=/usr/lib64 \
+--with-freetype-dir=/usr/lib64 \
+--with-curl=/usr/local/curl \
+--with-config-file-path=/usr/local/php/etc/
+</code></pre>
+
 <h3>32位</h3>
-<pre><code>./configure --prefix=/usr/local/php --enable-fpm --with-apxs2=/usr/local/apache/bin/apxs --with-zlib --with-mysql --with-mysqli --with-pdo-mysql --enable-mbstring --with-gd --with-curl=/usr/local/curl --with-config-file-path=/usr/local/php/etc/</code></pre>
-<img src="http://oftgpeto9.bkt.clouddn.com/l17.png">
-<br><br>
-配置没错的话就是图里的信息
-然后<br><span style="font-size: 20px;color: red">编译php需要资源,make的时候有时候会因为内存不够而中断,关键字memory字样,所以建议先关闭apache和mysqld</span><br>
+
+<pre><code>./configure --prefix=/usr/local/php \
+--enable-fpm \
+--with-apxs2=/usr/local/apache/bin/apxs \
+--with-zlib \
+--with-mysql \
+--with-mysqli \
+--with-pdo-mysql \
+--enable-mbstring \
+--with-gd \
+--with-curl=/usr/local/curl \
+--with-config-file-path=/usr/local/php/etc/
+</code></pre>
+
+<p><img src="http://oftgpeto9.bkt.clouddn.com/l17.png"><br><br><br><br>配置没错的话就是图里的信息<br>然后<br><span style="font-size: 20px;color: red">编译php需要资源,make的时候有时候会因为内存不够而中断,关键字memory字样,所以建议先关闭apache和mysqld</span><br></p>
 <pre><code>service httpd stop</code></pre>
 <pre><code>service mysqld stop</code></pre>
 <pre><code>make</code></pre>
