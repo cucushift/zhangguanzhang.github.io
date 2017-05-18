@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">14:13:07</span>
+            <span class="time">15:11:01</span>
           </span>
           
           <!--  Categories  -->
@@ -345,31 +345,32 @@ cd php*</code></pre>
 <h3>64位</h3>
 
 <pre><code>./configure --prefix=/usr/local/php \
---with-gettext \
---with-mcrypt \
+./configure --prefix=/usr/local/php \
 --enable-bcmath \
+--enable-ftp \
+--enable-mbstring \
+--enable-pcntl \
+--enable-shmop \
+--enable-soap \
+--enable-sockets \
 --enable-sysvsem \
 --enable-zip \
---enable-ftp \
---enable-sockets \
---enable-shmop \
---enable-pcntl \
---enable-mbstring \
 --with-apxs2=/usr/local/apache/bin/apxs \
---with-zlib \
---with-mysql \
+--with-bz2 \
+--with-curl=/usr/local/curl \
+--with-freetype-dir=/usr/lib64 \
+--with-gettext \
+--with-gd \
+--with-jpeg-dir=/usr/lib64 \
 --with-openssl \
+--with-png-dir=/usr/lib64 \
 --with-xmlrpc \
 --with-xsl \
---with-zlib \
+--with-mcrypt \
+--with-mysql \
 --with-mysqli \
 --with-pdo-mysql \
---with-bz2 \
---with-gd \
---with-png-dir=/usr/lib64 \
---with-jpeg-dir=/usr/lib64 \
---with-freetype-dir=/usr/lib64 \
---with-curl=/usr/local/curl \
+--with-zlib \
 --with-config-file-path=/usr/local/php/etc/
 </code></pre>
 
