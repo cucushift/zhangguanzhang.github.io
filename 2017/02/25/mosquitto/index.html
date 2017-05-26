@@ -102,11 +102,25 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-25</span>
-            <span class="time">19:20:43</span>
+            <span class="time">09:35:18</span>
           </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/日志/">日志</a> / <a href="/categories/日志/心得/">心得</a>
+</span>
           
         </div>
         <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/mqtt/">#mqtt</a> <a class="tag" href="/tags/原创/">#原创</a>
+
+
+          </div>
         
         <!-- Post Main Content -->
         <div class="post-content">
@@ -150,11 +164,8 @@
 </li>
 <li><p>–will-retain 指定Will消息被当做一个retain消息（即消息被广播后，该消息被保留起来）。该参数需要与–will-topic一起使用</p>
 </li>
-<li><p>–will-topic  用户发送Will消息的topic</p>
+<li><p>–will-topic  用户发送Will消息的topic<br>消除一个retain为0的话mosquitto_pub -r -q 1 -t topicname -m<br><hr><br>mosquitto_sub 命令参数说明</p>
 </li>
-</ol>
-<p><hr><br>mosquitto_sub 命令参数说明</p>
-<ol>
 <li><p>-a  将出站连接绑定到本地ip地址/主机名。 如果你使用这个参数,需要限制网络通信到特定接口。</p>
 </li>
 <li><p>-c  设定‘clean session’为无效状态，这样一直保持订阅状态，即便是已经失去连接，如果再次连接仍旧能够接收的断开期间发送的消息。</p>
