@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-29</span>
-            <span class="time">18:53:00</span>
+            <span class="time">18:53:40</span>
           </span>
           
           <!--  Categories  -->
@@ -277,7 +277,7 @@ Starting zabbix_server:                                    [  OK  ]
 </code></pre>
 
 <p>然后访问web页面<a href="http://ip/zabbix即可进入web的初始化配置页面" target="_blank" rel="external">http://ip/zabbix即可进入web的初始化配置页面</a><br>第一步是欢迎页面,第二步是检查你的软件是否达到要求<br>达不到要求的话会是红色选项,php的扩展不会安装的话可以重新编译下php<br><img src="http://i1.piimg.com/519918/0432c3fd096b2d3b.png" alt="t2"></p>
-<p>然后第三步,如果出现下面的无法连接数据库的话host那个localhost换成127.0.0.1即可<br>原因是因为linux的mysql下localhost默认是使用sock连接,127.0.0.1则是tcp连接<br><img src="http://i4.buimg.com/519918/6a0fa3e9a53109bc.png" alt="t3"><br>第四步设置zabbix-server的端口,默认就不需要改了<br><img src="http://i1.piimg.com/519918/310e605b285a02b7.png" alt="t4"><br>第五步确认信息,<br><img src="http://i1.piimg.com/519918/96c876ca1f8d598e.png" alt="t"><br>第六步提示成功<br><img src="https://www.zabbix.com/documentation/3.0/_media/manual/installation/install_7.png?w=550&tok=0d699c" alt="t5"><br>如果第六步是出现下面的,请查看你的web目录是否是web server的所有者和所有组<br><img src="http://i4.buimg.com/519918/26400b45cce7d179.png" alt="t6"><br>完成之后<br><img src="http://i4.buimg.com/519918/82ebf992f800a591.png" alt="t7"><br>enjoy it</p>
+<p>然后第三步,如果出现下面的无法连接数据库的话host那个localhost换成127.0.0.1即可<br>原因是因为linux的mysql下localhost默认是使用sock连接,127.0.0.1则是tcp连接<br><img src="http://i4.buimg.com/519918/6a0fa3e9a53109bc.png" alt="t3"><br>第四步设置zabbix-server的端口,默认就不需要改了<br><img src="http://i1.piimg.com/519918/310e605b285a02b7.png" alt="t4"><br>第五步确认信息,<br><img src="http://i1.piimg.com/519918/96c876ca1f8d598e.png" alt="t"><br>第六步提示成功<br><img src="https://www.zabbix.com/documentation/3.0/_media/manual/installation/install_7.png?w=550&tok=0d699c" alt="t5"><br>如果第六步是出现下面的,请查看你的web目录是否是web server的所有者和所有组<br><img src="http://i4.buimg.com/519918/26400b45cce7d179.png" alt="t6"><br>完成之后<br><img src="http://i4.buimg.com/519918/82ebf992f800a591.png" alt="t7"><br>默认用户名是Admin密码是zabbix<br>enjoy it</p>
 
         </div>
       </div>
