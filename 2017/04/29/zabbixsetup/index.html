@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Zhangguanzhang">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="个人zabbix安装和坑de解决"/>
+  <meta property="og:description" content="记录生活点滴" />
+  <meta property="og:site_name" content="Zhangguanzhang"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://zhangguanzhang.github.ioundefined"/>
+  <meta name="baidu-site-verification" content="RqbanSZBE3" />
+  
+    <link rel="alternate" href="/atom.xml" title="Zhangguanzhang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>Zhangguanzhang</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.dark.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">个人zabbix安装和坑de解决</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/zhangguanzhang">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:zhangguanzhang@qq.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Zhangguanzhang</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-04-29</span>
+            <span class="time">18:34:39</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/日志/">日志</a> / <a href="/categories/日志/运维/">运维</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/linux/">#linux</a> <a class="tag" href="/tags/zabbix/">#zabbix</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>自己的摸索和坑的总结<br><a id="more"></a><br>我是下载的源码编译安装的，下载地址往下拉就能看到源码包,下载地址<a href="http://www.zabbix.com/download" target="_blank">http://www.zabbix.com/download</a><br><img src="http://i4.buimg.com/519918/cfd495e64e4a6dbb.png" alt="t1"><br>然后官方手册地址<a href="https://www.zabbix.com/documentation/3.0/manual/installation/install" target="_blank">点我跳转到官方手册</a><br>下图是官方说明，php的配置选项,自行修改，我用sed修改，下面是记录<br><a href="http://i4.buimg.com/519918/0cdf02f913eef02c.png" target="_blank" rel="external"><img src="http://i4.buimg.com/519918/0cdf02f913eef02c.png" alt="manual"></a></p>
+<pre><code>
+[root@guan etc]# grep 'max_execution_time' php.ini
+max_execution_time = 30
+[root@guan etc]# sed -i '/max_execution_time/s#30#300#' php.ini
+[root@guan etc]# grep 'memory_limit' !$
+grep 'memory_limit' php.ini
+memory_limit = 128M
+[root@guan etc]# grep 'post_max_size' !$
+grep 'post_max_size' php.ini
+post_max_size = 8M
+[root@guan etc]# sed -i '/post_max_size/s#8#16#' !$
+sed -i '/post_max_size/s#8#16#' php.ini
+[root@guan etc]# grep 'upload_max_filesize' !$
+grep 'upload_max_filesize' php.ini
+upload_max_filesize = 2M
+[root@guan etc]# grep 'max_input_time' !$
+grep 'max_input_time' php.ini
+; max_input_time
+max_input_time = 60
+[root@guan etc]# sed -i '/max_input_time/s#60#300#' !$
+sed -i '/max_input_time/s#60#300#' php.ini
+[root@guan etc]# grep 'date.timezone' !$
+grep 'date.timezone' php.ini
+; http://php.net/date.timezone
+date.timezone = PRC
+[root@guan etc]# grep 'mbstring\.func_' php.ini
+;mbstring.func_overload = 0
+[root@guan etc]# sed -i '/mbstring\.func_/{s#;##;s#0#2#}' php.ini
+[root@guan etc]# grep '^mbstring' php.ini
+mbstring.func_overload = 2
+[root@guan etc]# sed -ri '/^mbstring/s#2#0#' php.ini
+[root@guan etc]# grep 'always_populate_raw_post_data' php.ini
+;always_populate_raw_post_data = -1
+[root@guan etc]# sed -i '/always_populate_raw_post_data/s#;##' php.ini
+</code></pre>
+
+<p>然后下载,下载速度特慢。。。</p>
+<pre><code>
+[root@guan download]# wget https://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/3.0.9/zabbix-3.0.9.tar.gz/download -O zabbix-3.0.9.tar.gz
+[root@guan download]# tar zxf zabbix-3.0.9.tar.gz
+[root@guan download]# cd zabbix-3.0.9
+</code></pre>
+
+<p>为了安全考虑,zabbix只使用普通用户运行,假如你当前用户叫user,那么你运行他，他便使用user身份运行。但<br>是如果你在 root 环境下运行 zabbix，那么 zabbix 将会主动尝试以 zabbix 身份来运行。但是如果你的系统没有名叫<br>zabbix 的用户，你需要创建一个用户</p>
+<pre><code>
+[root@guan zabbix-3.0.9]# groupadd zabbix
+[root@guan zabbix-3.0.9]# useradd -gzabbix zabbix
+</code></pre>
+
+<p>安装依赖,mysql我是源码编译安装的,然后编译安装</p>
+<pre><code>
+[root@guan zabbix-3.0.9]# yum install -y net-snmp net-snmp-devel libcurl libcurl-devel libxml2 libxml2-devel
+[root@guan zabbix-3.0.9]# ./configure --prefix=/usr/local/zabbix \
+--sysconfdir=/etc/zabbix/ \
+--enable-server \
+--enable-agent \
+--with-net-snmp \
+--with-libcurl \
+--with-mysql=/usr/local/mysql \
+--with-libxml2
+[root@guan zabbix-3.0.9]# make && make install
+</code></pre>
+
+<p>zabbix server 一般充当两个角色： server、 angen（需要监控自己），所以上面的配置参数也同时加上了 –enable-agent。<br>备注：请安装好 MySQL， snmp， curl 开发库</p>
+<pre><code>
+[root@guan zabbix-3.0.9]# mysql -uroot -p
+mysql> create database zabbix default charset utf8;
+mysql> grant all privileges on zabbix.* to zabbix@localhost identified by 'zabbix';
+mysql> flush privileges;
+[root@guan zabbix-3.0.9]# mysql -uzabbix -pzabbix zabbix < database/mysql/schema.sql
+</code></pre>
+
+<p>如果你仅仅是初始化 proxy 的数据库，那么够了。如果初始化 server，那么接着导入下面两个 sql</p>
+<pre><code>
+mysql -uzabbix -pzabbix zabbix < database/mysql/images.sql
+mysql -uzabbix -pzabbix zabbix < database/mysql/data.sql
+</code></pre>
+
+<p>其他数据库(db2\sqlite\oracle)数据库初始化方法参考官方手册</p>
+<p>然后默认的配置文件如下</p>
+<pre><code>
+[root@guan zabbix-3.0.9]# grep -Pv '#|(^$)' /etc/zabbix/zabbix_server.conf
+LogFile=/tmp/zabbix_server.log
+DBName=zabbix
+DBUser=zabbix
+Timeout=4
+LogSlowQueries=3000
+</code></pre>
+
+<p>日志我打算放/var/log下，规范化</p>
+<pre><code>
+[root@guan zabbix-3.0.9]# mkdir -p /var/log/zabbix
+[root@guan zabbix-3.0.9]# chown zabbix:zabbix /var/log/zabbix
+</code></pre>
+
+<p>然后下面是我修改后的配置文件,mysql的sock位置和zabbix_server的要一致</p>
+<pre><code>
+[root@guan zabbix-3.0.9]# grep -Pv '#|(^$)' /etc/zabbix/zabbix_server.conf
+LogFile=/var/log/zabbix/zabbix_server.log
+DBName=zabbix
+DBUser=zabbix
+DBPassword=zabbix
+DBSocket=/var/run/mysql/mysql.sock
+DBPort=3306
+ListenIP=127.0.0.1
+Timeout=4
+LogSlowQueries=3000
+
+[root@guan zabbix-3.0.9]# grep 'socket' /etc/my.cnf 
+ socket = /var/run/mysql/mysql.sock
+</code></pre>
+
+<p>下面是客户端的配置文件信息</p>
+<pre><code>
+[root@guan zabbix-3.0.9]# grep -Pv '#|(^$)' /etc/zabbix/zabbix_agentd.conf
+LogFile=/var/log/zabbix/zabbix_agentd.log
+Server=127.0.0.1
+ServerActive=127.0.0.1
+Hostname=Zabbix server
+</code></pre>
+
+<p>其中 Server 和 ServerActive 都指定 zabbixserver 的 IP 地址，不同的是，前者是被动后者是主动。也就是说 Server<br>这个配置是用来允许 127.0.0.1 这个 ip 来我这取数据。而 serverActive 的 127.0.0.1 的意思是，客户端主动提交数据给<br>他。</p>
+<p>复制zabbix的启动脚本,我这里是监控本机,所以*统配符把agentd也复制过去了</p>
+<pre><code>
+[root@guan zabbix-3.0.9]# cp misc/init.d/fedora/core/zabbix_* /etc/init.d/
+[root@guan zabbix-3.0.9]# chmod u+x /etc/init.d/zabbix_*
+</code></pre>
+
+<p>安装目录是/usr/local/zabbix，server和agentd的启动脚本里不一致，所以修改</p>
+<pre><code>
+[root@guan zabbix-3.0.9]# sed -ri 's#/usr/local$#&/zabbix#' /etc/init.d/zabbix_*
+</code></pre>
+
+<p>然后启动的时候报错(因为我是源码编译安装的mysql)</p>
+<pre><code>
+[root@guan zabbix-3.0.9]# service zabbix_server start
+Starting zabbix_server:  /usr/local/zabbix/sbin/zabbix_server: error while loading shared libraries: libmysqlclient.so.18: cannot open shared object file: No such file or directory
+                                                           [FAILED]
+</code></pre>
+
+<p>查找下这个文件的位置</p>
+<pre><code>
+[root@guan zabbix-3.0.9]# locate libmysqlclient.so.18
+输出信息省略。。。
+</code></pre>
+
+<p>上面的locate找到的在/usr/local/mysql/lib里,把这个路径添加到动态库的路径里后ldconfig -v刷新</p>
+<pre><code>
+[root@guan zabbix-3.0.9]# echo '/usr/local/mysql/lib'>>/etc/ld.so.conf && ldconfig -v &>/dev/null
+</code></pre>
+
+<p>启动ok</p>
+<pre><code>
+[root@guan zabbix-3.0.9]# service zabbix_server start
+Starting zabbix_server:                                    [  OK  ]
+</code></pre>
+
+<p>我的web目录是/data/web/www</p>
+<pre><code>
+[root@guan zabbix-3.0.9]# cat /etc/nginx/nginx.conf|grep -P '^ +root'
+        root   /data/web/www;
+</code></pre>
+
+<p>创建zabbix的web目录并且把zabbix的php页面文件复制进去</p>
+<pre><code>
+[root@guan zabbix-3.0.9]# mkdir /data/web/www/zabbix
+[root@guan zabbix-3.0.9]# cp -r frontends/php/* /data/web/www/zabbix/
+</code></pre>
+
+<p>然后访问web页面<a href="http://ip/zabbix即可进入web的初始化配置页面" target="_blank" rel="external">http://ip/zabbix即可进入web的初始化配置页面</a><br>第一部是欢迎页面，第二部是检查你的软件是否达到要求<br>达不到要求的话会是红色选项,php的扩展不会安装的话可以重新编译下php<br><img src="http://i1.piimg.com/519918/0432c3fd096b2d3b.png" alt="t2"></p>
+<p>然后第三部，如果出现下面的无法连接数据库的话host那个localhost换成127.0.0.1即可<br>原因是因为linux的mysql下localhost默认是使用sock连接，127.0.0.1则是tcp连接<br><img src="http://i4.buimg.com/519918/6a0fa3e9a53109bc.png" alt="t3"><br>第四部设置zabbix-server的端口，默认就不需要改了<br><img src="https://www.zabbix.com/documentation/3.0/_detail/manual/installation/install_4.png?id=manual%3Ainstallation%3Ainstall" alt="t4"><br>第五步确认信息,就不上图了<br>第六步提示成功<br><img src="https://www.zabbix.com/documentation/3.0/_media/manual/installation/install_7.png?w=550&tok=0d699c" alt="t5"><br>如果第六步是出现下面的,请查看你的web目录是否是web server的所有者和所有组<br><img src="https://www.zabbix.com/documentation/3.0/_detail/manual/installation/install_6.png?id=manual%3Ainstallation%3Ainstall" alt="t6"><br>完成之后<br><img src="https://www.zabbix.com/documentation/3.0/_detail/manual/quickstart/login.png?id=manual%3Ainstallation%3Ainstall" alt="t7"><br>enjoy it</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
