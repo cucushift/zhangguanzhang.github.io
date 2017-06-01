@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-29</span>
-            <span class="time">18:39:52</span>
+            <span class="time">18:48:20</span>
           </span>
           
           <!--  Categories  -->
@@ -124,7 +124,7 @@
         
         <!-- Post Main Content -->
         <div class="post-content">
-          <p>自己的摸索和坑的总结<br><a id="more"></a><br>系统是centos 6.8 64位,lnmp<br>环境搭建是我自己写的脚本搭建的,下载地址www.zhangguanzhang.com/download/lnmp.sh可以拿去参考或者修改下，个人需求来写的<br>我是下载的源码编译安装的，下载地址往下拉就能看到源码包,下载地址<a href="http://www.zabbix.com/download" target="_blank">http://www.zabbix.com/download</a><br><img src="http://i4.buimg.com/519918/cfd495e64e4a6dbb.png" alt="t1"><br>然后官方手册地址<a href="https://www.zabbix.com/documentation/3.0/manual/installation/install" target="_blank">点我跳转到官方手册</a><br>下图是官方说明(点击图片放大)，php的配置选项,自行修改，我用sed修改，下面是记录<br><a href="http://i4.buimg.com/519918/0cdf02f913eef02c.png" target="_blank" rel="external"><img src="http://i4.buimg.com/519918/0cdf02f913eef02c.png" alt="manual"></a></p>
+          <p>自己的摸索和坑的总结<br><a id="more"></a><br>系统是centos 6.8 64位,lnmp<br>环境搭建是我自己写的脚本搭建的,下载地址www.zhangguanzhang.com/download/lnmp.sh可以拿去参考或者修改下,个人需求来写的<br>我是下载的源码编译安装的,下载地址往下拉就能看到源码包,下载地址<a href="http://www.zabbix.com/download" target="_blank">http://www.zabbix.com/download</a><br><img src="http://i4.buimg.com/519918/cfd495e64e4a6dbb.png" alt="t1"><br>然后官方手册地址<a href="https://www.zabbix.com/documentation/3.0/manual/installation/install" target="_blank">点我跳转到官方手册</a><br>下图是官方说明(点击图片放大),php的配置选项,自行修改,我用sed修改,下面是记录<br><a href="http://i4.buimg.com/519918/0cdf02f913eef02c.png" target="_blank" rel="external"><img src="http://i4.buimg.com/519918/0cdf02f913eef02c.png" alt="manual"></a></p>
 <pre><code>[root@guan etc]# grep 'max_execution_time' php.ini
 max_execution_time = 30
 [root@guan etc]# sed -i '/max_execution_time/s#30#300#' php.ini
@@ -166,9 +166,9 @@ mbstring.func_overload = 2
 [root@guan download]# cd zabbix-3.0.9
 </code></pre>
 
-<p>为了安全考虑,zabbix只使用普通用户运行,假如你当前用户叫user,那么你运行他，他便使用user身份运行。但<br>是如果你在 root 环境下运行 zabbix，那么 zabbix 将会主动尝试以 zabbix 身份来运行。但是如果你的系统没有名叫<br>zabbix 的用户，你需要创建一个用户</p>
+<p>为了安全考虑,zabbix只使用普通用户运行,假如你当前用户叫user,那么你运行他,他便使用user身份运行。但<br>是如果你在 root 环境下运行 zabbix,那么 zabbix 将会主动尝试以 zabbix 身份来运行。但是如果你的系统没有名叫<br>zabbix 的用户,你需要创建一个用户</p>
 <pre><code>[root@guan zabbix-3.0.9]# groupadd zabbix
-[root@guan zabbix-3.0.9]# useradd -gzabbix zabbix
+[root@guan zabbix-3.0.9]# useradd -g zabbix zabbix
 </code></pre>
 
 <p>安装依赖,mysql我是源码编译安装的,然后编译安装</p>
@@ -184,7 +184,7 @@ mbstring.func_overload = 2
 [root@guan zabbix-3.0.9]# make && make install
 </code></pre>
 
-<p>zabbix server 一般充当两个角色： server、 angen（需要监控自己），所以上面的配置参数也同时加上了 –enable-agent。<br>备注：请安装好 MySQL， snmp， curl 开发库</p>
+<p>zabbix server 一般充当两个角色:server、 agent（需要监控自己）,所以上面的配置参数也同时加上了 –enable-agent。<br>备注：请安装好snmp,curl开发库</p>
 <pre><code>[root@guan zabbix-3.0.9]# mysql -uroot -p
 mysql> create database zabbix default charset utf8;
 mysql> grant all privileges on zabbix.* to zabbix@localhost identified by 'zabbix';
@@ -192,7 +192,7 @@ mysql> flush privileges;
 [root@guan zabbix-3.0.9]# mysql -uzabbix -pzabbix zabbix < database/mysql/schema.sql
 </code></pre>
 
-<p>如果你仅仅是初始化 proxy 的数据库，那么够了。如果初始化 server，那么接着导入下面两个 sql</p>
+<p>如果你仅仅是初始化 proxy 的数据库,那么够了。如果初始化 server,那么接着导入下面两个 sql</p>
 <pre><code>mysql -uzabbix -pzabbix zabbix < database/mysql/images.sql
 mysql -uzabbix -pzabbix zabbix < database/mysql/data.sql
 </code></pre>
@@ -207,7 +207,7 @@ Timeout=4
 LogSlowQueries=3000
 </code></pre>
 
-<p>日志我打算放/var/log下，规范化</p>
+<p>日志我打算放/var/log下,规范化</p>
 <pre><code>[root@guan zabbix-3.0.9]# mkdir -p /var/log/zabbix
 [root@guan zabbix-3.0.9]# chown zabbix:zabbix /var/log/zabbix
 </code></pre>
@@ -236,13 +236,13 @@ ServerActive=127.0.0.1
 Hostname=Zabbix server
 </code></pre>
 
-<p>其中 Server 和 ServerActive 都指定 zabbixserver 的 IP 地址，不同的是，前者是被动后者是主动。也就是说 Server<br>这个配置是用来允许 127.0.0.1 这个 ip 来我这取数据。而 serverActive 的 127.0.0.1 的意思是，客户端主动提交数据给<br>他。</p>
+<p>其中Server和ServerActive都指定zabbixserver的IP地址,不同的是,前者是被动后者是主动.也就是说Server这个配置是用来允许127.0.0.1这个ip来我这取数据。而serverActive的 127.0.0.1 的意思是,客户端主动提交数据给他。</p>
 <p>复制zabbix的启动脚本,我这里是监控本机,所以*统配符把agentd也复制过去了</p>
 <pre><code>[root@guan zabbix-3.0.9]# cp misc/init.d/fedora/core/zabbix_* /etc/init.d/
 [root@guan zabbix-3.0.9]# chmod u+x /etc/init.d/zabbix_*
 </code></pre>
 
-<p>安装目录是/usr/local/zabbix，server和agentd的启动脚本里不一致，所以修改</p>
+<p>安装目录是/usr/local/zabbix,server和agentd的启动脚本里不一致,所以修改</p>
 <pre><code>[root@guan zabbix-3.0.9]# sed -ri 's#/usr/local$#&/zabbix#' /etc/init.d/zabbix_*
 </code></pre>
 
@@ -276,8 +276,8 @@ Starting zabbix_server:                                    [  OK  ]
 [root@guan zabbix-3.0.9]# cp -r frontends/php/* /data/web/www/zabbix/
 </code></pre>
 
-<p>然后访问web页面<a href="http://ip/zabbix即可进入web的初始化配置页面" target="_blank" rel="external">http://ip/zabbix即可进入web的初始化配置页面</a><br>第一部是欢迎页面，第二部是检查你的软件是否达到要求<br>达不到要求的话会是红色选项,php的扩展不会安装的话可以重新编译下php<br><img src="http://i1.piimg.com/519918/0432c3fd096b2d3b.png" alt="t2"></p>
-<p>然后第三部，如果出现下面的无法连接数据库的话host那个localhost换成127.0.0.1即可<br>原因是因为linux的mysql下localhost默认是使用sock连接，127.0.0.1则是tcp连接<br><img src="http://i4.buimg.com/519918/6a0fa3e9a53109bc.png" alt="t3"><br>第四部设置zabbix-server的端口，默认就不需要改了<br><img src="https://www.zabbix.com/documentation/3.0/_detail/manual/installation/install_4.png?id=manual%3Ainstallation%3Ainstall" alt="t4"><br>第五步确认信息,就不上图了<br>第六步提示成功<br><img src="https://www.zabbix.com/documentation/3.0/_media/manual/installation/install_7.png?w=550&tok=0d699c" alt="t5"><br>如果第六步是出现下面的,请查看你的web目录是否是web server的所有者和所有组<br><img src="https://www.zabbix.com/documentation/3.0/_detail/manual/installation/install_6.png?id=manual%3Ainstallation%3Ainstall" alt="t6"><br>完成之后<br><img src="https://www.zabbix.com/documentation/3.0/_detail/manual/quickstart/login.png?id=manual%3Ainstallation%3Ainstall" alt="t7"><br>enjoy it</p>
+<p>然后访问web页面<a href="http://ip/zabbix即可进入web的初始化配置页面" target="_blank" rel="external">http://ip/zabbix即可进入web的初始化配置页面</a><br>第一部是欢迎页面,第二部是检查你的软件是否达到要求<br>达不到要求的话会是红色选项,php的扩展不会安装的话可以重新编译下php<br><img src="http://i1.piimg.com/519918/0432c3fd096b2d3b.png" alt="t2"></p>
+<p>然后第三部,如果出现下面的无法连接数据库的话host那个localhost换成127.0.0.1即可<br>原因是因为linux的mysql下localhost默认是使用sock连接,127.0.0.1则是tcp连接<br><img src="http://i4.buimg.com/519918/6a0fa3e9a53109bc.png" alt="t3"><br>第四部设置zabbix-server的端口,默认就不需要改了<br><img src="http://i1.piimg.com/519918/310e605b285a02b7.png" alt="t4"><br>第五步确认信息,<br><img src="http://i1.piimg.com/519918/96c876ca1f8d598e.png" alt="t"><br>第六步提示成功<br><img src="https://www.zabbix.com/documentation/3.0/_media/manual/installation/install_7.png?w=550&tok=0d699c" alt="t5"><br>如果第六步是出现下面的,请查看你的web目录是否是web server的所有者和所有组<br><img src="http://i4.buimg.com/519918/26400b45cce7d179.png" alt="t6"><br>完成之后<br><img src="http://i4.buimg.com/519918/82ebf992f800a591.png" alt="t7"><br>enjoy it</p>
 
         </div>
       </div>
