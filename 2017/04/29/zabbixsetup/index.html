@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-29</span>
-            <span class="time">11:48:05</span>
+            <span class="time">16:33:36</span>
           </span>
           
           <!--  Categories  -->
@@ -168,7 +168,7 @@ mbstring.func_overload = 2
 
 <p>为了安全考虑,zabbix只使用普通用户运行,假如你当前用户叫user,那么你运行他,他便使用user身份运行。但<br>是如果你在 root 环境下运行 zabbix,那么 zabbix 将会主动尝试以 zabbix 身份来运行。但是如果你的系统没有名叫zabbix 的用户,你需要创建一个用户</p>
 <pre><code>[root@guan zabbix-3.0.9]# groupadd zabbix
-[root@guan zabbix-3.0.9]# useradd -g zabbix zabbix
+[root@guan zabbix-3.0.9]# useradd -M -s /sbin/nologin -g zabbix zabbix
 </code></pre>
 
 <p>安装依赖,mysql我是源码编译安装的,然后编译安装</p>
@@ -179,7 +179,7 @@ mbstring.func_overload = 2
 --enable-agent \
 --with-net-snmp \
 --with-libcurl \
---with-mysql=/usr/local/mysql \
+--with-mysql \
 --with-libxml2
 [root@guan zabbix-3.0.9]# make && make install
 </code></pre>
@@ -222,9 +222,11 @@ DBSocket=/var/run/mysql/mysql.sock
 DBPort=3306
 ListenIP=127.0.0.1
 Timeout=4
+AlertScriptsPath=/usr/local/zabbix/share/zabbix/alertscripts ##zabbix运行脚本存放目录
 LogSlowQueries=3000
 
-[root@guan zabbix-3.0.9]# grep 'socket' /etc/my.cnf 
+
+[root@guan zabbix-3.0.9]# grep 'socket' /etc/my.cnf
  socket = /var/run/mysql/mysql.sock
 </code></pre>
 
@@ -237,9 +239,9 @@ Hostname=Zabbix server
 </code></pre>
 
 <p>其中Server和ServerActive都指定zabbixserver的IP地址,不同的是,前者是被动后者是主动.也就是说Server这个配置是用来允许127.0.0.1这个ip来我这取数据。而serverActive的 127.0.0.1 的意思是,客户端主动提交数据给他。</p>
-<p>复制zabbix的启动脚本,我这里是监控本机,所以*统配符把agentd也复制过去了</p>
+<p>复制zabbix的启动脚本,我这里也需要zabbix监控自身监控本机,所以*统配符把agentd也复制过去了</p>
 <pre><code>[root@guan zabbix-3.0.9]# cp misc/init.d/fedora/core/zabbix_* /etc/init.d/
-[root@guan zabbix-3.0.9]# chmod u+x /etc/init.d/zabbix_*
+[root@guan zabbix-3.0.9]# chmod 755 /etc/init.d/zabbix_*
 </code></pre>
 
 <p>安装目录是/usr/local/zabbix,server和agentd的启动脚本里不一致,所以修改</p>
@@ -277,7 +279,7 @@ Starting zabbix_server:                                    [  OK  ]
 </code></pre>
 
 <p>然后访问web页面<a href="http://ip/zabbix即可进入web的初始化配置页面" target="_blank" rel="external">http://ip/zabbix即可进入web的初始化配置页面</a><br>第一步是欢迎页面,第二步是检查你的软件是否达到要求<br>达不到要求的话会是红色选项,php的扩展不会安装的话可以重新编译下php<br><img src="http://i1.piimg.com/519918/0432c3fd096b2d3b.png" alt="t2"></p>
-<p>然后第三步,如果出现下面的无法连接数据库的话host那个localhost换成127.0.0.1即可<br>原因是因为linux的mysql下localhost默认是使用sock连接,127.0.0.1则是tcp连接<br><img src="http://i4.buimg.com/519918/6a0fa3e9a53109bc.png" alt="t3"><br>第四步设置zabbix-server的端口,默认就不需要改了<br><img src="http://i1.piimg.com/519918/310e605b285a02b7.png" alt="t4"><br>第五步确认信息,<br><img src="http://i1.piimg.com/519918/96c876ca1f8d598e.png" alt="t"><br>第六步提示成功<br><img src="https://www.zabbix.com/documentation/3.0/_media/manual/installation/install_7.png?w=550&tok=0d699c" alt="t5"><br>如果第六步是出现下面的,请查看你的web目录是否是web server的所有者和所有组<br><img src="http://i4.buimg.com/519918/26400b45cce7d179.png" alt="t6"><br>完成之后<br><img src="http://i4.buimg.com/519918/82ebf992f800a591.png" alt="t7"><br>默认用户名是Admin密码是zabbix<br><img src="http://i4.buimg.com/519918/d07f2ba5eaffe7af.png" alt="t8"><br>然后用户信息那我切换了下语言<br><img src="http://i1.piimg.com/519918/97a2ef251bc2ec8e.png" alt="t9"><br>然后发现中文乱码<br><img src="http://i1.piimg.com/596163/78ff3f6040c9474c.jpg" alt="t10"><br>在win下复制字体，我复制的是楷体<br><img src="http://i1.piimg.com/596163/ed5be2bb15837b16.jpg" alt="t11"><br>上传到zabbix下的fonts目录可以看到默认使用的字体是DejaVuSans<br><img src="http://i1.piimg.com/596163/01c951c73b39ee62.png" alt="t12"><br>字体配置是在web目录的zabbix/include/defines.inc.php里,我改为的楷体</p>
+<p>然后第三步,如果出现下面的无法连接数据库的话host那个localhost换成127.0.0.1即可<br>原因是因为linux的mysql下localhost默认是使用sock连接,127.0.0.1则是tcp连接<br><img src="http://i4.buimg.com/519918/6a0fa3e9a53109bc.png" alt="t3"><br>第四步设置zabbix-server的端口,默认就不需要改了<br><img src="http://i1.piimg.com/519918/310e605b285a02b7.png" alt="t4"><br>第五步确认信息,<br><img src="http://i1.piimg.com/519918/96c876ca1f8d598e.png" alt="t"><br>第六步提示成功<br><img src="https://www.zabbix.com/documentation/3.0/_media/manual/installation/install_7.png?w=550&tok=0d699c" alt="t5"><br>如果第六步是出现下面的,一般是php没有写入web目录的权限,检查你的web目录是否是web server的所有者和所有组<br><img src="http://i4.buimg.com/519918/26400b45cce7d179.png" alt="t6"><br>完成之后<br><img src="http://i4.buimg.com/519918/82ebf992f800a591.png" alt="t7"><br>默认用户名是Admin密码是zabbix<br><img src="http://i4.buimg.com/519918/d07f2ba5eaffe7af.png" alt="t8"><br>然后用户信息那我切换了下语言<br><img src="http://i1.piimg.com/519918/97a2ef251bc2ec8e.png" alt="t9"><br>然后发现中文乱码<br><img src="http://i1.piimg.com/596163/78ff3f6040c9474c.jpg" alt="t10"><br>在win下复制字体，我复制的是楷体<br><img src="http://i1.piimg.com/596163/ed5be2bb15837b16.jpg" alt="t11"><br>上传到zabbix下的fonts目录可以看到默认使用的字体是DejaVuSans<br><img src="http://i1.piimg.com/596163/01c951c73b39ee62.png" alt="t12"><br>字体配置是在web目录的zabbix/include/defines.inc.php里,我改为的楷体</p>
 <pre><code>[root@guan include]# pwd
 /data/web/www/zabbix/include
 [root@guan include]# cat defines.inc.php |grep Deja
@@ -286,7 +288,25 @@ define('ZBX_FONT_NAME', 'DejaVuSans');
 [root@guan include]# sed -i 's#DejaVuSans#simkai#g' defines.inc.php
 </code></pre>
 
-<p><img src="http://i4.buimg.com/596163/c460a52a9b6cbfdf.png" alt="t13"><br>enjoy it</p>
+<p><img src="http://i4.buimg.com/596163/c460a52a9b6cbfdf.png" alt="t13"></p>
+<p>上面为止只监控本身，一个完整的zabbix应该是server端能监控自身也能监控其他的主机<br>然后添加其他主机作为客户端，也是用的同一样的源码包,我是scp过去的<br>编译安装客户端</p>
+<p>[root@guan zabbix-3.0.9]# ./configure –prefix=/usr/local/zabbix \<br>–enable-agent \<br>–sysconfdir=/etc/zabbix/<br>[root@guan zabbix-3.0.9]# make &amp;&amp; make install</p>
+<p>复制zabbix agent的启动脚本</p>
+<pre><code>[root@guan zabbix-3.0.9]# cp misc/init.d/fedora/core/zabbix_agentd /etc/init.d/
+[root@guan zabbix-3.0.9]# chmod 755 /etc/init.d/zabbix_agentd
+</code></pre>
+
+<p>安装目录是/usr/local/zabbix,agentd的启动脚本里不一致,所以修改</p>
+<pre><code>[root@guan zabbix-3.0.9]# sed -ri 's#/usr/local$#&/zabbix#' /etc/init.d/zabbix_agentd
+</code></pre>
+
+<p>然后防火墙开放端口</p>
+<p>[root@guan zabbix-3.0.9]# iptables -I INPUT -p tcp -m multiport –destination-port 10050:10051 -j ACCEPT<br>[root@guan ~]# service iptables save<br>iptables: Saving firewall rules to /etc/sysconfig/iptables:[  OK  ]</p>
+<p>我的客户端是华为企业云主机ecs,光防火墙没作用,安全组也要设置下zabbix的端口<br><img src="http://i1.piimg.com/596163/3af0de549d01ba62.png" alt="t14"></p>
+<p>然后配置文件如下</p>
+<p>[root@guan ~]# sed -i “s@^# UnsafeUserParameters=0@UnsafeUserParameters=1\n@g” /etc/zabbix/zabbix_agentd.conf<br>[root@guan ~]# grep -Pv ‘#|(^$)’ /etc/zabbix/zabbix_agentd.conf<br>LogFile=/var/log/zabbix/zabbix_agentd.log<br>Server=120.<strong><em>.</em></strong>.<strong><em><br>ServerActive=120.</em></strong>.<strong><em>.</em></strong>:10051<br>Hostname=aliguan         #zabbix的server端上添加的名字<br>UnsafeUserParameters=1   #允许所有字符的参数传递给用户定义的参数。<br>EnableRemoteCommands=1   ##允许执行远程命令</p>
+<p>然后启动<br>[root@guan ~]# service zabbix_agentd start<br>Starting zabbix_agentd:                                    [  OK  ]</p>
+<p>然后server端上添加这个客户端主机<br><img src="http://i1.piimg.com/596163/2e111c5e4d7ac136.png" alt="t15"><br>enjoy it</p>
 
         </div>
       </div>
