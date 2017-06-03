@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-29</span>
-            <span class="time">16:39:21</span>
+            <span class="time">16:41:21</span>
           </span>
           
           <!--  Categories  -->
@@ -305,7 +305,7 @@ define('ZBX_FONT_NAME', 'DejaVuSans');
 <pre><code>[root@guan zabbix-3.0.9]# sed -ri 's#/usr/local$#&/zabbix#' /etc/init.d/zabbix_agentd
 </code></pre>
 
-<p>然后防火墙开放端口</p>
+<p>然后防火墙开放端口,稳妥起见可以自己指定server端的服务器ip</p>
 <pre><code>[root@guan zabbix-3.0.9]# iptables -I INPUT -p tcp -m multiport --destination-port 10050:10051 -j ACCEPT
 [root@guan ~]# service iptables save
 iptables: Saving firewall rules to /etc/sysconfig/iptables:[  OK  ]
