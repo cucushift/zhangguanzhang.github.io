@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-29</span>
-            <span class="time">16:33:36</span>
+            <span class="time">16:35:21</span>
           </span>
           
           <!--  Categories  -->
@@ -290,7 +290,12 @@ define('ZBX_FONT_NAME', 'DejaVuSans');
 
 <p><img src="http://i4.buimg.com/596163/c460a52a9b6cbfdf.png" alt="t13"></p>
 <p>上面为止只监控本身，一个完整的zabbix应该是server端能监控自身也能监控其他的主机<br>然后添加其他主机作为客户端，也是用的同一样的源码包,我是scp过去的<br>编译安装客户端</p>
-<p>[root@guan zabbix-3.0.9]# ./configure –prefix=/usr/local/zabbix \<br>–enable-agent \<br>–sysconfdir=/etc/zabbix/<br>[root@guan zabbix-3.0.9]# make &amp;&amp; make install</p>
+<pre><code>[root@guan zabbix-3.0.9]# ./configure --prefix=/usr/local/zabbix \
+--enable-agent \
+--sysconfdir=/etc/zabbix/
+[root@guan zabbix-3.0.9]# make && make install
+</code></pre>
+
 <p>复制zabbix agent的启动脚本</p>
 <pre><code>[root@guan zabbix-3.0.9]# cp misc/init.d/fedora/core/zabbix_agentd /etc/init.d/
 [root@guan zabbix-3.0.9]# chmod 755 /etc/init.d/zabbix_agentd
@@ -301,11 +306,28 @@ define('ZBX_FONT_NAME', 'DejaVuSans');
 </code></pre>
 
 <p>然后防火墙开放端口</p>
-<p>[root@guan zabbix-3.0.9]# iptables -I INPUT -p tcp -m multiport –destination-port 10050:10051 -j ACCEPT<br>[root@guan ~]# service iptables save<br>iptables: Saving firewall rules to /etc/sysconfig/iptables:[  OK  ]</p>
+<pre><code>[root@guan zabbix-3.0.9]# iptables -I INPUT -p tcp -m multiport --destination-port 10050:10051 -j ACCEPT
+[root@guan ~]# service iptables save
+iptables: Saving firewall rules to /etc/sysconfig/iptables:[  OK  ]
+</code></pre>
+
 <p>我的客户端是华为企业云主机ecs,光防火墙没作用,安全组也要设置下zabbix的端口<br><img src="http://i1.piimg.com/596163/3af0de549d01ba62.png" alt="t14"></p>
 <p>然后配置文件如下</p>
-<p>[root@guan ~]# sed -i “s@^# UnsafeUserParameters=0@UnsafeUserParameters=1\n@g” /etc/zabbix/zabbix_agentd.conf<br>[root@guan ~]# grep -Pv ‘#|(^$)’ /etc/zabbix/zabbix_agentd.conf<br>LogFile=/var/log/zabbix/zabbix_agentd.log<br>Server=120.<strong><em>.</em></strong>.<strong><em><br>ServerActive=120.</em></strong>.<strong><em>.</em></strong>:10051<br>Hostname=aliguan         #zabbix的server端上添加的名字<br>UnsafeUserParameters=1   #允许所有字符的参数传递给用户定义的参数。<br>EnableRemoteCommands=1   ##允许执行远程命令</p>
-<p>然后启动<br>[root@guan ~]# service zabbix_agentd start<br>Starting zabbix_agentd:                                    [  OK  ]</p>
+<pre><code>[root@guan ~]# sed -i "s@^# UnsafeUserParameters=0@UnsafeUserParameters=1\n@g" /etc/zabbix/zabbix_agentd.conf
+[root@guan ~]# grep -Pv '#|(^$)' /etc/zabbix/zabbix_agentd.conf
+LogFile=/var/log/zabbix/zabbix_agentd.log
+Server=120.***.***.***
+ServerActive=120.***.***.***:10051
+Hostname=aliguan         #zabbix的server端上添加的名字
+UnsafeUserParameters=1   #允许所有字符的参数传递给用户定义的参数。
+EnableRemoteCommands=1   ##允许执行远程命令
+</code></pre>
+
+<p>然后启动</p>
+<pre><code>[root@guan ~]# service zabbix_agentd start
+Starting zabbix_agentd:                                    [  OK  ]
+</code></pre>
+
 <p>然后server端上添加这个客户端主机<br><img src="http://i1.piimg.com/596163/2e111c5e4d7ac136.png" alt="t15"><br>enjoy it</p>
 
         </div>
