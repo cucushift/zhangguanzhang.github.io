@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-29</span>
-            <span class="time">16:36:45</span>
+            <span class="time">16:39:21</span>
           </span>
           
           <!--  Categories  -->
@@ -312,7 +312,7 @@ iptables: Saving firewall rules to /etc/sysconfig/iptables:[  OK  ]
 </code></pre>
 
 <p>我的客户端是华为企业云主机ecs,光防火墙没作用,安全组也要设置下zabbix的端口<br><img src="http://i1.piimg.com/596163/3af0de549d01ba62.png" alt="t14"></p>
-<p>然后配置文件如下</p>
+<p>然后配置文件如下(ip已打码)</p>
 <pre><code>[root@guan ~]# sed -i "s@^# UnsafeUserParameters=0@UnsafeUserParameters=1\n@g" /etc/zabbix/zabbix_agentd.conf
 [root@guan ~]# grep -Pv '#|(^$)' /etc/zabbix/zabbix_agentd.conf
 LogFile=/var/log/zabbix/zabbix_agentd.log
