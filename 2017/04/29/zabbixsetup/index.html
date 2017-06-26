@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-29</span>
-            <span class="time">16:41:21</span>
+            <span class="time">09:58:56</span>
           </span>
           
           <!--  Categories  -->
@@ -181,7 +181,10 @@ mbstring.func_overload = 2
 --with-libcurl \
 --with-mysql \
 --with-libxml2
-[root@guan zabbix-3.0.9]# make && make install
+</code></pre>
+
+<p>有些人报checking for mysql_config… configure: error: MySQL library not found<br>那就把上面的configure里的–with-mysql改成<br>–with-mysql=/usr/local/mysql/bin/mysql_config</p>
+<pre><code>[root@guan zabbix-3.0.9]# make && make install
 </code></pre>
 
 <p>zabbix server 一般充当两个角色:server、 agent（需要监控自己）,所以上面的配置参数也同时加上了 –enable-agent。<br>备注：请安装好snmp,curl开发库</p>
