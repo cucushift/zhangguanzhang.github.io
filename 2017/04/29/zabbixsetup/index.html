@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-29</span>
-            <span class="time">10:01:51</span>
+            <span class="time">10:03:21</span>
           </span>
           
           <!--  Categories  -->
@@ -124,7 +124,7 @@
         
         <!-- Post Main Content -->
         <div class="post-content">
-          <p>自己的摸索和坑的总结<br><a id="more"></a><br>系统是centos 6.8 64位,lnmp<br>环境搭建是我自己写的脚本搭建的,下载地址<a href="www.zhangguanzhang.com/download/lnmp.sh" target="_blank">www.zhangguanzhang.com/download/lnmp.sh</a>可以拿去参考或者修改下,个人需求来写的<br>我是下载的源码编译安装的,下载地址往下拉就能看到源码包,下载地址<a href="http://www.zabbix.com/download" target="_blank">http://www.zabbix.com/download</a><br><img src="http://i4.buimg.com/519918/cfd495e64e4a6dbb.png" alt="t1"><br>然后官方手册地址<a href="https://www.zabbix.com/documentation/3.0/manual/installation/install" target="_blank">点我跳转到官方手册</a><br>下图是官方说明(点击图片放大),php的配置选项,自行修改,我用sed修改,下面是记录<br><a href="http://i4.buimg.com/519918/0cdf02f913eef02c.png" target="_blank" rel="external"><img src="http://i4.buimg.com/519918/0cdf02f913eef02c.png" alt="manual"></a></p>
+          <p>自己的摸索和坑的总结<br><a id="more"></a><br>系统是centos 6.8 64位,lnmp<br>环境搭建是我自己写的脚本搭建的,下载地址<a href="http://www.zhangguanzhang.com/download/lnmp.sh" target="_blank">www.zhangguanzhang.com/download/lnmp.sh</a>可以拿去参考或者修改下,个人需求来写的<br>我是下载的源码编译安装的,下载地址往下拉就能看到源码包,下载地址<a href="http://www.zabbix.com/download" target="_blank">http://www.zabbix.com/download</a><br><img src="http://i4.buimg.com/519918/cfd495e64e4a6dbb.png" alt="t1"><br>然后官方手册地址<a href="https://www.zabbix.com/documentation/3.0/manual/installation/install" target="_blank">点我跳转到官方手册</a><br>下图是官方说明(点击图片放大),php的配置选项,自行修改,我用sed修改,下面是记录<br><a href="http://i4.buimg.com/519918/0cdf02f913eef02c.png" target="_blank" rel="external"><img src="http://i4.buimg.com/519918/0cdf02f913eef02c.png" alt="manual"></a></p>
 <pre><code>[root@guan etc]# grep 'max_execution_time' php.ini
 max_execution_time = 30
 [root@guan etc]# sed -i '/max_execution_time/s#30#300#' php.ini
