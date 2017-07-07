@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="Zhangguanzhang">
   <!-- Open Graph Data -->
-  <meta property="og:title" content="lnmp"/>
+  <meta property="og:title" content="源码编译安装lnmp"/>
   <meta property="og:description" content="记录生活点滴" />
   <meta property="og:site_name" content="Zhangguanzhang"/>
   <meta property="og:type" content="article" />
@@ -44,7 +44,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="page-title with-background-image">
-          <p class="title">lnmp</p>
+          <p class="title">源码编译安装lnmp</p>
           <p class="subtitle"></p>
         </div>
         <div class="site-menu with-background-image">
@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-03-15</span>
-            <span class="time">22:24:02</span>
+            <span class="time">23:42:21</span>
           </span>
           
           <!--  Categories  -->
@@ -404,10 +404,9 @@ source /etc/profile</code></pre>
 <pre><code>[root@guan mysql]# yum -y install openssl openssl-devel bzip2-devel libxslt libxslt-devel libxml2 libxml2-devel autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel  zlib zlib-devel glibc glibc-devel</code></pre>
 
 <p>然后如果php要开启mcrypt的话,查看下yum能安装libmcrypt不,也就是搜索</p>
-<pre><code>[root@guan mysql]# yum search libmcrypt  2>&1 |grep '^No'
+<pre><code>[root@guan mysql]# yum search libmcrypt  2>&1 |grep '^No'</code></pre>
 
-如果上面命令有输出,也就是搜索到no,说明yum源里没有libmcrypt,我们手动安装libmcrypt
-
+<p>如果上面命令有输出,也就是搜索到no,说明yum源里没有libmcrypt,我们手动安装libmcrypt</p>
 <pre><code>[root@guan mysql]# cd /usr/local/download
 [root@guan download]# wget http://ojt8x896o.bkt.clouddn.com/libmcrypt-2.5.8.tar.gz -O libmcrypt-2.5.8.tar.gz
 [root@guan download]# tar -zxvf libmcrypt-2.5.8.tar.gz
@@ -419,11 +418,9 @@ source /etc/profile</code></pre>
 
 <p>如果没输出,也就是yum源存在libmcrypt就用yum安装</p>
 <pre><code>[root@guan mysql]# cd /usr/local/download
-[root@guan download]# yum install libmcrypt libmcrypt-devel -y
+[root@guan download]# yum install libmcrypt libmcrypt-devel -y</code></pre>
 
-先安装curl为了后面给php添加curl扩展<a href="https://curl.haxx.se/download" target="_blank"><span style="font-size: 20px">点我进入curl下载页面</span></a>
-注意curl页面里的最新版本在网页里的最下面
-
+<p>先安装curl为了后面给php添加curl扩展<a href="https://curl.haxx.se/download" target="_blank"><span style="font-size: 20px">点我进入curl下载页面</span></a><br>注意curl页面里的最新版本在网页里的最下面</p>
 <pre><code>[root@guan mysql]# cd /usr/local/download
 [root@guan download]# wget http://ojt8x896o.bkt.clouddn.com/curl-7.52.1.tar.gz
 [root@guan download]# tar -zxvf curl-7.52.1.tar.gz
@@ -519,7 +516,7 @@ source /etc/profile</code></pre>
 [root@guan ~]# service php-fpm restart</code></pre>
 
 <p>你可以在你的web目录写个php文件测试下看看<br>至此lnmp安装完成</p>
-</code></pre></code></pre>
+
         </div>
       </div>
     </div>
