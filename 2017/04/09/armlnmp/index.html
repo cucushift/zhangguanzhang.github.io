@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="Zhangguanzhang">
   <!-- Open Graph Data -->
-  <meta property="og:title" content="安卓linux源码编译安装搭建lnmp的坑和总结"/>
+  <meta property="og:title" content="安卓安装linux并且源码编译安装搭建lnmp的坑和总结"/>
   <meta property="og:description" content="记录生活点滴" />
   <meta property="og:site_name" content="Zhangguanzhang"/>
   <meta property="og:type" content="article" />
@@ -44,7 +44,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="page-title with-background-image">
-          <p class="title">安卓linux源码编译安装搭建lnmp的坑和总结</p>
+          <p class="title">安卓安装linux并且源码编译安装搭建lnmp的坑和总结</p>
           <p class="subtitle"></p>
         </div>
         <div class="site-menu with-background-image">
@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-09</span>
-            <span class="time">10:03:21</span>
+            <span class="time">22:24:02</span>
           </span>
           
           <!--  Categories  -->
@@ -125,7 +125,9 @@
         <!-- Post Main Content -->
         <div class="post-content">
           <p>新买的内存卡到了,源码搭建lnmp<br><a id="more"></a></p>
-<h3 id="原创，转载需同意-盗版必究"><a href="#原创，转载需同意-盗版必究" class="headerlink" title="原创，转载需同意,盗版必究"></a>原创，转载需同意,盗版必究</h3><p>之前安卓安装linux的那个kali的内存卡被我多此读写后坏了<br>内存卡是网上买的，不知道是不是假的金士顿<br>如果不是假的话应该是我多次编译安装mysql出问题,死活找不到pid文件(前几天才知道为啥找不到pid)<br><br><br>废话不多说，用图说话<br>先是分区<br><img src="http://i4.buimg.com/4851/22b7ae2670a85553.jpg"><br><br>准备打算把全部容量格成ext4<br>但是安卓系统不识别，一直弹sd卡没有文件系统，损坏啥的，没办法给他分1g的fat32吧<br><br><br>接下来是deploy的配置截图<br>apt系列依赖真差，还是直接上centos，毕竟自己四台主机是centos6的，这次正好借着自己手机上centos7看看有没有变化<br><img src="http://i4.buimg.com/4851/e2864e84d759bbb4.jpg"><br><br><br><br>源是外国的，我试了中科大的，但是直接不识别，好吧，希望不要开翻墙<br><img src="http://i4.buimg.com/4851/e5b8b6d6bde265dc.jpg"><br><br><img src="http://i4.buimg.com/4851/b6dc574811070231.jpg" height="960" width="540"><br><br><img src="http://i4.buimg.com/4851/da616ab612b2823c.jpg"><br><br><br><br>下载速度36k左右，期间wifi人连接得多，断开了一次就失败了，为了稳妥开启数据流量安装<br>经过漫长的等待看到部署完成后点击启动<br>和之前一样，启动失败，点击停止，启动，无脑多循环几次，就能正常启动了<br><img src="http://i4.buimg.com/4851/44735c0ee8f2aefb.jpg"><br><br><img src="http://i4.buimg.com/4851/a79d64cbb33531df.jpg"><br><br><br>安装完成后查看信息啥的，设置密码居然提示passwd没找到，然后看了下能不能切换root，发现sudo su能切换，直接yum install passwd<br>然后切到root后update了下，centos还是很人性化的armhfp架构也有源<br>然后就是搭建lnmp了<br><br><br>编译nginx没问题<br>php的时候出过问题<br>configure: error: Don’t know how to define struct flock on this system, set –enable-opcache=no<br>然后configure加上–enable-opcache=no后又出错<br>configure: error: off_t undefined; check your library configuration<br>提示库有问题<br>好吧，就修复动态链接库<br>/etc/ld.so.conf里加入下面内容<br>/usr/local/lib64<br>/usr/local/lib<br>/usr/lib<br>/usr/lib64<br>后ldconfig -v刷新<br>直接两条实现</p>
+<h3 id="原创，转载需同意-盗版必究"><a href="#原创，转载需同意-盗版必究" class="headerlink" title="原创，转载需同意,盗版必究"></a>原创，转载需同意,盗版必究</h3><p></p><h3>先说下安装过程</h3><br>我手机是安卓4.4.2,泛泰a870L<br><span style="font-size: 25px">首先不保证能不能成功,毕竟现在很多人做rom适配,成功与否看脸,不要指望一次成功</span><br><span style="font-size: 28px">有两种方式:</span><br><br><span style="font-size: 16px">一种是加载img镜像文件(缺点是安装后的系统容量就是img大小,img我见过最大的也就3.9G，后来空间满了,好处是可以挂载安卓的所有目录)<br><br>第二种是使用linux deploy(两种方式都是使用这个软件来部署)+内存卡分区,软件在线安装linux在内存卡的分区里(优点空间可以自己分配,缺点还没找到)<br><br>无论哪种方式只有手机屏幕开启下其他端在ssh下才会正常,不然你锁屏了ssh输入命令卡在那一样<br><br><br>第一种因为小米和魅族底层有点不同,并且路径的权限问题经常出现挂载失败的现象</span><p></p>
+<p>参照<a href="http://tieba.baidu.com/p/4819456440" target="_blank" rel="external">关于挂载不上镜像和创建镜像问题，解决与分析</a><br><br><a href="http://tieba.baidu.com/p/4247344719?see_lz=1" target="_blank">在安卓上完成内存卡分区，安装原版镜像到分区。</a><br>内存卡分区软件在这个帖子里,下载安装后参照帖子里分区就行了<br><br>个人经验提醒几点:<br>这个软件别升级，升级了就要收费的,本身就是一个破解软件<br>另外我分区提示失败,然后重启后点开软件分区才成功的~<br>我的分区格式如图所示,我分的是ext4(至于为啥选ext4看后面)<br><br><img src="http://i1.piimg.com/4851/0c2569eea911d78b.jpg" alt="ext2"><br><br><br>15G的内存卡<br>第一次分完后安装不了,提示下面图所示,后来分区的时候选的ext4就好了<br><br><img src="http://p1.bqimg.com/4851/1ae670fd9b16d854.jpg" alt="error"><br><br><br><br>然后先安装linux deploy和busybox<br>俩bousybox都装,因为我之前只安装的第一个,后面在线安装出现如图的错误,后面询问别人才知道没安装ru.meefik版的busybox<br><br><img src="http://p1.bqimg.com/4851/8da8a6dada924c2b.jpg" alt="error"><br><br><br>链接：<a href="http://pan.baidu.com/s/1kVymrrT" target="_blank" rel="external">http://pan.baidu.com/s/1kVymrrT</a> 密码：n5kf<br>aparted是那个帖子里的内存卡分区软件<br>juicessh是ssh软件,破解版的,别升级,linux deploy安装完升级下,我找不到我这个版本了。。<br><br><br><img src="http://p1.bqimg.com/4851/b46cce28d6a4477d.jpg" alt="arg"><br><br>上图是我的参数,不过现在源好像改成了<a href="http://mirrors.aliyun.com/kali/" target="_blank" rel="external">http://mirrors.aliyun.com/kali/</a><br>我也忘了我在线安装的时候用的哪个了<br><br><br>安装过程是下载包,解压包,安装包，当时没截图,借用下别人的图<br><br><img src="http://imgsrc.baidu.com/forum/pic/item/ca4a3b00213fb80e654dd91931d12f2ebb389480.jpg" alt="demo"><br><br><br>安装完成后点击下面的启动，多点击几次<br><br><img src="http://i1.piimg.com/4851/3eeae6961cef338d.jpg" alt="demo2"><br><br><br>安装完成如图所示<br><br><img src="http://i1.piimg.com/4851/49ac7df11d66704d.jpg" alt="end"><br><br><br>成功与否看脸,另外多去<a href="http://tieba.baidu.com/f?kw=%E7%A7%BB%E5%8A%A8linux&ie=utf-8" target="_blank"><span style="font-size: 30px">移动linux吧</span></a>学习下</p>
+<p></p><h3>安卓上linux源码编译安装lnmp的坑和总结</h3><br>之前安卓安装linux的那个kali的内存卡被我多此读写后坏了<br>内存卡是网上买的，不知道是不是假的金士顿<br>如果不是假的话应该是我多次编译安装mysql出问题,死活找不到pid文件(前几天才知道为啥找不到pid)<br><br><br>废话不多说，用图说话<br>先是分区<br><img src="http://i4.buimg.com/4851/22b7ae2670a85553.jpg"><br><br>准备打算把全部容量格成ext4<br>但是安卓系统不识别，一直弹sd卡没有文件系统，损坏啥的，没办法给他分1g的fat32吧<br><br><br>接下来是deploy的配置截图<br>apt系列依赖真差，还是直接上centos，毕竟自己四台主机是centos6的，这次正好借着自己手机上centos7看看有没有变化<br><img src="http://i4.buimg.com/4851/e2864e84d759bbb4.jpg"><br><br><br><br>源是外国的，我试了中科大的，但是直接不识别，好吧，希望不要开翻墙<br><img src="http://i4.buimg.com/4851/e5b8b6d6bde265dc.jpg"><br><br><img src="http://i4.buimg.com/4851/b6dc574811070231.jpg" height="960" width="540"><br><br><img src="http://i4.buimg.com/4851/da616ab612b2823c.jpg"><br><br><br><br>下载速度36k左右，期间wifi人连接得多，断开了一次就失败了，为了稳妥开启数据流量安装<br>经过漫长的等待看到部署完成后点击启动<br>和之前一样，启动失败，点击停止，启动，无脑多循环几次，就能正常启动了<br><img src="http://i4.buimg.com/4851/44735c0ee8f2aefb.jpg"><br><br><img src="http://i4.buimg.com/4851/a79d64cbb33531df.jpg"><br><br><br>安装完成后查看信息啥的，设置密码居然提示passwd没找到，然后看了下能不能切换root，发现sudo su能切换，直接yum install passwd<br>然后切到root后update了下，centos还是很人性化的armhfp架构也有源<br>然后就是搭建lnmp了<br><br><br>编译nginx没问题<br>php的时候出过问题<br>configure: error: Don’t know how to define struct flock on this system, set –enable-opcache=no<br>然后configure加上–enable-opcache=no后又出错<br>configure: error: off_t undefined; check your library configuration<br>提示库有问题<br>好吧，就修复动态链接库<br>/etc/ld.so.conf里加入下面内容<br>/usr/local/lib64<br>/usr/local/lib<br>/usr/lib<br>/usr/lib64<br>后ldconfig -v刷新<br>直接两条实现<p></p>
 <pre><code>
 cat>>/etc/ld.so.conf&lt;&lt;EOF
 /usr/local/lib64

@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">10:03:21</span>
+            <span class="time">22:24:02</span>
           </span>
           
           <!--  Categories  -->
@@ -261,7 +261,7 @@ cmake \
 <pre><code>cd /usr/local/mysql
 chown -R mysql:mysql /usr/local/mysql</code></pre>
 chown是改变文件所有者,change owner,R参数是递归，遍历目录下所有目录和文件<br>
-上面整个命令是改变/usr/local/mysqlxia所有的文件拥有者为mysql用户，用户组为mysql<br>
+上面整个命令是改变/usr/local/mysql下所有的文件拥有者为mysql用户，用户组为mysql<br>
 <br>
 初始化mysql
 <pre><code>./scripts/mysql_install_db --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data</code></pre>
@@ -294,10 +294,11 @@ chown mysql:mysql /var/run/mysql</code></pre>
 <pre><code>use mysql;
 update user set password=password("123456") where user="root";
 delete from mysql.user where user='';
+delete from user where user='root' and password='';
 flush privileges;
 exit</code></pre>
 其中123456为你要设置的密码<br>
-第三行是删除mysql的匿名用户
+第三行是删除mysql的匿名用户,第四行是删除root用户为空的行
 flush privileges 命令本质上的作用是将当前user和privilige表中的用户信息/权限设置从mysql库(MySQL数据库的内置库)中提取到内存里。MySQL用户数据和权限有修改后，希望在不重启MySQL服务的情况下直接生效
 <br>
 添加到service里
@@ -328,6 +329,15 @@ cd curl-7.52.1
 make && make install
 </code></pre>
 
+<p>安装mhash库给php开启扩展</p>
+<pre><code>cd /usr/local/download
+wget https://ncu.dl.sourceforge.net/project/mhash/mhash/0.9.9.9/mhash-0.9.9.9.tar.gz
+tar -zxvf mhash-0.9.9.9.tar.gz
+cd mhash-0.9.9.9
+./configure
+make && make install
+</code></pre>
+
 <p>进入php官网,进入download页面点击tar.gz包<br><img src="http://oftgpeto9.bkt.clouddn.com/l15.png"><br><br><br>进去后我们找香港的源，右击后选择复制链接<br><br><br><img src="http://oftgpeto9.bkt.clouddn.com/l16.png"><br><br><br>在xshell里</p>
 <pre><code>cd /usr/local/download</code></pre>
 <br>
@@ -347,6 +357,7 @@ cd php*</code></pre>
 <pre><code>./configure --prefix=/usr/local/php \
 ./configure --prefix=/usr/local/php \
 --enable-bcmath \
+--enable-calendar \
 --enable-ftp \
 --enable-mbstring \
 --enable-pcntl \
@@ -367,6 +378,7 @@ cd php*</code></pre>
 --with-xmlrpc \
 --with-xsl \
 --with-mcrypt \
+--with-mhash \
 --with-mysql \
 --with-mysqli \
 --with-pdo-mysql \
@@ -401,8 +413,9 @@ make提示complete后直接
 等输出完成后
 php默认的配置文件php.ini是不存在的我们需要手背拷贝过去
 在源码包里有俩ini,php.ini-development和php.ini-production
-我是拷贝的development
-<pre><code>cp ./php.ini-development /usr/local/php/etc/php.ini</code></pre>
+我是拷贝的development,并且修改配置文件里的时区为PRC
+<pre><code>cp ./php.ini-development /usr/local/php/etc/php.ini
+sed -ri '/;date.timezone =/s#;date.timezone =#date.timezone = PRC#' /usr/local/php/etc/php.ini</code></pre>
 成功安装php后我们要吧php安装目录下的bin弄到环境变量里面
 <pre><code>echo 'export PATH=/usr/local/php/bin:$PATH'>>/etc/profile
 source /etc/profile</code></pre>
@@ -449,6 +462,7 @@ phpinfo();</code></pre>的页面
 <pre><code>service httpd restart</code></pre>
 
 <p>外网打开服务器ip看到输出，成功apache加载php<br><img src="http://oftgpeto9.bkt.clouddn.com/l22.png"></p>
+<p>首先你得有个域名,没有的话去买一个,一年要不了多少钱<br>买了后尽量早点备案<br>cn域名一定要备案,其他域名如果你主机非大陆的就可以不用备案<br>不备案备扫到就会封你ip好像<br>域名这个东西就是个名字,服务器都是ip的,假设没有域名,你要访问别人网站输入ip岂不是很麻烦<br>域名就是个别名可以理解为<br><br \=""><br><img src="http://p1.bpimg.com/4851/ef749c4a22298a32.png" alt="y1"><br>在域名解析那里添加一个www和@记录,这样别人就可以通过www和不带www访问你的页面了<br>不过这样俩种url访问的都是你的index页面<br>我们可以通过配置虚拟主机来让俩种不一样的页面<br><img src="http://p1.bpimg.com/4851/9b6c59c7ee8098a8.png" alt="f1"><br><br \=""><br>如果你不习惯vim可以在ftp里这样选择你的windows下的编辑器<br>我安装了sublime,然后xftp的使用本地编辑器那设置成sublime的安装路径<br>然后你这样点击了后本地保存后会自动上传的<br>httpd.conf里<br \=""><br>取消这俩段前面的#号<br><img src="http://p1.bpimg.com/4851/cbeb38de309efb60.png" alt="d1"><br><img src="http://p1.bpimg.com/4851/d5700f3447bd2150.png" alt="d2"><br><br \=""><br \=""><br>然后去你apache安装目录下的conf/extra里打开httpd-vhosts.conf<br \=""><br><img src="http://i1.piimg.com/4851/d335d0e92797b677.png" alt="v1"><br \=""><br>带www的就参照第一个，不带就参照我第二个<br>刚开始我没写ServerAlias一直打不开第二个<br \=""><br>www是主页,blog是我当博客用<br>写的目录一定要在httpd.conf里填写的DocumentRoot目录下的子目录<br>编辑完成后在www和blog文件夹下写一个内容不同的index.html或者index.php<br>看看域名访问带www和不带www的域名是否可以访问<br>可以访问的话你就把域名解析暂停了赶紧去备案,一般是两个星期左右</p>
 
         </div>
       </div>

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Zhangguanzhang">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="lnmp"/>
+  <meta property="og:description" content="记录生活点滴" />
+  <meta property="og:site_name" content="Zhangguanzhang"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://zhangguanzhang.github.ioundefined"/>
+  <meta name="baidu-site-verification" content="RqbanSZBE3" />
+  
+    <link rel="alternate" href="/atom.xml" title="Zhangguanzhang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>Zhangguanzhang</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.dark.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">lnmp</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/zhangguanzhang">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:zhangguanzhang@qq.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Zhangguanzhang</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-03-15</span>
+            <span class="time">22:24:02</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/日志/">日志</a> / <a href="/categories/日志/心得/">心得</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/lnmp/">#lnmp</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>自己总结的安装步骤,仅供参考<br><a id="more"></a><br>系统是centos 6.8 64位,全部是源码编译安装<br>环境搭建是我自己写了个一键脚本,下载地址<a href="http://www.zhangguanzhang.com/download/lnmp.sh" target="_blank">www.zhangguanzhang.com/download/lnmp.sh</a>可以拿去参考或者修改下,个人需求来写的,废话不多说</p>
+<p>开始,创建目录存放源码包(不要存在root目录里,防止读取权限不够)</p>
+<pre><code>[root@guan ~]# mkdir -p /usr/local/download
+[root@guan ~]# cd !$
+cd /usr/local/download</code></pre>
+
+<p>安装基本依赖</p>
+<pre><code>[root@guan download]# yum -y install gcc gcc-c++
+</code></pre>
+
+<p>然后看看动态链接库的路径是否完整</p>
+<pre><code>[root@guan download]# cat /etc/ld.so.conf
+include ld.so.conf.d/*.conf
+</code></pre>
+
+<p>这样就不完全</p>
+<pre><code>[root@guan download]# cat>>/etc/ld.so.conf&lt;&lt;EOF
+/usr/local/lib64
+/usr/local/lib
+/usr/lib
+/usr/lib64
+EOF
+[root@guan download]# ldconfig -v
+</code></pre>
+
+<p><hr></p>
+<p></p><h3>首先我们来安装nginx</h3><br>先给nginx安装依赖方便给nginx开启一些参数<p></p>
+<pre><code>[root@guan download]# yum -y install openssl openssl-devel psmisc
+[root@guan download]# yum search GeoIP
+Loaded plugins: fastestmirror
+Determining fastest mirrors
+base                                                                                                                | 3.7 kB     00:00     
+base/primary_db                                                                                                     | 4.7 MB     00:01     
+epel                                                                                                                | 4.3 kB     00:00     
+epel/primary_db                                                                                                     | 5.9 MB     00:01     
+extras                                                                                                              | 3.4 kB     00:00     
+extras/primary_db                                                                                                   |  29 kB     00:00     
+updates                                                                                                             | 3.4 kB     00:00     
+updates/primary_db                                                                                                  | 2.0 MB     00:00     
+=========================================================== N/S Matched: GeoIP ============================================================
+GeoIP-devel.i686 : Development headers and libraries for GeoIP
+GeoIP-devel.x86_64 : Development headers and libraries for GeoIP
+geoipupdate.x86_64 : Update GeoIP2 and GeoIP Legacy binary databases from MaxMind
+geoipupdate-cron.noarch : Cron job to do weekly updates of GeoIP databases
+geoipupdate-cron6.noarch : Cron job to do weekly updates of GeoIP IPv6 databases
+lighttpd-mod_geoip.x86_64 : GeoIP module for lighttpd to use for location lookups
+mod_geoip.x86_64 : GeoIP module for the Apache HTTP Server
+nginx-mod-http-geoip.x86_64 : Nginx HTTP geoip module
+opensips-mmgeoip.x86_64 : Wrapper for the MaxMind GeoIP API
+python-GeoIP.x86_64 : Python bindings for the GeoIP geographical lookup libraries
+python-pygeoip.noarch : Pure Python GeoIP API
+uwsgi-plugin-geoip.x86_64 : uWSGI - Plugin for GeoIP support
+GeoIP.i686 : Library for country/city/organization to IP address or hostname mapping
+GeoIP.x86_64 : Library for country/city/organization to IP address or hostname mapping
+GeoIP-GeoLite-data.noarch : Free GeoLite IP geolocation country database
+GeoIP-GeoLite-data-extra.noarch : Free GeoLite IP geolocation databases
+geoip-geolite.noarch : Free IP geolocation databases
+php-pecl-geoip.x86_64 : Extension to map IP addresses to geographic places
+
+  Name and summary matches only, use "search all" for everything.
+</code></pre>
+
+<p>如果像我这样yum能搜到GeoIP就执行下面的</p>
+<pre><code>[root@guan download]# yum -y install GeoIP GeoIP-devel
+</code></pre>
+
+<p>如果搜不到这个依赖就下面手动安装</p>
+<pre><code>[root@guan download]# wget http://geolite.maxmind.com/download/geoip/api/c/GeoIP-1.4.6.tar.gz
+[root@guan download]# tar -zxvf GeoIP-1.4.6.tar.gz
+[root@guan download]# cd GeoIP-1.4.6
+[root@guan download]# ./configure
+[root@guan download]# make && make install
+[root@guan download]# cd ..
+[root@guan download]# wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz
+[root@guan download]# mv GeoIP.dat.gz /usr/local/share/GeoIP/
+</code></pre>
+
+<p>下载pcre,和我一样下载失败的话再下一次,下载完成后解压</p>
+<pre><code>[root@guan download]# wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz
+--2017-06-29 18:34:58--  ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz
+           => “pcre-8.40.tar.gz”
+Resolving ftp.csx.cam.ac.uk... failed: Name or service not known.
+wget: unable to resolve host address “ftp.csx.cam.ac.uk”
+[root@guan download]# wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz
+--2017-06-29 18:35:17--  ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.40.tar.gz
+           => “pcre-8.40.tar.gz”
+Resolving ftp.csx.cam.ac.uk... 131.111.8.115
+Connecting to ftp.csx.cam.ac.uk|131.111.8.115|:21... connected.
+Logging in as anonymous ... Logged in!
+==> SYST ... done.    ==> PWD ... done.
+==> TYPE I ... done.  ==> CWD (1) /pub/software/programming/pcre ... done.
+==> SIZE pcre-8.40.tar.gz ... 2065161
+==> PASV ... done.    ==> RETR pcre-8.40.tar.gz ... done.
+Length: 2065161 (2.0M) (unauthoritative)
+
+100%[=================================================================================================>] 2,065,161   12.5K/s   in 3m 36s  
+
+2017-06-29 18:39:01 (9.36 KB/s) - “pcre-8.40.tar.gz” saved [2065161]
+
+[root@guan download]# tar -zxvf pcre-8.40.tar.gz
+</code></pre>
+
+<p>添加www作为nginx的用户组和用户</p>
+<pre><code>[root@guan download]# groupadd www
+[root@guan download]# useradd -M -s /sbin/nologin -g www www
+</code></pre>
+
+<p>进入官网后,选择一个版本右击获取下载地址链接<br><img src="https://ooo.0o0.ooo/2017/06/29/5954d0d21e970.png" alt="t1"><br>我选的是中间的稳定版nginx-1.12.0</p>
+<pre><code>[root@guan download]# wget http://nginx.org/download/nginx-1.12.0.tar.gz
+[root@guan download]# tar -zxvf nginx-1.12.0.tar.gz
+[root@guan download]# cd nginx-1.12.0
+[root@guan nginx-1.12.0]# ./configure \
+--user=www \
+--group=www \
+--prefix=/usr/local/nginx \
+--conf-path=/etc/nginx/nginx.conf \
+--error-log-path=/var/log/nginx/error.log \
+--http-log-path=/var/log/nginx/access.log \
+--pid-path=/var/run/nginx.pid \
+--with-http_stub_status_module \
+--with-http_gzip_static_module \
+--with-http_ssl_module \
+--with-http_v2_module \
+--with-pcre=../pcre-8.40 \
+--with-http_geoip_module \
+--with-mail \
+--with-mail_ssl_module
+</code></pre>
+
+<p>configure不报错的话就是下图里的样子,一般不会报错的<br><img src="https://ooo.0o0.ooo/2017/06/29/5954da6923ebe.png" alt="t2"></p>
+<p>然后编译安装nginx,下载nginx官方的启动脚本(脚本方便下载我存在了我的七牛云空间里)解压到启动路径里后改权限</p>
+<pre><code>[root@guan nginx-1.12.0]# make && make install
+[root@guan nginx-1.12.0]# cd ..
+[root@guan download]# wget http://ojt8x896o.bkt.clouddn.com/nginx.tar.gz
+[root@guan download]# tar -zxf nginx.tar.gz -C /etc/init.d/
+[root@guan download]# chmod 755 /etc/init.d/nginx
+</code></pre>
+
+<p>修改nginx的配置文件/etc/nginx/nginx.conf,设置nginx的运行用户和运行用户组，把#user  nobody;改为user www www;<br>这里我是用sed修改的,偷懒可以复制,自己用vim也可以</p>
+<pre><code>[root@guan download]# sed -i 's/#user  nobody;/user www www;/' /etc/nginx/nginx.conf
+</code></pre>
+
+<p>在配置文件里有下面这一段</p>
+<pre><code>    server {
+        listen       80;
+        server_name  localhost;
+
+        #charset koi8-r;
+
+        #access_log  logs/host.access.log  main;
+
+        location / {
+            root   html;
+            index  index.html index.htm;
+        }</code></pre>
+
+<p>也就是80端口的配置,root  html;是nginx的web的目录,默认这样表示是nginx安装目录的html文件夹<br>如果要改为其他的话自己创建个目录，然后那个html改为目录的据绝对路径就行了<br>无论你使用默认的html文件夹还是自己创建一个文件夹来作为web的目录,你都要改所属者和组<br>这里我以默认的作为示例</p>
+<pre><code>[root@guan download]# chown -R www:www /usr/local/nginx/html
+</code></pre>
+
+<p>然后通过启动脚本启动nginx,用curl来查看本地的web server的默认index页面</p>
+<pre><code>[root@guan download]# service nginx start
+Starting nginx:                                            [  OK  ]
+[root@guan download]# curl localhost
+#此处省略curl的结果........
+</code></pre>
+
+<p>如果启动提示can not found /etc/sysconfig/network file啥的话(这种情况应该不存在,不过我在安卓安装centos看到就没有这个网卡文件)</p>
+<pre><code>[root@guan download]# cat>/etc/sysconfig/network&lt;&lt;EOF
+NETWORKING=yes
+HOSTNAME=$HOSTNAME
+EOF
+</code></pre>
+
+<p>云主机的话外网ip访问看看能不能看到nginx的默认页面,看不到的话去主机供应商的官网登陆后到web控制面板里找安全规则啥的之类的,看看80端口规则是不是被关闭了</p>
+<p><hr></p>
+<p></p><h3>接下来安装mysql</h3><br>5.7以及以上安装有点不同<br>这里我安装的是5.6.35<br>链接: <a href="https://pan.baidu.com/s/1kVc7e9T" target="_blank" rel="external">https://pan.baidu.com/s/1kVc7e9T</a> 密码: wf5v<br><br>可以自行用ftp上传<br>先安装基本依赖,mysql5.5以后采用cmake编译<br>这里我的mysql源码包我是放在我的七牛云空间,所以这里我用wget下载<p></p>
+<pre><code>[root@guan download]# yum -y install cmake ncurses-devel bison
+[root@guan download]# cd /usr/local/mysql
+[root@guan download]# wget http://ojt8x896o.bkt.clouddn.com/mysql-5.6.35.tar.gz
+[root@guan download]# tar -zxvf mysql-5.6.35.tar.gz
+[root@guan download]# cd mysql-5.6.35
+</code></pre>
+
+<p>添加用户作为mysql的运行用户</p>
+<pre><code>[root@guan mysql-5.6.35]# groupadd mysql
+[root@guan mysql-5.6.35]# useradd -r -g mysql -s /bin/false -M mysql
+[root@guan mysql-5.6.35]# cmake \
+-DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
+-DMYSQL_DATADIR=/usr/local/mysql/data \
+-DSYSCONFDIR=/etc \
+-DMYSQL_USER=mysql \
+-DWITH_MYISAM_STORAGE_ENGINE=1 \
+-DWITH_INNOBASE_STORAGE_ENGINE=1 \
+-DWITH_ARCHIVE_STORAGE_ENGINE=1 \
+-DWITH_MEMORY_STORAGE_ENGINE=1 \
+-DWITH_READLINE=1 \
+-DMYSQL_UNIX_ADDR=/var/run/mysql/mysql.sock \
+-DMYSQL_TCP_PORT=3306 \
+-DENABLED_LOCAL_INFILE=1 \
+-DENABLE_DOWNLOADS=1 \
+-DWITH_PARTITION_STORAGE_ENGINE=1 \
+-DEXTRA_CHARSETS=all \
+-DDEFAULT_CHARSET=utf8 \
+-DDEFAULT_COLLATION=utf8_general_ci \
+-DWITH_DEBUG=0 \
+-DMYSQL_MAINTAINER_MODE=0 \
+-DWITH_SSL:STRING=bundled \
+-DWITH_ZLIB:STRING=bundled
+</code></pre>
+
+<p>后面懒得敲了，直接从我的lamp那个文章里复制吧</p>
+<p><img src="http://oftgpeto9.bkt.clouddn.com/l12.png"><br><br><br></p>
+<p>编译安装mysql</p>
+<pre><code>[root@guan mysql-5.6.35]# make && make install</code></pre>
+
+<p>更改权限和所属者</p>
+<pre><code>[root@guan mysql-5.6.35]# chown -R mysql:mysql /usr/local/mysql
+[root@guan mysql-5.6.35]# cd /usr/local/mysql
+</code></pre>
+
+<p>初始化mysql</p>
+<pre><code>[root@guan mysql]# ./scripts/mysql_install_db --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data</code></pre>
+
+<p><img src="http://oftgpeto9.bkt.clouddn.com/l13.png"><br>完成后如图上面有些信息来叫你如何完善mysql以及安全<br><br>mysql默认的配置文件路径是/etc/my.cnf，我们复制安装自带的默认配置文件过去</p>
+<pre><code>[root@guan mysql]# echo yes|cp support-files/my-default.cnf /etc/my.cnf</code></pre>
+<br>
+配置/etc/my.cnf,把相关路径信息加到配置文件里,这里我用sed修改的
+
+<pre><code>[root@guan mysql]# sed -i 's/# basedir = \.\.\.\.\./ basedir = \/usr\/local\/mysql/' /etc/my.cnf
+[root@guan mysql]# sed -i 's/# datadir = \.\.\.\.\./ datadir = \/usr\/local\/mysql\/data/' /etc/my.cnf
+[root@guan mysql]# sed -i 's/# port = \.\.\.\.\./ port = 3306/' /etc/my.cnf
+[root@guan mysql]# sed -i 's/# socket = \.\.\.\.\./ socket = \/var\/run\/mysql\/mysql.sock/' /etc/my.cnf
+[root@guan mysql]# num=$(sed -n '/socket/=' /etc/my.cnf)
+[root@guan mysql]# sed -i "$num a[mysqld_safe]\nlog-error=/var/log/mysqld.log\npid-file=/var/run/mysqld/mysqld.pid\n" /etc/my.cnf</code></pre>
+
+<p>cmake的时候把mysql的sock文件指定到/var/run/mysql里符合linux文件目录规范方便日后管理,但是默认没有这个文件夹,手动创建</p>
+<pre><code>[root@guan mysql]# mkdir /var/run/mysql
+[root@guan mysql]# chown mysql:mysql /var/run/mysql</code></pre>
+
+<p>启动mysql</p>
+<pre><code>[root@guan mysql]# ./support-files/mysql.server start</code></pre>
+
+<p>进入mysql客户端</p>
+<pre><code>[root@guan mysql]# bin/mysql -uroot -p</code></pre>
+
+<p>回车后会有个输出提示没有设置密码<br><br>此时直接回车,然后进去mysql客户端里<br><img src="http://oftgpeto9.bkt.clouddn.com/l14.png"><br><br><br><br>进入mysql的客户端后，我们来在客户端里的命令行里给mysql设置root密码<br></p>
+<pre><code>use mysql;
+update user set password=password("123456") where user="root";
+delete from mysql.user where user='';
+delete from user where user='root' and password='';
+flush privileges;
+exit</code></pre>
+
+<p>其中123456为你要设置的密码<br><br>第三行是删除mysql的匿名用户,第四行是删除root用户为空的行<br>flush privileges 命令本质上的作用是将当前user和privilige表中的用户信息/权限设置从mysql库(MySQL数据库的内置库)中提取到内存里。MySQL用户数据和权限有修改后，希望在不重启MySQL服务的情况下直接生效<br><br><br>添加到service里并设置权限</p>
+<pre><code>[root@guan mysql]# cp support-files/mysql.server /etc/init.d/mysqld
+[root@guan mysql]# chmod u+x /etc/init.d/mysqld
+</code></pre>
+
+<p>以后我们启动mysql服务直接输入</p>
+<pre><code>service mysqld start</code></pre>
+
+<p>如果要开机自启就输入下面的命令</p>
+<pre><code>chkconfig --add mysqld</code></pre>
+
+<p><br></p>
+<p>如果需要把mysql的安装目录下的bin加入环境变量里下面俩条命令就行了</p>
+<pre><code>echo 'export PATH=/usr/local/mysql/bin:$PATH'>>/etc/profile
+source /etc/profile</code></pre>
+
+<p>以后进入mysql客户端输入下面命令就可以了</p>
+<pre><code>mysql -uroot -p</code></pre>
+<br>
+<hr>
+<h3>接下来安装php</h3>
+先安装依赖
+
+<pre><code>[root@guan mysql]# yum -y install openssl openssl-devel bzip2-devel libxslt libxslt-devel libxml2 libxml2-devel autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel  zlib zlib-devel glibc glibc-devel</code></pre>
+
+<p>然后如果php要开启mcrypt的话,查看下yum能安装libmcrypt不,也就是搜索</p>
+<pre><code>[root@guan mysql]# yum search libmcrypt  2>&1 |grep '^No'
+
+如果上面命令有输出,也就是搜索到no,说明yum源里没有libmcrypt,我们手动安装libmcrypt
+
+<pre><code>[root@guan mysql]# cd /usr/local/download
+[root@guan download]# wget http://ojt8x896o.bkt.clouddn.com/libmcrypt-2.5.8.tar.gz -O libmcrypt-2.5.8.tar.gz
+[root@guan download]# tar -zxvf libmcrypt-2.5.8.tar.gz
+[root@guan download]# cd libmcrypt-2.5.8
+[root@guan libmcrypt-2.5.8]# ./configure
+[root@guan libmcrypt-2.5.8]# make && make install
+[root@guan libmcrypt-2.5.8]# cd ..
+</code></pre>
+
+<p>如果没输出,也就是yum源存在libmcrypt就用yum安装</p>
+<pre><code>[root@guan mysql]# cd /usr/local/download
+[root@guan download]# yum install libmcrypt libmcrypt-devel -y
+
+先安装curl为了后面给php添加curl扩展<a href="https://curl.haxx.se/download" target="_blank"><span style="font-size: 20px">点我进入curl下载页面</span></a>
+注意curl页面里的最新版本在网页里的最下面
+
+<pre><code>[root@guan mysql]# cd /usr/local/download
+[root@guan download]# wget http://ojt8x896o.bkt.clouddn.com/curl-7.52.1.tar.gz
+[root@guan download]# tar -zxvf curl-7.52.1.tar.gz
+[root@guan download]# cd curl-7.52.1
+[root@guan curl-7.52.1]# ./configure --prefix=/usr/local/curl
+[root@guan curl-7.52.1]# make && make install
+[root@guan curl-7.52.1]# cd ..
+</code></pre>
+
+<p>进入php官网,进入download页面点击tar.gz包<br><img src="http://oftgpeto9.bkt.clouddn.com/l15.png"><br><br><br>进去后我们找香港的源，右击后选择复制链接<br><br><br><img src="http://oftgpeto9.bkt.clouddn.com/l16.png"><br><br><br>然后粘贴用wget下载</p>
+<pre><code>[root@guan download]# wget http://hk1.php.net/get/php-5.6.29.tar.gz/from/this/mirror -O php-5.6.29.tar.gz</code></pre>
+
+<p><span style="font-size: 20px;color: red">上面的wget下载失败的话尝试下面这个</span></p>
+<pre><code>[root@guan download]# wget http://ojt8x896o.bkt.clouddn.com/php-5.6.29.tar.gz -O php-5.6.29.tar.gz</code></pre>
+
+<p>解压编译安装，不需要的参数可以自己删掉<br>编译php需要资源,make的时候如果主机配置差有时候会因为内存不够而中断出现memory字样,所以建议先关闭nginx和mysqld</p>
+<pre><code>[root@guan download]# service nginx stop
+[root@guan download]# service mysqld stop
+[root@guan download]# tar -zxvf php-5.6.29.tar.gz
+[root@guan download]# cd php-5.6.29
+[root@guan php-5.6.29]# ./configure --prefix=/usr/local/php \
+--enable-bcmath \
+--enable-calendar \
+--enable-fpm \
+--enable-ftp \
+--enable-mbstring \
+--enable-pcntl \
+--enable-shmop \
+--enable-soap \
+--enable-sockets \
+--enable-sysvsem \
+--enable-zip \
+--with-bz2 \
+--with-curl=/usr/local/curl \
+--with-freetype-dir=/usr/lib64 \
+--with-gettext \
+--with-gd \
+--with-jpeg-dir=/usr/lib64 \
+--with-openssl \
+--with-png-dir=/usr/lib64 \
+--with-xmlrpc \
+--with-xsl \
+--with-mcrypt \
+--with-mysql \
+--with-mysqli \
+--with-pdo-mysql \
+--with-zlib \
+--with-config-file-path=/usr/local/php/etc/
+[root@guan php-5.6.29]# make 
+[root@guan php-5.6.29]# make install
+</code></pre>
+
+<p>php默认的配置文件php.ini是不存在的我们需要手背拷贝过去<br>在源码包里有俩ini,php.ini-development和php.ini-production<br>我是拷贝的development,并且修改配置文件里的时区为PRC<br>然后拷贝php-fpm的启动脚本并且修改权限</p>
+<pre><code>[root@guan php-5.6.29]# cp /usr/local/php/etc/{php-fpm.conf.default,php-fpm.conf}
+[root@guan php-5.6.29]# echo yes|cp php.ini-development /usr/local/php/etc/php.ini
+[root@guan php-5.6.29]# sed -ri '/;date.timezone =/s#;date.timezone =#date.timezone = PRC#' /usr/local/php/etc/php.ini
+[root@guan php-5.6.29]# echo yes|cp sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm
+[root@guan php-5.6.29]# chmod 755 /etc/init.d/php-fpm
+</code></pre>
+
+<p>php-fpm是读取.conf后缀的,所以复制一份重命名<br>然后修改配置,其中包括pid位置,运行的用户和用户组,进程数量还有一些其他的</p>
+<pre><code>cp /usr/local/php/etc/{php-fpm.conf.default,php-fpm.conf}
+[root@guan php-5.6.29]# sed -i 's/;pid/pid/' /usr/local/php/etc/php-fpm.conf
+[root@guan php-5.6.29]# sed -i '/user/s#nobody#www#' /usr/local/php/etc/php-fpm.conf
+[root@guan php-5.6.29]# sed -i '/group/s#nobody#www#' /usr/local/php/etc/php-fpm.conf
+[root@guan php-5.6.29]# sed -i '/pm.max_children/s#5#10#' /usr/local/php/etc/php-fpm.conf
+[root@guan php-5.6.29]# sed -i '/pm.max_spare_servers/s#3#6#' /usr/local/php/etc/php-fpm.conf
+[root@guan php-5.6.29]# sed -i '/;request_slowlog_timeout/s#;##' /usr/local/php/etc/php-fpm.conf
+[root@guan php-5.6.29]# sed -i '/;request_terminate_timeout/s#;##' /usr/local/php/etc/php-fpm.conf
+[root@guan php-5.6.29]# sed -ri '/^;slowlog/{s#;##;s#= .+#= var/log/slow.log#}' /usr/local/php/etc/php-fpm.conf
+</code></pre>
+
+<p>如果要把php加到环境变量的话</p>
+<pre><code>echo 'export PATH=/usr/local/php/bin:$PATH'>>/etc/profile</code></pre>
+
+<p>如果要开启redis扩展的话</p>
+<pre><code>[root@guan php-5.6.29]# cd /usr/local/download
+[root@guan download]# wget http://pecl.php.net/get/redis-3.1.1.tgz
+[root@guan download]# tar -zxf redis-3.1.1.tgz
+[root@guan download]# cd redis-3.1.1
+[root@guan redis-3.1.1]# /usr/local/php/bin/phpize
+[root@guan redis-3.1.1]# ./configure --with-php-config=/usr/local/php/bin/php-config
+[root@guan redis-3.1.1]# make</code></pre>
+
+<p>测试发现php的so路径有时候是no-debug-zts-20160303,有时候是no-debug-non-zts-20131226<br>具体是哪个看make install的最后一行的输出就知道了,这里是我之前写脚本的时候应对这个情况用管道给正则提取拼接后输出路径重定向到配置文件里</p>
+<pre><code>[root@guan redis-3.1.1]# echo "extension=$(make install | grep 'extensions'|grep -E -o '/.+')redis.so" >> /usr/local/php/etc/php.ini
+[root@guan redis-3.1.1]# cd </code></pre>
+
+<p>然后修改nginx的配置文件/etc/nginx/nginx.conf支持php解析</p>
+<p><img src="http://i4.piimg.com/596163/2c5937c62d86ae21.png"><br>第一个是根的index,后面加上index.php<br>下面是php的部分全部是注释，取消这几行注释,把scripts那改成$document_root<br>一般来说html和php都存放在一起的,所以静态80的web根和php的根没必要写成俩个,所以写一个就行了<br>改完如下图所示<br><img src="http://i4.piimg.com/596163/0b1e447a9a89dfa9.png"><br>如果你是要以其他目录作为web目录,那么这里的root后面写你的目录就行了,目录记得改成www所有者</p>
+<p>然后</p>
+<pre><code>[root@guan ~]# service nginx reload
+[root@guan ~]# service php-fpm restart</code></pre>
+
+<p>你可以在你的web目录写个php文件测试下看看<br>至此lnmp安装完成</p>
+</code></pre></code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
