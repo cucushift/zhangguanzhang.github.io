@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">23:42:21</span>
+            <span class="time">20:17:11</span>
           </span>
           
           <!--  Categories  -->
@@ -298,7 +298,7 @@ delete from user where user='root' and password='';
 flush privileges;
 exit</code></pre>
 其中123456为你要设置的密码<br>
-第三行是删除mysql的匿名用户,第四行是删除root用户为空的行
+第三行是删除mysql的匿名用户,第四行是删除root用户密码为空的行
 flush privileges 命令本质上的作用是将当前user和privilige表中的用户信息/权限设置从mysql库(MySQL数据库的内置库)中提取到内存里。MySQL用户数据和权限有修改后，希望在不重启MySQL服务的情况下直接生效
 <br>
 添加到service里

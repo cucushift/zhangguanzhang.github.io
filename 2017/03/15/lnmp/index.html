@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-03-15</span>
-            <span class="time">23:42:21</span>
+            <span class="time">20:17:11</span>
           </span>
           
           <!--  Categories  -->
@@ -194,9 +194,9 @@ php-pecl-geoip.x86_64 : Extension to map IP addresses to geographic places
 <pre><code>[root@guan download]# wget http://geolite.maxmind.com/download/geoip/api/c/GeoIP-1.4.6.tar.gz
 [root@guan download]# tar -zxvf GeoIP-1.4.6.tar.gz
 [root@guan download]# cd GeoIP-1.4.6
-[root@guan download]# ./configure
-[root@guan download]# make && make install
-[root@guan download]# cd ..
+[root@guan GeoIP-1.4.6]# ./configure
+[root@guan GeoIP-1.4.6]# make && make install
+[root@guan GeoIP-1.4.6]# cd ..
 [root@guan download]# wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz
 [root@guan download]# mv GeoIP.dat.gz /usr/local/share/GeoIP/
 </code></pre>
@@ -378,7 +378,7 @@ delete from user where user='root' and password='';
 flush privileges;
 exit</code></pre>
 
-<p>其中123456为你要设置的密码<br><br>第三行是删除mysql的匿名用户,第四行是删除root用户为空的行<br>flush privileges 命令本质上的作用是将当前user和privilige表中的用户信息/权限设置从mysql库(MySQL数据库的内置库)中提取到内存里。MySQL用户数据和权限有修改后，希望在不重启MySQL服务的情况下直接生效<br><br><br>添加到service里并设置权限</p>
+<p>其中123456为你要设置的密码<br><br>第三行是删除mysql的匿名用户,第四行是删除root用户密码为空的行<br>flush privileges 命令本质上的作用是将当前user和privilige表中的用户信息/权限设置从mysql库(MySQL数据库的内置库)中提取到内存里。MySQL用户数据和权限有修改后，希望在不重启MySQL服务的情况下直接生效<br><br><br>添加到service里并设置权限</p>
 <pre><code>[root@guan mysql]# cp support-files/mysql.server /etc/init.d/mysqld
 [root@guan mysql]# chmod u+x /etc/init.d/mysqld
 </code></pre>
@@ -406,7 +406,7 @@ source /etc/profile</code></pre>
 <p>然后如果php要开启mcrypt的话,查看下yum能安装libmcrypt不,也就是搜索</p>
 <pre><code>[root@guan mysql]# yum search libmcrypt  2>&1 |grep '^No'</code></pre>
 
-<p>如果上面命令有输出,也就是搜索到no,说明yum源里没有libmcrypt,我们手动安装libmcrypt</p>
+<p>如果上面命令有输出,也就是搜索到no,说明yum源里没有libmcrypt,我们就手动安装libmcrypt</p>
 <pre><code>[root@guan mysql]# cd /usr/local/download
 [root@guan download]# wget http://ojt8x896o.bkt.clouddn.com/libmcrypt-2.5.8.tar.gz -O libmcrypt-2.5.8.tar.gz
 [root@guan download]# tar -zxvf libmcrypt-2.5.8.tar.gz
@@ -416,7 +416,7 @@ source /etc/profile</code></pre>
 [root@guan libmcrypt-2.5.8]# cd ..
 </code></pre>
 
-<p>如果没输出,也就是yum源存在libmcrypt就用yum安装</p>
+<p>如果没有输出,也就是yum源存在libmcrypt,那就用yum安装</p>
 <pre><code>[root@guan mysql]# cd /usr/local/download
 [root@guan download]# yum install libmcrypt libmcrypt-devel -y</code></pre>
 
