@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="Zhangguanzhang">
   <!-- Open Graph Data -->
-  <meta property="og:title" content="原生js左右分散对齐文字"/>
+  <meta property="og:title" content="shell利用快捷键提升命令输入和编辑"/>
   <meta property="og:description" content="记录生活点滴" />
   <meta property="og:site_name" content="Zhangguanzhang"/>
   <meta property="og:type" content="article" />
@@ -44,7 +44,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="page-title with-background-image">
-          <p class="title">原生js左右分散对齐文字</p>
+          <p class="title">shell利用快捷键提升命令输入和编辑</p>
           <p class="subtitle"></p>
         </div>
         <div class="site-menu with-background-image">
@@ -101,14 +101,14 @@
           
           <!-- Date -->
           <span class="date-time info">On
-            <span class="date">2016-10-29</span>
-            <span class="time">13:38:00</span>
+            <span class="date">2017-05-06</span>
+            <span class="time">13:38:01</span>
           </span>
           
           <!--  Categories  -->
             <span class="categories info">Under 
 
-<a href="/categories/日志/">日志</a> / <a href="/categories/日志/心得/">心得</a>
+<a href="/categories/日志/">日志</a> / <a href="/categories/日志/总结/">总结</a>
 </span>
           
         </div>
@@ -117,30 +117,27 @@
           <div class="post-tags text-muted">
             Tags: 
 
-<a class="tag" href="/tags/原创/">#原创</a> <a class="tag" href="/tags/js/">#js</a> <a class="tag" href="/tags/左右分散对齐文字/">#左右分散对齐文字</a>
+<a class="tag" href="/tags/shell/">#shell</a>
 
 
           </div>
         
         <!-- Post Main Content -->
         <div class="post-content">
-          <p>练习下<br><a id="more"></a></p>
-<h3 id="前天晚上看到群里有人问如何左右分散对齐文字"><a href="#前天晚上看到群里有人问如何左右分散对齐文字" class="headerlink" title="前天晚上看到群里有人问如何左右分散对齐文字"></a>前天晚上看到群里有人问如何左右分散对齐文字</h3><h3 id="网上查了下基本都是text-align-justify-text-justify-distribute-all-lines-的"><a href="#网上查了下基本都是text-align-justify-text-justify-distribute-all-lines-的" class="headerlink" title="网上查了下基本都是text-align:justify; text-justify:distribute-all-lines; 的"></a>网上查了下基本都是text-align:justify; text-justify:distribute-all-lines; 的</h3><p>这几种还不兼容，就自己想了个另类思路，每个文字之间插入一个div，然后把这些插入的div宽度设置成=（父级div宽度-文字宽度*文字个数）/（插入的div个数）</p>
-<hr>
-<h3 id="随便设置的父级宽度-以下是body内容"><a href="#随便设置的父级宽度-以下是body内容" class="headerlink" title="随便设置的父级宽度,以下是body内容"></a>随便设置的父级宽度,以下是body内容</h3><p><img src="http://oftgpeto9.bkt.clouddn.com/w1.png" alt="codebody"></p>
-<hr>
-<h4 id="以下是函数"><a href="#以下是函数" class="headerlink" title="以下是函数"></a>以下是函数</h4><p><img src="http://oftgpeto9.bkt.clouddn.com/w2.png" alt="jscode"></p>
-<hr>
-<h4 id="下面是测试"><a href="#下面是测试" class="headerlink" title="下面是测试"></a>下面是测试</h4><p><img src="http://oftgpeto9.bkt.clouddn.com/w3.png" alt="test"><br><img src="http://oftgpeto9.bkt.clouddn.com/w4.png" alt="test1"><br><img src="http://oftgpeto9.bkt.clouddn.com/w5.png" alt="test2"><br>改变父级div宽度和文字内容,依旧分散对齐，成功！</p>
-<blockquote>
-<p>文字宽度总不可能比超过文字高度吧，这里我用16代替，倘若你自己设置了字体大小js获取代替掉16即可</p>
-<hr>
-</blockquote>
-<h4 id="有一点我很好奇-我也是刚接触js，刚开始写的时候没有33行插入的div会有undefine字样"><a href="#有一点我很好奇-我也是刚接触js，刚开始写的时候没有33行插入的div会有undefine字样" class="headerlink" title="有一点我很好奇,我也是刚接触js，刚开始写的时候没有33行插入的div会有undefine字样"></a>有一点我很好奇,我也是刚接触js，刚开始写的时候没有33行插入的div会有undefine字样</h4><p>具体点击<a href="http://i1.piimg.com/4851/5a494aef0dd69550.png" target="_blank" rel="external">这里</a></p>
-<hr>
-<blockquote>
-<p>以下是总结<br>刚接触，也算业余学学吧，之前都是慕课上敲代码，比较简单性的，前天晚上到今天早晨，虽然思路清晰，但是实际写起来还是依靠百度，有些细节性的东西还是得实际中才能学到<br>,还没完善，js还没学完，初学点皮毛，思路就是上面这样，如果有人看到这篇文章可以考虑完善下直接几个id或者类名参数输进去直接就自动分散那就更好了。话说上面undefined真是莫名其妙，问了很多人都没得到解决</p>
-</blockquote>
+          <p>快速编辑命令高效率输入<br><a id="more"></a><br>并非大型软件或者IDE才有快捷键,shell也有,如果能够熟练使用快捷键,做起事情来且不事半功倍。<br>网上流传的快捷键在xshell下可能和菜单的快捷键alt啥的冲突<br>我只说下xshell下和用的最多的</p>
+<p>光标部分总的来说就是移动,最常用的就四个:<br>移动到行首和行尾部</p>
+<p>ctrl + a  行首<br>ctrl + e  行末</p>
+<p>然后单词移动,xshell下alt不起作用,esc+b/f可以前后<br>但是ctrl+左/右也可以,所以建议单词之间移动使用:</p>
+<p>ctrl + ←    光标移动到前一个单词开头<br>ctrl + →    光标移动到后一个单词结尾</p>
+<p>配合下面的ctrl+w或者esc+d来删除前后单词</p>
+<p>删除部分<br>ctrl + u   删除当前光标左边所有内容<br>ctrl + k   删除当前光标右边所有内容</p>
+<p>ctrl + w   删除当前光标到左边最近的一个空格(通常用来删除一个单词)<br>esc  + d   删除当前光标到右边最近的一个空格(通常用来删除一个单词)</p>
+<p>ctrl + y   粘贴上面删除的部分</p>
+<p>编辑部分<br>esc + t    互换相邻的两个单词</p>
+<p>esc + u    大写当前单词<br>esc + l    小写当前单词</p>
+<p>esc + c    大写当前字母</p>
+<p>esc + .    当前位置插入上一条命令的最后一个参数</p>
+<p>另外熟悉vim的话可以把bash的默认编辑器设置为vim,set -o vi后按下esc进入命令模式和vim一样操作<br>默认的编辑器是emacs,如果不是请set -o emacs设置回来</p>
 
         </div>
       </div>
