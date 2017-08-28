@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Zhangguanzhang">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="分享下自己做的外网控制硬件"/>
+  <meta property="og:description" content="记录生活点滴" />
+  <meta property="og:site_name" content="Zhangguanzhang"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://zhangguanzhang.github.ioundefined"/>
+  <meta name="baidu-site-verification" content="RqbanSZBE3" />
+  
+    <link rel="alternate" href="/atom.xml" title="Zhangguanzhang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>Zhangguanzhang</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.dark.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">分享下自己做的外网控制硬件</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/zhangguanzhang">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:zhangguanzhang@qq.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Zhangguanzhang</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2017-04-17</span>
+            <span class="time">19:55:05</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/日志/">日志</a> / <a href="/categories/日志/心得/">心得</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/mqtt/">#mqtt</a> <a class="tag" href="/tags/原创/">#原创</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>教程+源码+固件<br><a id="more"></a></p>
+<h3 id="废话不多说开始"><a href="#废话不多说开始" class="headerlink" title="废话不多说开始"></a>废话不多说开始</h3><p>准备东西:<br>一块单片机开发板(我用的原子的stm32的mini板子)<br>一块esp-12F(esp-12E，esp-12S均可)<br>一台云主机(没有也可以用虚拟机来玩局域网控制)<br>单片机只需要消耗一个串口和一个定时器<br>先搭建环境<br>硬件连接服务器一般是socket,tcp，udp，mqtt，websocket之类的<br>物联网里用得较多的是mqtt,这里我用的是mqtt,服务器端我用的emq,一个mqtt的server端<br>tcp和udp缺点就不说了,看到很多esp群里怕丢包一个数据发十几次的都有<br>而mqtt可以说是改良的tcp,mqtt基于主题和消息内容来通讯,客户端订阅主题,有人推送一个主题,只有订阅了这个主题的人才能收到消息<br>ssh软件连接自己的云主机进入交互式shell界面(怎么连云主机自己摸索)<br>我的主机是64位centos6.9,ssh软件我用的xshell(xshell老版本被曝被人恶意植入后门,已经安装过的赶紧升级吧)</p>
+<pre><code>[root@localhost ~]# yum install -y unzip gcc gcc++ wget &>/dev/null
+[root@localhost ~]# wget http://emqtt.com/downloads/2206/centos6 -O emqttd-centos6.8-v2.2.0.zip
+http://emqtt.com/downloads/2070/centos6
+[root@localhost ~]# unzip emqttd-centos6.8-v2.2.0.zip
+[root@localhost ~]# emqttd/bin/emqttd start
+emqttd 2.2 is started successfully!
+</code></pre>
+
+<p>然后输入你的ip加端口:18083进入emq的后台<br>用户admin密码public<br>  进不去的话看看防火墙加了规则没，没加就加上,不过现在云主机都是安全组规则来控制,云主机的防火墙可以不用开,一般去登陆云主机供应商的网站的控制面板那里改下安全组的规则加端口号允许就行了,用到的端口有18083 8083 8084 1883<br>   进去web后台会有登陆的窗口,默认用户名是admin密码public<br>登陆进去自行改密码<br>然后再plugins插件里把这个emq_auth_username给开启了,不然任何人使用mqtt协议都能连接你的server端<br><img src="http://ww2.sinaimg.cn/large/0060lm7Tgy1fiznzfktrvj31d90pxjup.jpg" alt="t1"><br>  然后在emq里增加用户名为test密码为test123456 （随意填写你开心就好）</p>
+<pre><code>[root@guan ~]# emqttd/bin/emqttd_ctl users add test test123
+ok
+</code></pre>
+
+<p>然后进web后台的websocket(网页的mqtt客户端,方便调试啥的)输入你添加的用户名和密码点击connect<br>然后下面的subscribe订阅输入一个主题消息名字点击subscribe<br><img src="http://ww3.sinaimg.cn/large/0060lm7Tgy1fizo4n3ikaj311w0oy0u1.jpg" alt="t2"><br>图里我输入的是hello<br>emq的官方文档里写着推送消息有http接口<br>在服务器上我们测试下推送一个hello主题，消息内容是ON的消息<br><img src="http://ww2.sinaimg.cn/large/0060lm7Tgy1fiznzfv4t9j30x80cv0tx.jpg" alt="t3"></p>
+<pre><code>[root@localhost ~]# curl -v --basic -u test:test123456 -d "qos=2&retain=0&topic=hello&message=ON" -k http://localhost:8083/mqtt/publish
+（输出信息省略）
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/large/0060lm7Tgy1fiznzeuv2xj31960oladm.jpg" alt="t4"><br>后台面板可以看到收到了一条消息为ON的<br>可以看到环境OK<br>—写个shell来接收主题名字和消息内容方便不用每次来输入一大串的curl</p>
+<pre><code>[root@localhost ~]# cat>/usr/bin/publish<<'eof' 755="" #="" bin="" bash="" curl="" --basic="" -u="" test:test123456="" -d="" 'qos="2&retain=0&topic='"$1"'&message='"$2"" -k="" http:="" localhost:8083="" mqtt="" publish="" eof="" [root@localhost="" ~]#="" chmod="" usr="" <="" code=""></'eof'></code></pre>
+
+<p>测试下看看能不能用<br><img src="http://ww2.sinaimg.cn/large/0060lm7Tgy1fiznzde6y0j30ja0c174u.jpg" alt="t5"><br>目前服务器端弄好了暂时</p>
+<hr>
+
+<p>然后是硬件esp-8266,我用的是esp-12系列，10块包邮岂不美哉？<br><img src="http://i4.buimg.com/567571/11ea7e08ecd784f5.jpg" alt="t6"><br>买的时候建议买个转接板方便接线<br>固件的源码工程我放在了github(readme写得很差,凑合着看吧)<br><a href="https://github.com/zhangguanzhang/ESP8266_NONOS_SDK-mqtt-uart_set" target="_blank" rel="external">https://github.com/zhangguanzhang/ESP8266_NONOS_SDK-mqtt-uart_set</a></p>
+<p>从乐鑫官方的non_os的mqtt的demo修改,我用的是esp-12系列，12F和12S测试了都可以用<br>官方的自带的demo好像串口编译不通过,改了一些引用文件和增加了几个定义就能过了<br>然后定义了协议部分,听说官方的json有问题,全是走的字符串<br>具体信息可看github里的readme.md<br>下面是开发软件sdk链接,需要自己改的可以下载后导入我的工程来修改<br>链接：<a href="http://pan.baidu.com/s/1eSIIAdG" target="_blank" rel="external">http://pan.baidu.com/s/1eSIIAdG</a> 密码：vy55<br>—烧录固件<br>ESP8266_NONOS_SDK-mqtt-uart_set/bin/里的就是固件<br>下面是文件名对应的烧写地址<br>eagle.flash.bin——–&gt;0x00000<br>eagle.irom0text.bin—-&gt;0x10000<br>上面俩文件是任何时候都必须烧录的,下面俩文件是刚拿到模块初始化必须烧录的<br>esp_init_data_default.bin—-&gt;0x3fc000<br>blank.bin—-&gt;0x3ff000<br>烧写软件链接：<a href="http://pan.baidu.com/s/1c1DgTwO" target="_blank" rel="external">http://pan.baidu.com/s/1c1DgTwO</a> 密码：z2dk<br>烧写的时候自己用串口电路或者usb转串口模块下载,我是直接接在原子mini板子上的串口电路下载的，GPIO0要拉低,然后点击start后reset引脚触碰下gnd就进入下载了<br><img src="http://i4.buimg.com/567571/20a3cabcefb5cbd2.png" alt="t7"><br>接线是VCC,GND,RX,TX 另外俩根是一个GND-GPIO0,那根杜邦针式接GND上的<br>点击了start后杜邦针触碰下reset就下载了<br>下载过程图如图所示<br><img src="http://imgsrc.baidu.com/forum/w%3D580/sign=6a7f2135fd03918fd7d13dc2613c264b/1f655343fbf2b2119a4bf39bc08065380dd78e5e.jpg" alt="t8"><br>下载完后拔掉GPIO0的线,然后触碰下reset给个低电平重启下就行了,不拔掉GPIO的线的话不会进入工作模式并且会乱码<br>然后打开串口调试软件参数如图所示<br>初始的一些mqtt参数在app/include/mqtt_config.h里宏定义的<br><img src="http://ww3.sinaimg.cn/large/0060lm7Tgy1fizocxaif7j30k10fmt9d.jpg" alt="t9"><br>我改写了官方固件，通过串口即可设置参数，具体设置协议在我github的readme下拉就能看到<br>先设置wifi和mqtt的用户名密码和hid和你mqtt的server端的ip和端口,主机有域名也可以直接用域名,wifi名字不能是中文<br><img src="http://ww2.sinaimg.cn/large/0060lm7Tgy1fizodnv4ibj30k10fmwf1.jpg" alt="t10"><br>设置好后发下show看看信息,无误后发送restart重启加载信息<br><img src="http://ww4.sinaimg.cn/large/0060lm7Tgy1fizoeksd6ij30k10fmq3s.jpg" alt="t11"><br>上面的是连接不上的打印，我才意识到我手机开的wifi热点后我手机没打开数据流量，连接上了就是红框部分的下面<br>然后源码里默认订阅的主题是receive，推送主题名字是send,服务器上推送下一个ON的信息,<br>打印部份我的代码是判断云端的id部分是不是和自身一样,一样就打印,模块硬件id我设置成testid的上图可以看到<br>str_cut是我自定的函数,在uart.c里根据传入字符来分割字符串<br>也就是按照等号分割出第二部分的id写进temp后判断和自身id一致不,不一致就不打印，一致就打印信息<br><img src="http://ww3.sinaimg.cn/large/0060lm7Tgy1fiznzddps3j30j904dq2x.jpg" alt="t11"><br><img src="http://ww3.sinaimg.cn/large/0060lm7Tgy1fiznzdfozhj30wc0g7dia.jpg" alt="t12"><br>由此可见硬件可以和服务器通信了</p>
+<hr>
+
+<p>8266是一款由wifi能力的mcu，有兴趣和时间的可以自己去研究sdk开发，不过我是只把它当作wifi传送数据的<br>有串口的单片机拿个串口接8266的串口上就可以传输了<br>处理云端的数据思路是以下这样: 举例 1假如连接不上wifi就是STATION_IDLE多次串口打印 2心跳包(Send keepalive packet to字样)的打印 所有动作和状态都会从串口输出,内容里包含多个回车换行符，所以建议串口中断不要以回车换行判定接收完成 建议开启一个定时器 串口中断里使能定时器并且接受每一个字节的时候定时器数值清零，溢出了直接标记flag标志位为接收完成并失能定时器，听不懂我这段话的话看下面图 参考原子的代码<br><img src="http://ww2.sinaimg.cn/large/0060lm7Tgy1fiznzdgx3yj30ii0d5q36.jpg" alt="t13"><br>然后是单片机部分的源码工程分享，写的很渣,就这样厉害的拿去扩展吧</p>
+<h2 id="链接：http-pan-baidu-com-s-1bppj7aB-密码：wkz2"><a href="#链接：http-pan-baidu-com-s-1bppj7aB-密码：wkz2" class="headerlink" title="链接：http://pan.baidu.com/s/1bppj7aB 密码：wkz2"></a>链接：<a href="http://pan.baidu.com/s/1bppj7aB" target="_blank" rel="external">http://pan.baidu.com/s/1bppj7aB</a> 密码：wkz2</h2><p>顺带这样暂时处理的只是下发,写的那个publish可以用php调用外部命令来推送<br>服务器可以接入微信后根据消息type和正则匹配来推送消息给硬件就是微信控制硬件了(已测试过)</p>
+<h2 id="也可以自己写个页面然后ajax按钮发送调用那个publish推送就是网页控制硬件了"><a href="#也可以自己写个页面然后ajax按钮发送调用那个publish推送就是网页控制硬件了" class="headerlink" title="也可以自己写个页面然后ajax按钮发送调用那个publish推送就是网页控制硬件了"></a>也可以自己写个页面然后ajax按钮发送调用那个publish推送就是网页控制硬件了</h2><p>发下自己之前录制的视频<br>链接：<a href="http://pan.baidu.com/s/1slFf4rr" target="_blank" rel="external">http://pan.baidu.com/s/1slFf4rr</a> 密码：ebfy</p>
+<p>这样只是下发，如果你的硬件要上传的话，可以在服务器上跑一个客户端来订阅硬件端推送的send主题来把消息写到数据库里，至于消息格式啥的我是纯字符串上传的<br>然后客户端我用的是mosquitto-1.4.5,最后附上它的安装过程和参数使用</p>
+<p>字符串处理入库我用的是shell，当初写的,等号分割每一部分,相当于自定义了个通信协议，代码里就是解析字符串后写入数据库<br><img src="http://ww2.sinaimg.cn/large/0060lm7Tgy1fiznze801tj310r0r4dje.jpg" alt="t14"><br><img src="http://ww1.sinaimg.cn/large/0060lm7Tgy1fizoj23f1gj30wd09fmxo.jpg" alt="t15"><br>可以用其他语言来直接写个客户端处理或者erlang开发emq的插件<br>个人思路就是以上的，有疑问欢迎探讨<br>另外不用最新版的emq是发现开了那个username的插件后就连不上去了不知道怎么回事，还有官方的http接口看文档居然也推送不了,能解决的大佬可以分享下经验</p>
+<p><hr><br>最后是mosquitto安装<br>安装基本依赖</p>
+<pre><code>yum install cmake gcc-c++ openssl-devel  c-ares-devel</code></pre>
+
+<p>我下载的1.4.5,因为我是只用客户端来接收消息,没必要那么高</p>
+<p><pre><code>wget <a href="http://mosquitto.org/files/source/mosquitto-1.4.5.tar.gz" target="_blank" rel="external">http://mosquitto.org/files/source/mosquitto-1.4.5.tar.gz</a><br>tar zxfv mosquitto-1.4.5.tar.gz<br>cd mosquitto-1.4.5<br>cmake .<br>make<br>make install</code></pre><br><img src="http://p1.bpimg.com/4851/10731e924769f5da.png" alt="install"><br><br><br><br>看下图里的输出就能看到mosquitto安装在哪了<br>相关配置文件在这个路径下/usr/local/etc/mosquitto/<br>配置的是server端的,我只用客户端所以不用配置<br>如果你用server端的话<br>启动mosquitto并载入配置文件</p>
+<p><pre><code>cd /usr/local/etc/mosquitto/<br>mosquitto -c mosquitto.conf -d</code></pre><br><br><br><br><span style="font-size: 18px;color: blue">推送和订阅的话使用mosquitto_pub和mosquitto_sub<br>只列出了一些参数,完整的话可以man下这俩命令看看手册就知道了<br></span><br>mosquitto_pub 命令参数说明</p>
+<ol>
+<li><p>-d  打印debug信息</p>
+</li>
+<li><p>-f  将指定文件的内容作为发送消息的内容</p>
+</li>
+<li><p>-h  指定要连接的域名  默认为localhost</p>
+</li>
+<li><p>-i  指定要给哪个clientId的用户发送消息</p>
+</li>
+<li><p>-I  指定给哪个clientId前缀的用户发送消息</p>
+</li>
+<li><p>-m  消息内容</p>
+</li>
+<li><p>-n  发送一个空（null）消息</p>
+</li>
+<li><p>-p  连接端口号</p>
+</li>
+<li><p>-q  指定QoS的值（0,1,2）</p>
+</li>
+<li><p>-t  指定topic</p>
+</li>
+<li><p>-u  指定broker访问用户</p>
+</li>
+<li><p>-P  指定broker访问密码</p>
+</li>
+<li><p>-V  指定MQTT协议版本</p>
+</li>
+<li><p>–will-payload  指定一个消息，该消息当客户端与broker意外断开连接时发出。该参数需要与–will-topic一起使用</p>
+</li>
+<li><p>–will-qos  Will的QoS值。该参数需要与–will-topic一起使用</p>
+</li>
+<li><p>–will-retain 指定Will消息被当做一个retain消息（即消息被广播后，该消息被保留起来）。该参数需要与–will-topic一起使用</p>
+</li>
+<li><p>–will-topic  用户发送Will消息的topic<br>消除一个retain为0的话mosquitto_pub -r -q 1 -t topicname -m ‘’<br>上面是俩单引号,不知道为啥被转换成反引号了<br><hr><br>mosquitto_sub 命令参数说明</p>
+</li>
+<li><p>-a  将出站连接绑定到本地ip地址/主机名。 如果你使用这个参数,需要限制网络通信到特定接口。</p>
+</li>
+<li><p>-c  设定‘clean session’为无效状态，这样一直保持订阅状态，即便是已经失去连接，如果再次连接仍旧能够接收的断开期间发送的消息。</p>
+</li>
+<li><p>-C 在给定的消息计数之后立即断开并退出程序,这在单个状态值为的shell脚本中可能很有用</p>
+</li>
+<li><p>-d  打印debug信息</p>
+</li>
+<li><p>-h  指定要连接的域名  默认为localhost</p>
+</li>
+<li><p>-i 指定clientId</p>
+</li>
+<li><p>-I 指定clientId前缀</p>
+</li>
+<li><p>-k keepalive 每隔一段时间，发PING消息通知broker，仍处于连接状态。 默认为60秒。</p>
+</li>
+<li><p>-p 连接端口,来替代默认的1803</p>
+</li>
+<li><p>-P 连接时指定用户名,与-u一起使用,用于要链接的server端开启了用户名和密码验证</p>
+</li>
+<li><p>-q 指定希望接收到QoS为什么的消息  默认QoS为0</p>
+</li>
+<li><p>-R 不显示陈旧的消息</p>
+</li>
+<li><p>-t 订阅topic</p>
+</li>
+<li><p>-u 连接时用户名</p>
+</li>
+<li><p>-v 打印消息</p>
+</li>
+<li><p>–will-payload  指定一个消息，该消息当客户端与broker意外断开连接时发出。该参数需要与–will-topic一起使用</p>
+</li>
+<li><p>–will-qos  Will的QoS值。该参数需要与–will-topic一起使用</p>
+</li>
+<li><p>–will-retain 指定Will消息被当做一个retain消息（即消息被广播后，该消息被保留起来）。该参数需要与–will-topic一起使用</p>
+</li>
+<li><p>–will-topic  用户发送Will消息的topic</p>
+</li>
+</ol>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+

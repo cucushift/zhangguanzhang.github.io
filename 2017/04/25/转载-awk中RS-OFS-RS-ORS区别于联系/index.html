@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-25</span>
-            <span class="time">13:38:00</span>
+            <span class="time">19:55:05</span>
           </span>
           
           <!--  Categories  -->
@@ -191,6 +191,8 @@
 <p>5，OFS列输出分隔符</p>
 <p><pre><code>[root@guan test]# awk ‘BEGIN{OFS=”|”;}{print $1,$2}’ test1<br> 111|222<br> 333|444<br> 555|666<br>[root@guan test]# awk ‘BEGIN{OFS=”|”;}{print $1 OFS $2}’ test1<br> 111|222<br> 333|444<br> 555|666  </code></pre><br>test1只有二列，如果100列，都写出来太麻烦了吧。</p>
 <p><pre><code>[root@guan test]# awk ‘BEGIN{OFS=”|”;}{print $0}’ test1<br> 111 222<br> 333 444<br> 555 666<br>[root@guan test]# awk ‘BEGIN{OFS=”|”;}{NF=NF;print $0}’ test1<br> 111|222<br> 333|444<br> 555|666</code></pre><br>为什么第二种方法中的OFS生效呢？个人觉得，awk觉查到列有所变化时，就会让OFS生效，没变化直接输出了。</p>
+<p>echo 40% | awk ‘+$0&gt;39’<br>+$0 ==&gt; 0+$0 ==&gt; $0+0<br>40% + 0 这是要做一个加法运算,加法嘛,俩边肯定都得是数值,于是计算之前,会把参与的字符串转换成数值来处理.<br>按什么规则来转换,这就是问题所在:为啥40%会被转换成40<br>目测可以这么理解<br>从左到右取数字:遇到非数字时转换结束,例子：<br>40% 从左到右 取出40后%不是数字,转换结束,取值40<br>a40% 从左到右 第一个就是a,转换结束,取值0</p>
+<p>#例外<br>-nan +nan(非数值)<br>-inf +inf （无穷）<br>例子:<br>纸打印磁盘使用率高于80%<br>df -h | awk ‘+$5&gt;80’</p>
 
         </div>
       </div>
