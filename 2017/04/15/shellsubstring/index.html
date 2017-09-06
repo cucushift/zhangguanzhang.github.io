@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-15</span>
-            <span class="time">18:58:18</span>
+            <span class="time">16:05:57</span>
           </span>
           
           <!--  Categories  -->
@@ -127,6 +127,14 @@
           <p>shell的字符串截取<br><a id="more"></a></p>
 <p>提取子串</p>
 <p>${string:position}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在$string中从位置$position开始提取子串.<br>如果$string是”*”或者”@”, 那么将会提取从位置$position开始的位置参数.</p>
+<pre><code>[root@guan temp]# 
+[root@guan temp]# cat>test.sh<<'eof'> #!/bin/bash
+> echo ${*:3}
+> EOF
+[root@guan temp]# sh test.sh 1 2 3 4 5 6
+3 4 5 6
+</'eof'></code></pre>
+
 <p>${string:position:length}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在$string中从位置$position开始提取$length长度的子串.</p>
 <pre><code>
     1 stringZ=abcABC123ABCabc
@@ -233,7 +241,39 @@ resources</code></pre>
 <p>也可以对变量值里的字符串作替换：<br>假设我们定义了一个变量为：<br>file=/dir1/dir2/dir3/my.file.txt</p>
 <p>${file/dir/path}：将第一个dir 替换为path：/path1/dir2/dir3/my.file.txt<br>${file//dir/path}：将全部dir 替换为 path：/path1/path2/path3/my.file.txt</p>
 <p>留下一个练习题大家做做看<br>最后前不久在群里看到有人说怎么把文件夹下面的文件全部改为包含组名<br>例如a.txt组是test，那么变更后就是a[test].txt<br>所有文件改成这样的类型<br><span style="font-size: 22px"><a href="http://i2.muimg.com/567571/467cfb42848b697e.png" target="_blank">答案点我</a></span></p>
-
+<p>然后是<br>${参数^模式}<br>${参数^^模式}<br>${参数,模式}<br>${参数,,模式}<br>上面四个是把参数扩展转换字母大小写<br>符号在上面就是转换为大写,下面就是转换为小写</p>
+<p>注意:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,模式只能是一个字符或者空,其余的一律不转换</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2,一个符号的情况下,无论模式有还是无,只参数的第一个字符</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3,俩个符号的情况下,会转换所有字符</p>
+<pre><code>[root@guan temp]# str=`pwd`/test;echo $str
+/root/temp/test
+[root@guan temp]# echo ${str^}
+Test/root/temp
+[root@guan temp]# echo ${str^t}
+Test/root/temp
+[root@guan temp]# echo ${str^e}  #此处不转换
+test/root/temp
+[root@guan temp]# echo ${str^^}
+TEST/ROOT/TEMP
+[root@guan temp]# echo ${str^^t}
+TesT/rooT/Temp
+[root@guan temp]# echo ${str^^e}
+tEst/root/tEmp
+---------------------------------
+[root@guan temp]# str=TEST/ROOT/TEMP
+[root@guan temp]# echo ${str,}
+tEST/ROOT/TEMP
+[root@guan temp]# echo ${str,T}
+tEST/ROOT/TEMP
+[root@guan temp]# echo ${str,e}  #此处不转换
+TEST/ROOT/TEMP
+[root@guan temp]# echo ${str,,T}
+tESt/ROOt/tEMP
+[root@guan temp]# echo ${str,,E}
+TeST/ROOT/TeMP
+[root@guan temp]# echo ${str,,}
+test/root/temp
+</code></pre>
         </div>
       </div>
     </div>
