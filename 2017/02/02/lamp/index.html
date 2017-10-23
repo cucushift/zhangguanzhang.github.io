@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-02-02</span>
-            <span class="time">18:45:48</span>
+            <span class="time">22:03:12</span>
           </span>
           
           <!--  Categories  -->
@@ -125,7 +125,7 @@
         <!-- Post Main Content -->
         <div class="post-content">
           <p>网上杂七杂八的lamp搭建或者到处抄袭的博客真是心烦<br><a id="more"></a></p>
-<h3 id="自己亲身实践搭建的lamp环境-原创，转载需同意-盗版必究"><a href="#自己亲身实践搭建的lamp环境-原创，转载需同意-盗版必究" class="headerlink" title="自己亲身实践搭建的lamp环境,原创，转载需同意,盗版必究"></a>自己亲身实践搭建的lamp环境,原创，转载需同意,盗版必究</h3><p>主机用的腾讯云的centos 6.7 64位,腾讯云的学生认证后每个月可以领取64元的代金卷,你把配置弄成65左右就是每个月1块钱了,非常优惠<br><br>另外也用centos 6.5实践过<br><br><span style="font-size: 18px;color: blue">偷懒的话可以使用我写的shell脚本一键安装<br><a href="http://www.zhangguanzhang.com/download" target="_blank" rel="external">http://www.zhangguanzhang.com/download</a></span><br><img src="http://oftgpeto9.bkt.clouddn.com/ssh.png"><br>首先我们需要俩工具，左边ftp文件传输用，右边ssh软件<br>链接: <a href="https://pan.baidu.com/s/1pLfMHcf" target="_blank" rel="external">https://pan.baidu.com/s/1pLfMHcf</a> 密码: 3hjn(如果链接失效了自己去网上下吧….)<br>打开xsehll后文件-新建一个链接，主机那填写你的云主机外网ip<br><img src="http://oftgpeto9.bkt.clouddn.com/l1.png"></p>
+<h3 id="自己亲身实践搭建的lamp环境-原创，转载需同意-盗版必究"><a href="#自己亲身实践搭建的lamp环境-原创，转载需同意-盗版必究" class="headerlink" title="自己亲身实践搭建的lamp环境,原创，转载需同意,盗版必究"></a>自己亲身实践搭建的lamp环境,原创，转载需同意,盗版必究</h3><p>主机用的腾讯云的centos 6.7 64位,腾讯云的学生认证后每个月可以领取64元的代金卷,你把配置弄成65左右就是每个月1块钱了,非常优惠<br><br>另外也用centos 6.5实践过<br><br><img src="http://oftgpeto9.bkt.clouddn.com/ssh.png"><br>首先我们需要俩工具，左边ftp文件传输用，右边ssh软件<br>链接: <a href="https://pan.baidu.com/s/1pLfMHcf" target="_blank" rel="external">https://pan.baidu.com/s/1pLfMHcf</a> 密码: 3hjn(如果链接失效了自己去网上下吧….)<br>打开xsehll后文件-新建一个链接，主机那填写你的云主机外网ip<br><img src="http://oftgpeto9.bkt.clouddn.com/l1.png"></p>
 <p>然后文件-打开-双击你新建的<br>用户名输入root,密码为你创建时的root密码,链接成功后就是图下的界面</p>
 <p><img src="http://oftgpeto9.bkt.clouddn.com/l2.png"></p>
 <pre><code>cd /usr/local
@@ -135,26 +135,31 @@ cd就是change directory就是改变目录<br>
 mkdir就是make directory创建目录<br>
 上面三句就是进去/usr/local下创建一个download目录然后进去这个目录<br>
 安装基本依赖
-<pre><code>yum install gcc gcc-c++</code></pre>
+<pre><code>yum install -y gcc gcc-c++ wget make vim</code></pre>
 <hr>
 <h3>首先我们来安装apache</h3>
-<br>进入官网后点击download,然后点击第一个超链接进去这里<br>右击tar.gz获取链接
+<br>进入官网后点击右击这个<br>右击tar.gz获取链接
+注意我此时是2.4.25可能你看到这的时候版本就不一样了,具体是因为目录结构
+http://mirror.bit.edu.cn/apache//httpd/里面是latest版本
+<span style="font-size: 20px;color: red">下方的wget后面的url是粘贴你上面右键复制的链接</span>
+<img src="https://ws1.sinaimg.cn/large/005ZEsHqly1fkrccf7j8cj30te0nntbq.jpg"><br>
 
-<img src="http://oftgpeto9.bkt.clouddn.com/l3.png"><br>
+然后在ssh软件里下面这输入wget空格并且粘贴<span style="font-size: 20px;color: red">你上面获取的链接</span><br>
 <img src="http://oftgpeto9.bkt.clouddn.com/l4.png">
 <br><br>
-然后在ssh软件里下面这输入wget空格并且粘贴链接<br>
+
 下面全文不会再讲关于命令如何输入的问题了...
 <br>
 wget是从url下载文件
-<pre><code>wget http://mirrors.hust.edu.cn/apache/httpd/httpd-2.4.25.tar.gz</code></pre>
+<span style="font-size: 20px;color: red">!!!下方的wget后面的url是粘贴你上面右键复制的链接,可能版本更新了,千万别抄我的</span>
+<pre><code>wget http://mirror.bit.edu.cn/apache//httpd/httpd-2.4.25.tar.gz</code></pre>
 
 <pre><code>tar zxvf httpd*</code></pre>
 这个是解压一个名字里开头是httpd的tar.gz的压缩包,这里的星号*是通配符<br>
 在解压的时候文件名单一的可以不用输入全名来解压,建议大家以后在删除文件的时候不要这样用通配符<br>
 <pre><code>wget http://archive.apache.org/dist/apr/apr-1.4.5.tar.gz
 wget http://archive.apache.org/dist/apr/apr-util-1.3.12.tar.gz</code></pre>
-apache安装需要apr和apr-util和pcre,所以下载apr和apr-util<br>
+apache安装需要apr和apr-util和pcre,所以下载apr和apr-util,如果你下载的是其他版本的话注意下路径和文件夹名<br>
 ll命令是ls -l就是列出文件,后面有些命令的间隔里也可以用ll看看这些命令是干啥的<br><br>
 <img src="http://oftgpeto9.bkt.clouddn.com/l5.png">
 <pre><code>tar zxvf apr-1.4.5.tar.gz
@@ -162,7 +167,7 @@ tar zxvf apr-util-1.3.12.tar.gz</code></pre>
 mv是移动，倘若加了名字就是重命令
 <pre><code>mv apr-1.4.5 apr
 mv apr-util-1.3.12 apr-util
-mv apr apr-util httpd-2.4.25/srclib/
+mv apr apr-util httpd-2*/srclib/
 wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.39.tar.gz
 tar zxvf pcre-8.39.tar.gz
 cd pcre*</code></pre><br><br>
@@ -180,11 +185,12 @@ make就是编译,make install就是编译安装
 <pre><code>cd ../httpd*</code></pre>
 ../是linux里的相对路径,意思是返回上一级目录下<br>
 cd ../httpd*就是进入上一级目录下的一个开头httpd的目录<br>
-配置安装apache并启动
+配置安装apache然后备份默认配置文件并启动
 <pre><code>./configure --prefix=/usr/local/apache -with-pcre=/usr/local/pcre/bin/pcre-config -with-included-apr
 make
 make install
 cd /usr/local/apache/bin
+cp /usr/local/apache/conf/httpd.conf{,.bak}
 ./apachectl -k start</code></pre>
 回车后有段输出,那些不用管他
 <br>
@@ -462,7 +468,9 @@ phpinfo();</code></pre>的页面
 <pre><code>service httpd restart</code></pre>
 
 <p>外网打开服务器ip看到输出，成功apache加载php<br><img src="http://oftgpeto9.bkt.clouddn.com/l22.png"></p>
-<p>首先你得有个域名,没有的话去买一个,一年要不了多少钱<br>买了后尽量早点备案<br>cn域名一定要备案,其他域名如果你主机非大陆的就可以不用备案<br>不备案备扫到就会封你ip好像<br>域名这个东西就是个名字,服务器都是ip的,假设没有域名,你要访问别人网站输入ip岂不是很麻烦<br>域名就是个别名可以理解为<br><br \=""><br><img src="http://p1.bpimg.com/4851/ef749c4a22298a32.png" alt="y1"><br>在域名解析那里添加一个www和@记录,这样别人就可以通过www和不带www访问你的页面了<br>不过这样俩种url访问的都是你的index页面<br>我们可以通过配置虚拟主机来让俩种不一样的页面<br><img src="http://p1.bpimg.com/4851/9b6c59c7ee8098a8.png" alt="f1"><br><br \=""><br>如果你不习惯vim可以在ftp里这样选择你的windows下的编辑器<br>我安装了sublime,然后xftp的使用本地编辑器那设置成sublime的安装路径<br>然后你这样点击了后本地保存后会自动上传的<br>httpd.conf里<br \=""><br>取消这俩段前面的#号<br><img src="http://p1.bpimg.com/4851/cbeb38de309efb60.png" alt="d1"><br><img src="http://p1.bpimg.com/4851/d5700f3447bd2150.png" alt="d2"><br><br \=""><br \=""><br>然后去你apache安装目录下的conf/extra里打开httpd-vhosts.conf<br \=""><br><img src="http://i1.piimg.com/4851/d335d0e92797b677.png" alt="v1"><br \=""><br>带www的就参照第一个，不带就参照我第二个<br>刚开始我没写ServerAlias一直打不开第二个<br \=""><br>www是主页,blog是我当博客用<br>写的目录一定要在httpd.conf里填写的DocumentRoot目录下的子目录<br>编辑完成后在www和blog文件夹下写一个内容不同的index.html或者index.php<br>看看域名访问带www和不带www的域名是否可以访问<br>可以访问的话你就把域名解析暂停了赶紧去备案,一般是两个星期左右</p>
+<p>首先你得有个域名,没有的话去买一个,一年要不了多少钱<br>买了后尽量早点备案<br>cn域名一定要备案,其他域名如果你主机非大陆的就可以不用备案<br>不备案备扫到就会封你ip好像<br>域名这个东西就是个名字,服务器都是ip的,假设没有域名,你要访问别人网站输入ip岂不是很麻烦<br>域名就是个别名可以理解为<br><br \=""><br><img src="https://ws1.sinaimg.cn/large/005ZEsHqly1fkrbb9v800j30s50dj0ta.jpg" alt="y1"><br>在域名解析那里添加一个www和@记录,这样别人就可以通过www和不带www访问你的页面了,这里我是*和@<br>不过这样俩种url访问的都是你的index页面<br>我们可以通过配置虚拟主机来让俩种不一样的页面<br><img src="http://p1.bpimg.com/4851/9b6c59c7ee8098a8.png" alt="f1"><br><br \=""><br>如果你不习惯vim可以在ftp里这样选择你的windows下的编辑器<br>我安装了sublime,然后xftp的使用本地编辑器那设置成sublime的安装路径<br>然后你这样点击了后本地保存后会自动上传的<br>httpd.conf里<br \=""><br>取消这俩段前面的#号</p>
+<p>#LoadModule vhost_alias_module modules/mod_vhost_alias.so</p>
+<p>#Include conf/extra/httpd-vhosts.conf<br><img src="https://ws1.sinaimg.cn/large/005ZEsHqly1fksfha48fxj30el08tdgh.jpg" alt="d1"><br><img src="https://ws1.sinaimg.cn/large/005ZEsHqly1fksfhccbs7j30ff0ag756.jpg" alt="d2"><br><br \=""><br \=""><br>然后去你apache安装目录下的conf/extra里打开httpd-vhosts.conf<br \=""><br><img src="https://ws1.sinaimg.cn/large/005ZEsHqly1fksfjp1kv4j30e708h74s.jpg" alt="v1"><br \=""><br>仿着给定的设置下就行了,如何出现访问不了的情况可能dns问题<br>刚开始我没写ServerAlias<br \=""><br>写的目录一定要在httpd.conf里填写的DocumentRoot目录下的子目录<br>编辑完成后在www和blog文件夹下写一个内容不同的index.html或者index.php<br>可以访问的话你就把域名解析暂停了赶紧去备案,一般是两个星期左右</p>
 
         </div>
       </div>
