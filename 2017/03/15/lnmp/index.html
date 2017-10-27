@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-03-15</span>
-            <span class="time">16:22:56</span>
+            <span class="time">17:08:57</span>
           </span>
           
           <!--  Categories  -->
@@ -372,9 +372,9 @@ EOF
 
 <p>回车后会有个输出提示没有设置密码<br><br>此时直接回车,然后进去mysql客户端里<br><img src="http://oftgpeto9.bkt.clouddn.com/l14.png"><br><br><br><br>进入mysql的客户端后，我们来在客户端里的命令行里给mysql设置root密码<br></p>
 <pre><code>use mysql;
-update user set password=password("123456") where user="root";
-delete from mysql.user where user='';
 delete from user where user='root' and password='';
+delete from mysql.user where user='';
+update user set password=password("123456") where user="root";
 flush privileges;
 exit</code></pre>
 
