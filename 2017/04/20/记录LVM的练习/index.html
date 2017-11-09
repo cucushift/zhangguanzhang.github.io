@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-20</span>
-            <span class="time">22:43:45</span>
+            <span class="time">22:46:51</span>
           </span>
           
           <!--  Categories  -->
@@ -124,7 +124,7 @@
         
         <!-- Post Main Content -->
         <div class="post-content">
-          <p>LVM和raid的创建和调整<br><a id="more"></a><br>LVM就不用讲了,动态调整大小…<br>总结来说就是:<br>    磁盘创建成PV物理卷<br>    PV物理卷组成VG卷组<br>    然后在卷组上创建LV<br><a href="http://i1.piimg.com/1949/d42a0767ce28dca6.png" target="_blank"><img src="http://i1.piimg.com/1949/d42a0767ce28dca6.png" alt=""></a><br>1,创建分区给LVM实例使用(没有多个硬盘,没办法,只有用一个盘分成多个分区来模仿实际生活里的多块硬盘了)<br>用的云主机,俩块硬盘,用另一块没使用的数据盘做例子,分成四个分区</p>
+          <p>LVM和raid的创建和调整<br><a id="more"></a><br>LVM就不用讲了,动态调整大小…<br>总结来说就是:<br>    磁盘创建成PV物理卷<br>    PV物理卷组成VG卷组<br>    然后在卷组上创建LV<br><a href="http://i1.piimg.com/1949/d42a0767ce28dca6.png" target="_blank"><img src="http://i1.piimg.com/1949/d42a0767ce28dca6.png" alt=""></a><br>1,创建分区给LVM实例使用(没有多个硬盘,没办法,只有用一个盘分成多个分区来模仿实际生活里的多块硬盘了)<br>用的云主机,俩块硬盘,用另一块没使用的数据盘做例子,分成四个分区<br>使用fdisk来分区,n是增加分区表，p是打印分区表，创建三个逻辑分区然后一个扩展分区</p>
 <pre><code>[root@guan ~]# fdisk -l<br>
 Disk /dev/vda: 21.5 GB, 21474836480 bytes
 255 heads, 63 sectors/track, 2610 cylinders
