@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-15</span>
-            <span class="time">15:43:55</span>
+            <span class="time">15:51:55</span>
           </span>
           
           <!--  Categories  -->
@@ -126,16 +126,65 @@
         <div class="post-content">
           <p>图文记录下shell多进程<br><a id="more"></a></p>
 <h3 id="虽说shell的多进程是后台执行-但是学会了再写一些脚本的时候非常方便"><a href="#虽说shell的多进程是后台执行-但是学会了再写一些脚本的时候非常方便" class="headerlink" title="虽说shell的多进程是后台执行,但是学会了再写一些脚本的时候非常方便"></a>虽说shell的多进程是后台执行,但是学会了再写一些脚本的时候非常方便</h3><p>先看传统的后台多进程方式,写个shell来举例<br>先是正常的运行</p>
-<pre><code>[root@guan ~]# cat>test.sh<<'eo' 1="" 2="" 3="" 4="" 5="" 6="" 7="" 8="" 9="" 10="" 20="" #!="" bin="" bash="" start="`date" +%s`="" for="" i="" in="" `seq="" 10`;do="" echo="" $i;sleep="" done="" 'time:'="" "$((`date="" +%s`-start))"="" eo="" [root@guan="" ~]#="" sh="" test.sh="" time:="" <="" code=""></'eo'></code></pre>
+<pre><code>[root@guan ~]# cat>test.sh<<'eof'> #!/bin/bash
+> start=`date +%s`
+> for i in `seq 10`;do
+> echo $i;sleep 2
+> done
+> echo 'Time:' "$((`date +%s`-start))"
+> eof
+[root@guan ~]# sh test.sh
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+Time: 20
+[root@guan ~]# 
+</'eof'></code></pre>
 
 <p>然后是后台运行来节约时间</p>
-<pre><code>[root@guan ~]# cat>test.sh<<'eo' 1="" 2="" 3="" 4="" 5="" 6="" 7="" 8="" 9="" 10="" #!="" bin="" bash="" start="`date" +%s`="" for="" i="" in="" `seq="" 10`;do="" {="" echo="" $i;sleep="" 2;="" }&="" #后台运行="" done="" wait="" #等待所有后台进程运行完成="" 'time:'="" "$((`date="" +%s`-start))"="" eo="" [root@guan="" ~]#="" sh="" test.sh="" time:="" <="" code=""></'eo'></code></pre>
+<pre><code>[root@guan ~]# cat>test.sh<<'eof'> #!/bin/bash
+> start=`date +%s`
+> for i in `seq 10`;do
+>  { echo $i;sleep 2; }& #后台运行
+> done
+> wait #等待所有后台进程运行完成
+> echo 'Time:' "$((`date +%s`-start))"
+> eof
+[root@guan ~]# sh test.sh 
+1
+2
+5
+6
+7
+9
+4
+8
+3
+10
+Time: 2
+[root@guan ~]# 
+</'eof'></code></pre>
 
 <p>从上面结果对比发现时间大大缩短,但是缺点是不能控制数量<br>然后因为wait特性我们可以用它来配合数字来自定并发的数量</p>
-<pre><code>[root@guan ~]# cat>test.sh<<'eo' 1="" 2="" 3="" 4="" 5="" 6="" 7="" 8="" 9="" 10="" #!="" bin="" bash="" max_process="5;" start="`date" +%s`="" for="" i="" in="" `seq="" 10`;do="" {="" echo="" $i;sleep="" 2;="" }&="" #后台运行="" ((count++));((do_count++))="" #次数和运行的次数计数="" [="" "do_count"="" -eq="" '10'="" ]="" &&="" wait;break;="" }="" #="" 这里的10是需要执行的总次数="" 运行过的次数等于总次数就等待所有后台退出,但是假设每次并发="" 的次数是3,最后有一个进程,上下俩行就是为了防止这种情况出现="" "$count"="" "$max_process"="" wait;count="0;" done="" 'time:'="" "$((`date="" +%s`-start))"="" eo="" [root@guan="" ~]#="" sh="" test.sh="" time:="" <="" code=""></'eo'></code></pre>
+<pre><code>[root@guan ~]# cat>test.sh<<'eof' 1="" 2="" 3="" 4="" 5="" 6="" 7="" 8="" 9="" 10="" #!="" bin="" bash="" max_process="5;" start="`date" +%s`="" for="" i="" in="" `seq="" 10`;do="" {="" echo="" $i;sleep="" 2;="" }&="" #后台运行="" ((count++));((do_count++))="" #次数和运行的次数计数="" [="" "do_count"="" -eq="" '10'="" ]="" &&="" wait;break;="" }="" #="" 这里的10是需要执行的总次数="" 运行过的次数等于总次数就等待所有后台退出,但是假设每次并发="" 的次数是3,最后有一个进程,上下俩行就是为了防止这种情况出现="" "$count"="" "$max_process"="" wait;count="0;" done="" 'time:'="" "$((`date="" +%s`-start))"="" eof="" [root@guan="" ~]#="" sh="" test.sh="" time:="" <="" code=""></'eof'></code></pre>
 
-<p>这种还要考虑需要并发的进程数量在总次数下是否有余数的可能,后面我发现了可以用mkfifo来实现并发,代码更容易懂<br>无名管道： 就是我们经常使用的 例如： cat text | grep “abc”<br>                   那个“|”就是管道，只不过是无名的，可以直接作为两个进程的数据通道<br>有名管道： mkfilo  可以创建一个管道文件 ，例如： mkfifo　fifo_file</p>
-<p>管道有一个特点，如果管道中没有数据，那么取管道数据的操作就会停滞，直到<br>管道内进入数据，然后读出后才会终止这一操作，同理，写入管道的操作<br>如果没有读取操作，这一个动作也会停滞。<br><img src="http://s3.51cto.com/wyfs02/M00/24/7C/wKiom1NQHk-DQPSDAABjOdvRLD4666.jpg" alt=""><br>当我们试图用echo想管道文件中写入数据时，由于没有任何进程在对它做读取操作，所以<br>它会一直停留在那里等待读取操作，此时我们在另一终端上用cat指令做读取操作<br><img src="http://s3.51cto.com/wyfs02/M02/24/7B/wKioL1NQHibQwp6rAACaUgamBvs703.jpg" alt=""><br>你会发现读取操作一旦执行，写入操作就可以顺利完成了，同理，先做读取操作也是一样的(不信可以自行测试)<br>后面发现的多进程就是利用管道的读写来控制,exec绑定文件操作符重定向<br>exec绑定文件操作符后我们来试试按行读取会有啥现象</p>
+<p>这种还要考虑需要并发的进程数量在总次数下是否有余数的可能,后面我发现了可以用mkfifo来实现并发,代码更容易懂</p>
+<p>无名管道： 就是我们经常使用的 例如： cat text | grep “abc” </p>
+<pre><code>那个“|”就是管道，只不过是无名的，可以直接作为两个进程的数据通道
+</code></pre><p>有名管道： mkfilo  可以创建一个管道文件 ，例如： mkfifo　fifo_file</p>
+<p>管道有一个特点，如果管道中没有数据，那么取管道数据的操作就会停滞，直到</p>
+<p>管道内进入数据，然后读出后才会终止这一操作，同理，写入管道的操作</p>
+<p>如果没有读取操作，这一个动作也会停滞。<br><img src="http://s3.51cto.com/wyfs02/M00/24/7C/wKiom1NQHk-DQPSDAABjOdvRLD4666.jpg" alt=""><br>当我们试图用echo想管道文件中写入数据时，由于没有任何进程在对它做读取操作，所以</p>
+<p>它会一直停留在那里等待读取操作，此时我们在另一终端上用cat指令做读取操作<br><img src="http://s3.51cto.com/wyfs02/M02/24/7B/wKioL1NQHibQwp6rAACaUgamBvs703.jpg" alt=""><br>你会发现读取操作一旦执行，写入操作就可以顺利完成了，同理，先做读取操作也是一样的(不信可以自行测试)</p>
+<p>后面发现的多进程就是利用管道的读写来控制,exec绑定文件操作符重定向</p>
+<p>exec绑定文件操作符后我们来试试按行读取会有啥现象</p>
 <pre><code>[root@guan ~]# exec 5<>test_fifo
 [root@guan ~]# echo '123' >&5
 [root@guan ~]# read -u5  # -u选项是表示从文件描叙符里读取管道里的一行
@@ -148,12 +197,15 @@
 ^C          # 管道里俩行,读取第三行会停滞
 </code></pre>
 管道来并发控制就是先在管道里写入要并发数量的行数
+
 每次read一行后后面把要后台的任务用大括号包起来后台了
+
 然后大括号里面的最后一句是向管道里写入一行,只有后台任务执行完了下一个read -u才不会停滞
+
 举个例子3条任务,并发数量为2,一开始管道里写入2行
+
 然后下面代码
-<pre><code>
-mkfifo test_fifo
+<pre><code>mkfifo test_fifo
 exec 5<>test_fifo
 rm -f test_fifo
 seq 2>&5
@@ -167,14 +219,18 @@ done
 wait
 </code></pre>
 脑补下执行过程,进入循环中:
+
 第一次read(管道里有2行)不会被停滞,管道剩下1行,大括号里的所有代码放在后台(一个后台并发)
+
 第二次read(管道里有1行)不会被停滞,管道剩下0行,大括号里的所有代码放在后台(俩个后台并发)
+
 第三次read(管道里有0行),会被停滞,只有等一个后台执行完了(后台里最后一句)向管道里写入了一个空行,此次的read才会退出停滞状态后面的代码才能继续执行
 然后循环结束后最后还有第三次的后台,此处写个wait即可
 
 然后下面是完整的例子
 
-<pre><code>[root@guan ~]# cat -n test.sh 
+<pre><code>
+    [root@guan ~]# cat -n test.sh 
      1    #!/bin/bash
      2    
      3    trap "exec 5>&-;exec 5<$-;exit 2="" 4="" 5="" 6="" 7="" 8="" 9="" 0"="" #捕捉中断信号="" （ctrl="" +c）关闭fd="" 5的意思,善后工作="" max_process="$1" pipe="`mktemp" -u="" tmp.xxxx`="" mkfifo="" $pipe="" exec="" 5<="">$pipe      #这个数值不是0,1,2就行,范围是3-$((`ulimit -u`-1))
