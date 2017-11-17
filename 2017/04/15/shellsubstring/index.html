@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-15</span>
-            <span class="time">17:01:52</span>
+            <span class="time">17:17:13</span>
           </span>
           
           <!--  Categories  -->
@@ -127,14 +127,7 @@
           <p>shell的字符串截取<br><a id="more"></a></p>
 <p>提取子串</p>
 <p>${string:position}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在$string中从位置$position开始提取子串.<br>如果$string是”*”或者”@”, 那么将会提取从位置$position开始的位置参数.</p>
-<pre><code>[root@guan temp]# 
-[root@guan temp]# cat>test.sh<<'eof'> #!/bin/bash
-> echo ${*:3}
-> eof
-[root@guan temp]# sh test.sh 1 2 3 4 5 6
-3 4 5 6
-</'eof'></code></pre>
-
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@guan temp]<span class="comment"># </span></div><div class="line">[root@guan temp]<span class="comment"># cat&gt;test.sh&lt;&lt;'eof'</span></div><div class="line">&gt; <span class="comment">#!/bin/bash</span></div><div class="line">&gt; <span class="built_in">echo</span> <span class="variable">$&#123;*:3&#125;</span></div><div class="line">&gt; eof</div><div class="line">[root@guan temp]<span class="comment"># sh test.sh 1 2 3 4 5 6</span></div><div class="line">3 4 5 6</div></pre></td></tr></table></figure>
 <p>${string:position:length}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在$string中从位置$position开始提取$length长度的子串.</p>
 <pre><code>
     1 stringZ=abcABC123ABCabc
