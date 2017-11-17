@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-15</span>
-            <span class="time">16:09:26</span>
+            <span class="time">16:13:41</span>
           </span>
           
           <!--  Categories  -->
@@ -173,7 +173,7 @@ Time: 2
 </'eof'></code></pre>
 
 <p>从上面结果对比发现时间大大缩短,但是缺点是不能控制数量<br>然后因为wait特性我们可以用它来配合数字来自定并发的数量</p>
-<pre><code>[root@guan ~]# cat>test.sh<<'eof' 1="" 2="" 3="" 4="" 5="" 6="" 7="" 8="" 9="" 10="" &#35;!="" bin="" bash="" max_process="5;" start="`date" +%s`="" for="" i="" in="" `seq="" 10`;do="" {="" echo="" $i;sleep="" 2;="" }&="" #后台运行="" ((count++));((do_count++))="" #次数和运行的次数计数="" [="" "do_count"="" -eq="" '10'="" ]="" &&="" wait;break;="" }="" #="" 这里的10是需要执行的总次数="" 运行过的次数等于总次数就等待所有后台退出,但是假设每次并发="" 的次数是3,最后有一个进程,上下俩行就是为了防止这种情况出现="" "$count"="" "$max_process"="" wait;count="0;" done="" 'time:'="" "$((`date="" +%s`-start))"="" eof="" [root@guan="" ~]#="" sh="" test.sh="" time:="" <="" code=""></'eof'></code></pre>
+<pre><code>[root@guan ~]# cat>test.sh<<'eof' 1="" 2="" 3="" 4="" 5="" 6="" 7="" 8="" 9="" 10="" &#35;!="" bin="" bash="" max_process="5;" start="`date" +%s`="" for="" i="" in="" `seq="" 10`;do="" {="" echo="" $i;sleep="" 2;="" }&="" #后台运行="" ((count++));((do_count++))="" #次数和运行的次数计数="" [="" "do_count"="" -eq="" '10'="" ]="" &&="" wait;break;="" }="" #这里的10是需要执行的总次数="" #运行过的次数等于总次数就等待所有后台退出,但是假设每次并发="" #的次数是3,最后有一个进程,上下俩行就是为了防止这种情况出现="" "$count"="" "$max_process"="" wait;count="0;" done="" 'time:'="" "$((`date="" +%s`-start))"="" eof="" [root@guan="" ~]#="" sh="" test.sh="" time:="" <="" code=""></'eof'></code></pre>
 
 <p>这种还要考虑需要并发的进程数量在总次数下是否有余数的可能,后面我发现了可以用mkfifo来实现并发,代码更容易懂</p>
 <p>无名管道： 就是我们经常使用的 例如： cat text | grep “abc” </p>
@@ -187,14 +187,14 @@ Time: 2
 <p>exec绑定文件操作符后我们来试试按行读取会有啥现象</p>
 <pre><code>[root@guan ~]# exec 5<>test_fifo
 [root@guan ~]# echo '123' >&5
-[root@guan ~]# read -u5  # -u选项是表示从文件描叙符里读取管道里的一行
+[root@guan ~]# read -u5  #-u选项是表示从文件描叙符里读取管道里的一行
 [root@guan ~]# read -u5
-^C            # 上面管道里只有一行,读取第二行会停滞在这
+^C            #上面管道里只有一行,读取第二行会停滞在这
 [root@guan ~]# echo -e '123\n123' >&5
 [root@guan ~]# read -u5
 [root@guan ~]# read -u5
 [root@guan ~]# read -u5
-^C          # 管道里俩行,读取第三行会停滞
+^C          #管道里俩行,读取第三行会停滞
 </code></pre>
 
 <p>管道来并发控制就是先在管道里写入要并发数量的行数<br>每次read一行后后面把要后台的任务用大括号包起来后台了<br>然后大括号里面的最后一句是向管道里写入一行,只有后台任务执行完了下一个read -u才不会停滞<br>举个例子3条任务,并发数量为2,一开始管道里写入2行<br>然后下面代码</p>
@@ -218,7 +218,7 @@ wait
     [root@guan ~]# cat -n test.sh 
      1    #!/bin/bash
      2    
-     3    trap "exec 5>&-;exec 5<$-;exit 2="" 4="" 5="" 6="" 7="" 8="" 9="" 0"="" #捕捉中断信号="" （ctrl="" +c）关闭fd="" 5的意思,善后工作="" max_process="$1" pipe="`mktemp" -u="" tmp.xxxx`="" mkfifo="" $pipe="" exec="" 5<="">$pipe      #这个数值不是0,1,2就行,范围是3-$((`ulimit -u`-1))
+     3    trap "exec 5>&-;exec 5<$-;exit 2="" 4="" 5="" 6="" 7="" 8="" 9="" 0"="" #捕捉中断信号2(ctrl+c)关闭fd5的意思,善后工作="" max_process="$1" pipe="`mktemp" -u="" tmp.xxxx`="" mkfifo="" $pipe="" exec="" 5<="">$pipe      #这个数值不是0,1,2就行,范围是3-$((`ulimit -u`-1))
     10    rm -f $pipe
     11    
     12    seq $max_process>&5   #写入并发数量的行
@@ -234,7 +234,7 @@ wait
     22    wait
     23    echo 'Time:' "$((`date +%s`-start))"
     24    
-    25    exec 5>$-;exec 5<$- 1="" 2="" 3="" 4="" 5="" 6="" 7="" 8="" 9="" 10="" #="" #关闭文件操作符必须分开写="" [root@guan="" ~]#="" sh="" test.sh="" time:="" <="" code=""></$-></$-;exit></code></pre>
+    25    exec 5>$-;exec 5<$- 1="" 2="" 3="" 4="" 5="" 6="" 7="" 8="" 9="" 10="" #关闭文件操作符必须分开写="" [root@guan="" ~]#="" sh="" test.sh="" time:="" <="" code=""></$-></$-;exit></code></pre>
 
         </div>
       </div>
