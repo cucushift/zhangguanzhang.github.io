@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2017-04-15</span>
-            <span class="time">16:03:33</span>
+            <span class="time">16:09:26</span>
           </span>
           
           <!--  Categories  -->
@@ -117,7 +117,7 @@
           <div class="post-tags text-muted">
             Tags: 
 
-<a class="tag" href="/tags/shell/">#shell</a> <a class="tag" href="/tags/linux/">#linux</a>
+<a class="tag" href="/tags/linux/">#linux</a> <a class="tag" href="/tags/shell/">#shell</a>
 
 
           </div>
@@ -126,7 +126,7 @@
         <div class="post-content">
           <p>图文记录下shell多进程<br><a id="more"></a></p>
 <h3 id="虽说shell的多进程是后台执行-但是学会了再写一些脚本的时候非常方便"><a href="#虽说shell的多进程是后台执行-但是学会了再写一些脚本的时候非常方便" class="headerlink" title="虽说shell的多进程是后台执行,但是学会了再写一些脚本的时候非常方便"></a>虽说shell的多进程是后台执行,但是学会了再写一些脚本的时候非常方便</h3><p>先看传统的后台多进程方式,写个shell来举例<br>先是正常的运行</p>
-<pre><code>[root@guan ~]# cat>test.sh<<'eof'> #!/bin/bash
+<pre><code>[root@guan ~]# cat>test.sh<<'eof'> &#35;!/bin/bash
 > start=`date +%s`
 > for i in `seq 10`;do
 > echo $i;sleep 2
@@ -149,7 +149,7 @@ Time: 20
 </'eof'></code></pre>
 
 <p>然后是后台运行来节约时间</p>
-<pre><code>[root@guan ~]# cat>test.sh<<'eof'> #!/bin/bash
+<pre><code>[root@guan ~]# cat>test.sh<<'eof'> &#35;!/bin/bash
 > start=`date +%s`
 > for i in `seq 10`;do
 >  { echo $i;sleep 2; }& #后台运行
@@ -173,7 +173,7 @@ Time: 2
 </'eof'></code></pre>
 
 <p>从上面结果对比发现时间大大缩短,但是缺点是不能控制数量<br>然后因为wait特性我们可以用它来配合数字来自定并发的数量</p>
-<pre><code>[root@guan ~]# cat>test.sh<<'eof' 1="" 2="" 3="" 4="" 5="" 6="" 7="" 8="" 9="" 10="" #!="" bin="" bash="" max_process="5;" start="`date" +%s`="" for="" i="" in="" `seq="" 10`;do="" {="" echo="" $i;sleep="" 2;="" }&="" #后台运行="" ((count++));((do_count++))="" #次数和运行的次数计数="" [="" "do_count"="" -eq="" '10'="" ]="" &&="" wait;break;="" }="" #="" 这里的10是需要执行的总次数="" 运行过的次数等于总次数就等待所有后台退出,但是假设每次并发="" 的次数是3,最后有一个进程,上下俩行就是为了防止这种情况出现="" "$count"="" "$max_process"="" wait;count="0;" done="" 'time:'="" "$((`date="" +%s`-start))"="" eof="" [root@guan="" ~]#="" sh="" test.sh="" time:="" <="" code=""></'eof'></code></pre>
+<pre><code>[root@guan ~]# cat>test.sh<<'eof' 1="" 2="" 3="" 4="" 5="" 6="" 7="" 8="" 9="" 10="" &#35;!="" bin="" bash="" max_process="5;" start="`date" +%s`="" for="" i="" in="" `seq="" 10`;do="" {="" echo="" $i;sleep="" 2;="" }&="" #后台运行="" ((count++));((do_count++))="" #次数和运行的次数计数="" [="" "do_count"="" -eq="" '10'="" ]="" &&="" wait;break;="" }="" #="" 这里的10是需要执行的总次数="" 运行过的次数等于总次数就等待所有后台退出,但是假设每次并发="" 的次数是3,最后有一个进程,上下俩行就是为了防止这种情况出现="" "$count"="" "$max_process"="" wait;count="0;" done="" 'time:'="" "$((`date="" +%s`-start))"="" eof="" [root@guan="" ~]#="" sh="" test.sh="" time:="" <="" code=""></'eof'></code></pre>
 
 <p>这种还要考虑需要并发的进程数量在总次数下是否有余数的可能,后面我发现了可以用mkfifo来实现并发,代码更容易懂</p>
 <p>无名管道： 就是我们经常使用的 例如： cat text | grep “abc” </p>
