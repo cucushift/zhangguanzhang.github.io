@@ -102,7 +102,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2018-01-10</span>
-            <span class="time">00:47:58</span>
+            <span class="time">00:48:49</span>
           </span>
           
           <!--  Categories  -->
@@ -124,7 +124,7 @@
         
         <!-- Post Main Content -->
         <div class="post-content">
-          <p>总结下容器的一些概念和虚拟机的区别以及CMD和entrypoint<br><a id="more"></a><br>先直接切入主题，容器好处和虚拟机的一些差异可以看下面的博客<br><a href="http://www.cnblogs.com/linuxops/p/6781047.html" target="_blank" rel="external">http://www.cnblogs.com/linuxops/p/6781047.html</a></p>
+          <p>总结下容器的一些概念和虚拟机的区别以及CMD和entrypoint<br><a id="more"></a><br>先直接切入主题，容器好处和虚拟机的一些差异以及需要看懂本文的基础知识可以稍微看下面的博客过一遍<br><a href="http://www.cnblogs.com/linuxops/p/6781047.html" target="_blank" rel="external">http://www.cnblogs.com/linuxops/p/6781047.html</a></p>
 <p>容器是利用linux的cgroup和namespace隔离的，在宿主机上本质是个隔离的进程。因为是进程，一个容器(进程)要一直运行，那容器里得有个主进程一直运行。<br>容器很多东西(命令，文件啥的)和虚拟机有点类似，但是你不能把它当虚拟机用，因为容器本质是解耦的，一个容器一个业务<br>可以这样假想下，拿nginx这个来举例子，nginx其实就是个进程和配置文件还有静态网页啥的+一台服务器(环境)，服务器上有其他不需要的东西，容器就是个最小系统，然后安装了nginx</p>
 <p>安装了docker后(建议别虚拟机)，一般教程是举例<br>第一个容器命令是<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="keyword">run</span><span class="bash"> -ti centos /bin/bash</span></div></pre></td></tr></table></figure></p>
 <p>也可能是<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="keyword">run</span><span class="bash"> <span class="_">-d</span> -p 80:80 nginx</span></div></pre></td></tr></table></figure></p>
