@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Zhangguanzhang">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="正则零宽断言的一个注意点"/>
+  <meta property="og:description" content="记录生活点滴" />
+  <meta property="og:site_name" content="Zhangguanzhang"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="https://zhangguanzhang.github.ioundefined"/>
+  <meta name="baidu-site-verification" content="RqbanSZBE3" />
+  
+    <link rel="alternate" href="/atom.xml" title="Zhangguanzhang" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>Zhangguanzhang</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.dark.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">正则零宽断言的一个注意点</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/zhangguanzhang">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:zhangguanzhang@qq.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Zhangguanzhang</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2018-02-06</span>
+            <span class="time">16:30:39</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/日志/">日志</a> / <a href="/categories/日志/技巧/">技巧</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/正则/">#正则</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>正则的零宽断言的一个冷门知识点<br><a id="more"></a><br>一般来说’(?&lt;’用在左边，’(?’用在右边,但是也有人反着用(倒不如说可以反着用)<br>下面现象看例子</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@guan temp]# cat -n txt</div><div class="line">     <span class="number">1</span>	<span class="number">123</span>,asdasd,<span class="number">23</span>sfsdf,</div><div class="line">     <span class="number">2</span>	<span class="number">123</span>,<span class="number">1</span>nd.</div><div class="line">     <span class="number">3</span>	,addfsdf,hjgfj</div><div class="line">     <span class="number">4</span>	<span class="number">1</span>,<span class="number">23</span>t.fdgdfg,dfdg</div><div class="line">     <span class="number">5</span>	a,<span class="number">5</span>ggh</div><div class="line">     <span class="number">6</span>	.asf,</div></pre></td></tr></table></figure>
+<p>先来一个正常的,匹配一个字符后面逗号的到结尾<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root<span class="variable">@guan</span> temp]<span class="comment"># grep -Pon '.(?=,).+' txt  </span></div><div class="line"><span class="number">1</span><span class="symbol">:</span><span class="number">3</span>,asdasd,<span class="number">23</span>sfsdf,</div><div class="line"><span class="number">2</span><span class="symbol">:</span><span class="number">3</span>,<span class="number">1</span>nd.</div><div class="line"><span class="number">3</span><span class="symbol">:f</span>,hjgfj</div><div class="line"><span class="number">4</span><span class="symbol">:</span><span class="number">1</span>,<span class="number">23</span>t.fdgdfg,dfdg</div><div class="line"><span class="number">5</span><span class="symbol">:a</span>,<span class="number">5</span>ggh</div><div class="line"><span class="number">6</span><span class="symbol">:f</span>,</div></pre></td></tr></table></figure></p>
+<p>然后去掉前面的字符,对比下结果<br>[root@guan temp]# grep -Pon ‘(?=,).+’ txt<br>1:,asdasd,23sfsdf,<br>2:,1nd.<br>3:,addfsdf,hjgfj<br>4:,23t.fdgdfg,dfdg<br>5:,5ggh<br>6:,</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">可以理解为前面有字符后去掉前面的,或者理解为前面<span class="number">0</span>个字符从这个字符开始,也就是<span class="string">'(?&lt;=正则)'</span>但是保留这个正则部分,不能理解成<span class="comment">(?=,)</span>.+可以转换为,.+</div><div class="line">原因看下面例子</div></pre></td></tr></table></figure>
+<p>[root@guan temp]# cat txt<br>,23sfsdf,<br>1nd,<br>,addfsdf,hjgfj<br>1,23t.fdgdfg,dfdg<br>a,5ggh<br>.asf,<br>[root@guan temp]# grep -Po ‘(?=,).+’ txt<br>,23sfsdf,<br>,<br>,addfsdf,hjgfj<br>,23t.fdgdfg,dfdg<br>,5ggh<br>,<br>[root@guan temp]# grep -Po ‘,.+’ txt<br>,23sfsdf,<br>,addfsdf,hjgfj<br>,23t.fdgdfg,dfdg<br>,5ggh<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">总之<span class="comment">(?=)</span>用在左边比较鸡肋</div><div class="line">说下<span class="comment">(?!)</span>用在左边</div></pre></td></tr></table></figure></p>
+<p>[root@guan temp]# cat -n txt<br>     1    123,asdasd,23sfsdf,<br>     2    123,1nd.<br>     3    ,addfsdf,hjgfj<br>     4    1,23t.fdgdfg,dfdg<br>     5    aa,5ggh<br>     6    .as.f,<br>     7    1al,sd.<br>     8    ,wewqe<br>[root@guan temp]# grep -Pon ‘.(?!,).+’ txt<br>1:123,asdasd,23sfsdf,<br>2:123,1nd.<br>3:,addfsdf,hjgfj<br>4:,23t.fdgdfg,dfdg<br>5:aa,5ggh<br>6:.as.f,<br>7:1al,sd.<br>8:,wewqe<br>[root@guan temp]# grep -Pon ‘(?!,).+’ txt<br>1:123,asdasd,23sfsdf,<br>2:123,1nd.<br>3:addfsdf,hjgfj<br>4:1,23t.fdgdfg,dfdg<br>5:aa,5ggh<br>6:.as.f,<br>7:1al,sd.<br>8:wewqe<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">正则默认贪婪的,所以一般这样匹配到的是很多<span class="comment">(?!)</span>一般用在开头<span class="comment">(原因看最后总结)</span>,<span class="comment">(?!正则)</span>来表示匹配正则部分开头但不包括它或者任意开头</div><div class="line">上面就是开头的逗号,可以理解为无论开头有没有逗号都去掉开头的逗号</div><div class="line"></div><div class="line">下面同理<span class="comment">(?&lt;=)</span>用在右边比较鸡肋</div></pre></td></tr></table></figure></p>
+<p>[root@guan temp]# cat -n txt<br>     1    123,asdasd,23sfsdf,<br>     2    123,1nd.<br>     3    ,addfsdf,hjgfj<br>     4    1,23t.fdgdfg,dfdg<br>     5    aa,5ggh<br>     6    .as.f,<br>     7    1al,sd.<br>     8    ,wewqe<br>[root@guan temp]# grep -Pon ‘.+(?&lt;=,).’ txt<br>1:123,asdasd,2<br>2:123,1<br>3:,addfsdf,h<br>4:1,23t.fdgdfg,d<br>5:aa,5<br>7:1al,s<br>8:,w<br>[root@guan temp]# grep -Pon ‘.+(?&lt;=,)’ txt<br>1:123,asdasd,23sfsdf,<br>2:123,<br>3:,addfsdf,<br>4:1,23t.fdgdfg,<br>5:aa,<br>6:.as.f,<br>7:1al,<br>8:,<br><figure class="highlight erlang-repl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">同理(?&lt;!)表示无论结尾有没有正则部分,都去掉这部分</div></pre></td></tr></table></figure></p>
+<p>[root@guan temp]# cat txt<br>123,asdasd,23sfsdf,<br>123,1nd.<br>,addfsdf,hjgfj<br>1,23t.fdgdfg,dfdg<br>aa,5ggh<br>.as.f,<br>1al,sd.<br>,wewqe<br>[root@guan temp]# grep -Pon ‘.+(?&lt;!,).’ txt<br>1:123,asdasd,23sfsdf,<br>2:123,1nd.<br>3:,addfsdf,hjgfj<br>4:1,23t.fdgdfg,dfdg<br>5:aa,5ggh<br>6:.as.f,<br>7:1al,sd.<br>8:,wewqe<br>[root@guan temp]# grep -Pon ‘.+(?&lt;!,)’ txt<br>1:123,asdasd,23sfsdf<br>2:123,1nd.<br>3:,addfsdf,hjgfj<br>4:1,23t.fdgdfg,dfdg<br>5:aa,5ggh<br>6:.as.f<br>7:1al,sd.<br>8:,wewqe</p>
+<p>```</p>
+<p>总结的话就是<br>(?=)和(?&lt;=)用在相反的方向都很鸡肋<br>(?!)和(?&lt;!)用在相反方向一般是最左边和最右边这样反着用来去掉最开始的或者结尾的匹配的内容</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        <p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
