@@ -1,241 +1,1199 @@
 <!DOCTYPE html>
 <html>
-  <!-- Html Head Tag-->
-  <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="Zhangguanzhang">
-  <!-- Open Graph Data -->
-  <meta property="og:title" content="Zhangguanzhang"/>
-  <meta property="og:description" content="记录生活点滴" />
-  <meta property="og:site_name" content="Zhangguanzhang"/>
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://zhangguanzhang.github.ioundefined"/>
-  <meta name="baidu-site-verification" content="RqbanSZBE3" />
-  
-    <link rel="alternate" href="/atom.xml" title="Zhangguanzhang" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
+    <!-- title -->
 
-  <!-- Site Title -->
-  <title>Zhangguanzhang</title>
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.min.css">
-  <!-- Custom CSS -->
+
+
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>zhangguanzhang&#39;s Studio</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        height: 50vh;
+        overflow: hidden;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.7);
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= /css/style.css?v=20180204 as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" type="text/css" href= /css/mobile.css?v=20180204 media="(max-width: 980px)"/>
+    <link rel="icon" href= /assets/favicon.ico>
+    <script>
+  // load webfont-loader async, and add callback function
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
   
-  <link rel="stylesheet" href="/css/style.dark.css">
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
 
-  <!-- Google Analytics -->
-  
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntroTags = document.getElementsByClassName('post-intro-tags')[0],
+        postIntroMeat = document.getElementsByClassName('post-intro-meta')[0];
+      if (postIntroTags) {
+        postIntroTags.classList.add('post-fade-in');
+      }
+      if (postIntroMeat) {
+        postIntroMeat.classList.add('post-fade-in');
+      }
+    }
+  }
 
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  async("https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", asyncCb)
+</script>
+    <script>
+        (function (w) {
+            "use strict";
+            // rel=preload support test
+            if (!w.loadCSS) {
+                w.loadCSS = function () { };
+            }
+            // define on the loadCSS obj
+            var rp = loadCSS.relpreload = {};
+            // rel=preload feature support test
+            // runs once and returns a function for compat purposes
+            rp.support = (function () {
+                var ret;
+                try {
+                    ret = w.document.createElement("link").relList.supports("preload");
+                } catch (e) {
+                    ret = false;
+                }
+                return function () {
+                    return ret;
+                };
+            })();
+
+            // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+            // then change that media back to its intended value on load
+            rp.bindMediaToggle = function (link) {
+                // remember existing media attr for ultimate state, or default to 'all'
+                var finalMedia = link.media || "all";
+
+                function enableStylesheet() {
+                    link.media = finalMedia;
+                }
+
+                // bind load handlers to enable media
+                if (link.addEventListener) {
+                    link.addEventListener("load", enableStylesheet);
+                } else if (link.attachEvent) {
+                    link.attachEvent("onload", enableStylesheet);
+                }
+
+                // Set rel and non-applicable media type to start an async request
+                // note: timeout allows this to happen async to let rendering continue in IE
+                setTimeout(function () {
+                    link.rel = "stylesheet";
+                    link.media = "only x";
+                });
+                // also enable media after 3 seconds,
+                // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+                setTimeout(enableStylesheet, 3000);
+            };
+
+            // loop through link elements in DOM
+            rp.poly = function () {
+                // double check this to prevent external calls from running
+                if (rp.support()) {
+                    return;
+                }
+                var links = w.document.getElementsByTagName("link");
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    // qualify links to those with rel=preload and as=style attrs
+                    if (link.rel === "preload" && link.getAttribute("as") === "style" && !link.getAttribute("data-loadcss")) {
+                        // prevent rerunning on link
+                        link.setAttribute("data-loadcss", true);
+                        // bind listeners to toggle media back
+                        rp.bindMediaToggle(link);
+                    }
+                }
+            };
+
+            // if unsupported, run the polyfill
+            if (!rp.support()) {
+                // run once at least
+                rp.poly();
+
+                // rerun poly on an interval until onload
+                var run = w.setInterval(rp.poly, 500);
+                if (w.addEventListener) {
+                    w.addEventListener("load", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                } else if (w.attachEvent) {
+                    w.attachEvent("onload", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                }
+            }
+            // commonjs
+            if (typeof exports !== "undefined") {
+                exports.loadCSS = loadCSS;
+            }
+            else {
+                w.loadCSS = loadCSS;
+            }
+        }(typeof global !== "undefined" ? global : this));
+    </script>
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
 </head>
 
-  <body>
-    <!-- Archive Header -->
-<!-- Page Header -->
+    
+    
+<header class="header">
 
-
-<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <div class="page-title with-background-image">
-          <p class="title">Blog Archives</p>
-          <p class="subtitle"></p>
-        </div>
-        <div class="site-menu with-background-image">
-          <ul>
-            
-              <li>
-                <a href="/">
-                  
-                  Home
-                  
-                </a>
-              </li>
-            
-              <li>
-                <a href="/archives">
-                  
-                  Archives
-                  
-                </a>
-              </li>
-            
-              <li>
-                <a href="https://github.com/zhangguanzhang">
-                  
-                  Github
-                  
-                </a>
-              </li>
-            
-              <li>
-                <a href="mailto:zhangguanzhang@qq.com">
-                  
-                  Email
-                  
-                </a>
-              </li>
-            
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <a class="home-link" href=/>zhangguanzhang's Studio.</a>
 </header>
-
-
-<!-- Archive List -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-      
-        <div class="archive-item">
-  <a href="/2017/04/11/8266hexdownload/" class="post-title">
-    8266模块的烧写和sdk的坑
-  </a>
-  <div class="date text-muted">Posted on 2017-04-11 15:03:29</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/2017/04/09/armlnmp/" class="post-title">
-    安卓安装linux并且源码编译安装搭建lnmp的坑和总结
-  </a>
-  <div class="date text-muted">Posted on 2017-04-09 21:41:08</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/2017/03/15/lnmp/" class="post-title">
-    源码编译安装lnmp
-  </a>
-  <div class="date text-muted">Posted on 2017-03-15 17:43:04</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/2017/02/26/ad/" class="post-title">
-    Altium Designer里走线开窗和挖除铺铜还有一些技巧
-  </a>
-  <div class="date text-muted">Posted on 2017-02-26 20:24:09</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/2017/02/12/wx00/" class="post-title">
-    微信公众号接入自己服务器
-  </a>
-  <div class="date text-muted">Posted on 2017-02-12 17:29:31</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/2017/02/02/lamp/" class="post-title">
-    lamp环境搭建总结
-  </a>
-  <div class="date text-muted">Posted on 2017-02-02 14:58:46</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/2017/01/08/tuling-wx/" class="post-title">
-    微信公众号接入图灵机器人api
-  </a>
-  <div class="date text-muted">Posted on 2017-01-08 23:13:10</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/2016/11/13/cad/" class="post-title">
-    cad
-  </a>
-  <div class="date text-muted">Posted on 2016-11-13 22:34:56</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/2016/10/30/20161030/" class="post-title">
-    记录下自己制作的led-vu
-  </a>
-  <div class="date text-muted">Posted on 2016-10-30 23:04:01</div>
-</div>
-
-      
-        <div class="archive-item">
-  <a href="/2016/10/29/secondblog/" class="post-title">
-    原生js左右分散对齐文字
-  </a>
-  <div class="date text-muted">Posted on 2016-10-29 12:00:08</div>
-</div>
-
-      
-
-    </div>
-  </div>
-</div>
-<!-- Pagination -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-10 col-md-10 col-md-offset-1">
-      <ul class="pagination">
-          
-              <li class="previous">
-                <a href="/archives/">
-                  <span class="symbol-left">&lt;</span>
-                  <span>上一页</span>
-                </a>
-              </li>
-          
-          
-            <li class="next">
-              <a href="/archives/page/3/">
-                <span>下一页</span>
-                <span class="symbol-right">&gt;</span>
-              </a>
-            </li>
-          
-      </ul>
-    </div>
-  </div>
-</div>
-
-
-
-    <!-- Footer -->
-<footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <p class="copyright text-muted">
-          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
-          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
-        <p class="copyright text-muted">
-          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+            
+    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
         </p>
-      </div>
+        <!-- 文章页meta -->
+        
+    </div>
+</div>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+
+        <div class="container container-unloaded">
+            <main class="main index-page">
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2017/04/11/8266hexdownload/" >
+                
+                    <span>8266模块的烧写和sdk的坑</span>
+            </a>
+            <div class="abstract-content">
+                记录下esp-12f,即8266的烧写
+前几天测试,发现乱码bug,换了块8266还有,居然之前的烧写姿势错误8266型号众多,我只用过esp-01和图上面的esp-12F,听说12s是12f的增强版之前淘宝采购的时候发现店家没有12s了,不然试试12seagle.flash.bin——–&gt;0x00000eagle.irom0text.bin—-&gt;0x10000上面俩文件是任何时候都必须烧录的,下面俩文件是刚拿到模块初始化必须烧录的esp_init_data_default.bin—-&gt;0x3fc000blank.bin—-&gt;0x3ff000
+地址如右边红框所示有...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/04/11</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = 8266>8266</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = 总结>总结</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2017/04/09/armlnmp/" >
+                
+                    <span>安卓安装linux并且源码编译安装搭建lnmp的坑和总结</span>
+            </a>
+            <div class="abstract-content">
+                新买的内存卡到了,源码搭建lnmp
+原创，转载需同意,盗版必究先说下安装过程我手机是安卓4.4.2,泛泰a870L首先不保证能不能成功,毕竟现在很多人做rom适配,成功与否看脸,不要指望一次成功有两种方式:一种是加载img镜像文件(缺点是安装后的系统容量就是img大小,img我见过最大的也就3.9G，后来空间满了,好处是可以挂载安卓的所有目录)第二种是使用linux deploy(两种方式都是使用这个软件来部署)+内存卡分区,软件在线安装linux在内存卡的分区里(优点空间可以自己分配,缺点还没找到)无论哪种方式只有手机屏幕开启下其他端在ssh下才会正常,不然你锁屏了ssh输入命令卡在那...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/04/09</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = lnmp>lnmp</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = 安卓>安卓</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2017/03/15/lnmp/" >
+                
+                    <span>源码编译安装lnmp</span>
+            </a>
+            <div class="abstract-content">
+                自己总结的安装步骤,仅供参考系统是centos 6.8 64位,全部是源码编译安装,理论上来说6.5-6.9都适用环境搭建是我自己写了个一键脚本,下载地址www.zhangguanzhang.com/download/lnmp.sh可以拿去参考或者修改下,个人需求来写的,废话不多说
+开始,创建目录存放源码包(不要存在root目录里,防止读取权限不够)
+[root@guan ~]# mkdir -p /usr/local/download
+[root@guan ~]# cd !$
+cd /usr/local/download
+
+安装基本依赖
+[root@guan download]# yu...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/03/15</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = lnmp>lnmp</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2017/02/26/ad/" >
+                
+                    <span>Altium Designer里走线开窗和挖除铺铜还有一些技巧</span>
+            </a>
+            <div class="abstract-content">
+                Altium Designer里铺铜开窗和绿油开窗还有一些技巧
+总结一下,怕忘记了图片看不清楚可以点击下图片先说说铺铜开窗,也就是挖除一块区域的铺铜,可以先画挖除的范围,也可以后挖铺铜范围一般都是是铺完铜,然后在铺铜的层上p放置多边形填充挖空,最后双击铺铜-确定-Repour Now重新铺铜.操作简单就不上gif了
+接下来是绿油开窗,绿油开窗效果就是没有绿油的有铜皮的地方会被喷上锡就像焊盘那一样,很多人也这样做logo玩绿油叫做阻焊层,也就是solder层,这个层画了东西就后画的部分就没有绿油gif里我用字符串和区域来演示
+最后一些特意的形状需求的话可以选中对象后用工具(快捷键T)里的转...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/02/26</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = 总结>总结</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Altium Designer>Altium Designer</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2017/02/12/wx00/" >
+                
+                    <span>微信公众号接入自己服务器</span>
+            </a>
+            <div class="abstract-content">
+                图文讲解下微信接入自己云主机
+之前在网上摸索的接入微信整理下现在很多东西都依赖微信，微信公众号开发很方便，不用去适配app之类的客户端接入微信第一步准备条件:一台能外网80端口访问的主机一个公众号主机可以看我之前的教程来搭建
+自己去注册一个公众号，关于公众号，个人性质只能注册一个订阅号,服务号得有工商注册证明,企业号就不用说了,小程序个人不能申请所以说自己去申请一个订阅号微信公众平台地址：https://mp.weixin.qq.com登录微信公众平台后台，在左侧列表中最下方，找到“ 基本配置 ”，点击进入填写信息，第一个是你服务器ip/脚本文件,这个脚本文件用来对接微信服务器检测用的第...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/02/12</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = linux>linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = 微信>微信</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2017/02/02/lamp/" >
+                
+                    <span>lamp环境搭建总结</span>
+            </a>
+            <div class="abstract-content">
+                网上杂七杂八的lamp搭建或者到处抄袭的博客真是心烦
+自己亲身实践搭建的lamp环境,原创，转载需同意,盗版必究主机用的腾讯云的centos 6.7 64位,腾讯云的学生认证后每个月可以领取64元的代金卷,你把配置弄成65左右就是每个月1块钱了,非常优惠另外也用centos 6.5实践过首先我们需要俩工具，左边ftp文件传输用，右边ssh软件链接: https://pan.baidu.com/s/1pLfMHcf 密码: 3hjn(如果链接失效了自己去网上下吧….)打开xsehll后文件-新建一个链接，主机那填写你的云主机外网ip
+然后文件-打开-双击你新建的用户名输入root,密码为你...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/02/02</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = 原创>原创</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = lamp>lamp</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2017/01/08/tuling-wx/" >
+                
+                    <span>微信公众号接入图灵机器人api</span>
+            </a>
+            <div class="abstract-content">
+                最近在弄微信远程控制，闲来无聊把图灵机器人接入自己公众号
+网上的有的是直接图灵官网那接入，但是那样就完全接管了公众号的消息管理了，自己的就没用了，然后百度了一番，终于弄出来了预备条件:服务器(云主机，自己买)，微信公众号，和一个图灵的apikey(图灵官网申请个机器人后就可以获得),会点php基础(我用php开发的..)先自己微信公众号先对接上自己主机。怎么对接有时间我发下教程。。。另外再废话点,微信公众号一般是三种,订阅号(个人),服务号(工商个体户),企业号(企业用),订阅号只能个人用并且开启开发者模式后(也就是你对接服务器了后无法自定义菜单，这点很坑….),服务号和企业号不说了,反...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/01/08</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = 原创>原创</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = 微信>微信</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = api>api</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2016/11/13/cad/" >
+                
+                    <span>cad</span>
+            </a>
+            <div class="abstract-content">
+                以前自己录制的cad的一些gif图，百度取消了百度相册，只能转移到这里了正文:
+图片太小的话可以右击在新选项卡里打开
+
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/11/13</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = cad>cad</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2016/10/30/20161030/" >
+                
+                    <span>记录下自己制作的led-vu</span>
+            </a>
+            <div class="abstract-content">
+                记录下自己制作的led-vu在贴吧看到有人放出的图经过一番搜索在youtube上找到制作人,发现似乎两年前这东西就在外国火了一阵子
+看视频发现老外遥控器上20种颜色，思考了好久后才明白老外用的是灯带控制器来调色就图里右下角那个东西于是我就上某宝上搜索，结果还真搜到了，但是30多块钱，好贵阿在店里逛了下发现另一款小巧的控制器 老外也是用的灯带，自己画板子的话成本太高了  然后如上图所示，买了灯带+控制器（第一次是只买了灯带，当时没想到用那个控制器，后面发现买的灯带是0.5m的，一层用10cm，10层一共1m。。。于是又买了条1m的，后来想到用那个控制器的时候灯带早就到了，没办法又再店里买了...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/10/30</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = diy>diy</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2016/10/29/secondblog/" >
+                
+                    <span>原生js左右分散对齐文字</span>
+            </a>
+            <div class="abstract-content">
+                练习下
+前天晚上看到群里有人问如何左右分散对齐文字网上查了下基本都是text-align:justify; text-justify:distribute-all-lines; 的这几种还不兼容，就自己想了个另类思路，每个文字之间插入一个div，然后把这些插入的div宽度设置成=（父级div宽度-文字宽度*文字个数）/（插入的div个数）
+
+随便设置的父级宽度,以下是body内容
+
+以下是函数
+
+下面是测试改变父级div宽度和文字内容,依旧分散对齐，成功！
+
+文字宽度总不可能比超过文字高度吧，这里我用16代替，倘若你自己设置了字体大小js获取代替掉16即可
+
+
+有一点我很好奇,我也是刚接...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/10/29</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = js>js</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = 原创>原创</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = 左右分散对齐文字>左右分散对齐文字</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    <!-- paginator  -->
+    
+    <nav class="page-nav">
+        <a class="extend prev" rel="prev" href="/archives/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="extend next" rel="next" href="/archives/page/3/">NEXT &#62;</a>
+    </nav>
+    
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:zhangguanzhang@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/zhangguanzhang" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+        <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 21 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/10</span><a class="archive-post-title" href= "/2018/01/10/docker的一些概念/" >docker的一些概念</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/12</span><a class="archive-post-title" href= "/2017/05/12/ssh互信/" >ssh互信</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/06</span><a class="archive-post-title" href= "/2017/05/06/shell快捷键提升效率/" >shell利用快捷键提升命令输入和编辑</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/29</span><a class="archive-post-title" href= "/2017/04/29/zabbixsetup/" >个人zabbix安装和坑的解决</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/26</span><a class="archive-post-title" href= "/2017/04/26/正则零宽断言的一个注意点/" >正则零宽断言的一个注意点</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/25</span><a class="archive-post-title" href= "/2017/04/25/转载-awk中RS-OFS-RS-ORS区别于联系/" >[转载]awk中RS,ORS,FS,OFS区别于联系</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/2017/04/20/记录LVM的练习/" >记录LVM和raid的练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2017/04/17/iot/" >分享下自己做的外网控制硬件</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/15</span><a class="archive-post-title" href= "/2017/04/15/shell_process/" >shell多进程并发执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/15</span><a class="archive-post-title" href= "/2017/04/15/shellsubstring/" >shell的字符串截取</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2017/04/11/8266hexdownload/" >8266模块的烧写和sdk的坑</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/09</span><a class="archive-post-title" href= "/2017/04/09/armlnmp/" >安卓安装linux并且源码编译安装搭建lnmp的坑和总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/2017/03/15/lnmp/" >源码编译安装lnmp</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2017/02/26/ad/" >Altium Designer里走线开窗和挖除铺铜还有一些技巧</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href= "/2017/02/12/wx00/" >微信公众号接入自己服务器</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2017/02/02/lamp/" >lamp环境搭建总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/08</span><a class="archive-post-title" href= "/2017/01/08/tuling-wx/" >微信公众号接入图灵机器人api</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2016 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/2016/11/13/cad/" >cad</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2016/10/30/20161030/" >记录下自己制作的led-vu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/29</span><a class="archive-post-title" href= "/2016/10/29/secondblog/" >原生js左右分散对齐文字</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2016/10/28/hello/" >hello world</a>
+        </li>
+    
     </div>
   </div>
-</footer>
-
-
-    <!-- After Footer Scripts -->
-<script src="/js/highlight.pack.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function(event) {
-    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
-    codeBlocks.forEach(function(block, index) {
-      hljs.highlightBlock(block);
-    });
-  });
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="docker"><span class="iconfont-archer">&#xe606;</span>docker</span>
+    
+        <span class="sidebar-tag-name" data-tags="8266"><span class="iconfont-archer">&#xe606;</span>8266</span>
+    
+        <span class="sidebar-tag-name" data-tags="总结"><span class="iconfont-archer">&#xe606;</span>总结</span>
+    
+        <span class="sidebar-tag-name" data-tags="Altium Designer"><span class="iconfont-archer">&#xe606;</span>Altium Designer</span>
+    
+        <span class="sidebar-tag-name" data-tags="diy"><span class="iconfont-archer">&#xe606;</span>diy</span>
+    
+        <span class="sidebar-tag-name" data-tags="hello world"><span class="iconfont-archer">&#xe606;</span>hello world</span>
+    
+        <span class="sidebar-tag-name" data-tags="cad"><span class="iconfont-archer">&#xe606;</span>cad</span>
+    
+        <span class="sidebar-tag-name" data-tags="lnmp"><span class="iconfont-archer">&#xe606;</span>lnmp</span>
+    
+        <span class="sidebar-tag-name" data-tags="安卓"><span class="iconfont-archer">&#xe606;</span>安卓</span>
+    
+        <span class="sidebar-tag-name" data-tags="js"><span class="iconfont-archer">&#xe606;</span>js</span>
+    
+        <span class="sidebar-tag-name" data-tags="原创"><span class="iconfont-archer">&#xe606;</span>原创</span>
+    
+        <span class="sidebar-tag-name" data-tags="左右分散对齐文字"><span class="iconfont-archer">&#xe606;</span>左右分散对齐文字</span>
+    
+        <span class="sidebar-tag-name" data-tags="正则"><span class="iconfont-archer">&#xe606;</span>正则</span>
+    
+        <span class="sidebar-tag-name" data-tags="lamp"><span class="iconfont-archer">&#xe606;</span>lamp</span>
+    
+        <span class="sidebar-tag-name" data-tags="mqtt"><span class="iconfont-archer">&#xe606;</span>mqtt</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="shell"><span class="iconfont-archer">&#xe606;</span>shell</span>
+    
+        <span class="sidebar-tag-name" data-tags="zabbix"><span class="iconfont-archer">&#xe606;</span>zabbix</span>
+    
+        <span class="sidebar-tag-name" data-tags="微信"><span class="iconfont-archer">&#xe606;</span>微信</span>
+    
+        <span class="sidebar-tag-name" data-tags="api"><span class="iconfont-archer">&#xe606;</span>api</span>
+    
+        <span class="sidebar-tag-name" data-tags="ssh"><span class="iconfont-archer">&#xe606;</span>ssh</span>
+    
+        <span class="sidebar-tag-name" data-tags="awk"><span class="iconfont-archer">&#xe606;</span>awk</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="日志"><span class="iconfont-archer">&#xe60a;</span>日志</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/闲搞"><span class="iconfont-archer">&#xe60a;</span>日志/闲搞</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/容器"><span class="iconfont-archer">&#xe60a;</span>日志/容器</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/闲聊"><span class="iconfont-archer">&#xe60a;</span>日志/闲聊</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/心得"><span class="iconfont-archer">&#xe60a;</span>日志/心得</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/Auto-cad"><span class="iconfont-archer">&#xe60a;</span>日志/Auto-cad</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/技巧"><span class="iconfont-archer">&#xe60a;</span>日志/技巧</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/总结"><span class="iconfont-archer">&#xe60a;</span>日志/总结</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/运维"><span class="iconfont-archer">&#xe60a;</span>日志/运维</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/LVM"><span class="iconfont-archer">&#xe60a;</span>日志/LVM</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/LVM/raid"><span class="iconfont-archer">&#xe60a;</span>日志/LVM/raid</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: '/'
+    }
 </script>
-
-  </body>
+    <!-- 不蒜子  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ统计  -->
+    
+    </div>
+    </body>
 </html>
+
 
