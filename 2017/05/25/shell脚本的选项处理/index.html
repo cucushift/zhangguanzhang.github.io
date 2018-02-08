@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>shell脚本的选项和参数处理 · zhangguanzhang&#39;s Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        height: 50vh;
+        overflow: hidden;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.7);
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= /css/style.css?v=20180204 as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" type="text/css" href= /css/mobile.css?v=20180204 media="(max-width: 980px)"/>
+    <link rel="icon" href= /assets/favicon.ico>
+    <script>
+  // load webfont-loader async, and add callback function
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+  
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntroTags = document.getElementsByClassName('post-intro-tags')[0],
+        postIntroMeat = document.getElementsByClassName('post-intro-meta')[0];
+      if (postIntroTags) {
+        postIntroTags.classList.add('post-fade-in');
+      }
+      if (postIntroMeat) {
+        postIntroMeat.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  async("https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", asyncCb)
+</script>
+    <script>
+        (function (w) {
+            "use strict";
+            // rel=preload support test
+            if (!w.loadCSS) {
+                w.loadCSS = function () { };
+            }
+            // define on the loadCSS obj
+            var rp = loadCSS.relpreload = {};
+            // rel=preload feature support test
+            // runs once and returns a function for compat purposes
+            rp.support = (function () {
+                var ret;
+                try {
+                    ret = w.document.createElement("link").relList.supports("preload");
+                } catch (e) {
+                    ret = false;
+                }
+                return function () {
+                    return ret;
+                };
+            })();
+
+            // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+            // then change that media back to its intended value on load
+            rp.bindMediaToggle = function (link) {
+                // remember existing media attr for ultimate state, or default to 'all'
+                var finalMedia = link.media || "all";
+
+                function enableStylesheet() {
+                    link.media = finalMedia;
+                }
+
+                // bind load handlers to enable media
+                if (link.addEventListener) {
+                    link.addEventListener("load", enableStylesheet);
+                } else if (link.attachEvent) {
+                    link.attachEvent("onload", enableStylesheet);
+                }
+
+                // Set rel and non-applicable media type to start an async request
+                // note: timeout allows this to happen async to let rendering continue in IE
+                setTimeout(function () {
+                    link.rel = "stylesheet";
+                    link.media = "only x";
+                });
+                // also enable media after 3 seconds,
+                // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+                setTimeout(enableStylesheet, 3000);
+            };
+
+            // loop through link elements in DOM
+            rp.poly = function () {
+                // double check this to prevent external calls from running
+                if (rp.support()) {
+                    return;
+                }
+                var links = w.document.getElementsByTagName("link");
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    // qualify links to those with rel=preload and as=style attrs
+                    if (link.rel === "preload" && link.getAttribute("as") === "style" && !link.getAttribute("data-loadcss")) {
+                        // prevent rerunning on link
+                        link.setAttribute("data-loadcss", true);
+                        // bind listeners to toggle media back
+                        rp.bindMediaToggle(link);
+                    }
+                }
+            };
+
+            // if unsupported, run the polyfill
+            if (!rp.support()) {
+                // run once at least
+                rp.poly();
+
+                // rerun poly on an interval until onload
+                var run = w.setInterval(rp.poly, 500);
+                if (w.addEventListener) {
+                    w.addEventListener("load", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                } else if (w.attachEvent) {
+                    w.attachEvent("onload", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                }
+            }
+            // commonjs
+            if (typeof exports !== "undefined") {
+                exports.loadCSS = loadCSS;
+            }
+            else {
+                w.loadCSS = loadCSS;
+            }
+        }(typeof global !== "undefined" ? global : this));
+    </script>
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >zhangguanzhang&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">shell脚本的选项和参数处理</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>zhangguanzhang's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            shell脚本的选项和参数处理
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+            <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = "/static/api/js/share.js"];</script>
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2017/05/25</span>
+                
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe604;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">
+                        &#xe601;
+                    </span>
+                    <span class="bdsharebuttonbox">
+                        <a href="#" class="bds_more shareText" data-cmd="more">Share</a>
+                    </span>
+                </span>
+            </div>
+        
+    </div>
+</div>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>在写shell脚本时经常会用到命令行选项、参数处理方式，如:<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./<span class="keyword">test</span>.<span class="keyword">sh</span> -f 5 -rF --host-<span class="keyword">file</span>=/etc/hosts</div></pre></td></tr></table></figure></p>
+<p>其中-f和-rF都是短选项,–host-file是长选项<br>短选项又分为可选参数和必选参数,不需要参数的短选项可以合着写<br>例如cat和tail的-n有默认值10<br>在shell中，可以用以下三种方式来处理命令行参数，每种方式都有自己的应用场景</p>
+<ul>
+<li>手工处理方式</li>
+<li>getopts</li>
+<li>getopt<br>手工处理不说了,手工处理高度依赖于你在命令行上所传参数的位置，所以一般都只用来处理较简单的参数<br>下面我们依次讨论这后两种处理方式<br>getopts是shell内置的,只支持短选项,也就是说getopts只支持带参数的和不带参数的,命令格式如下所示<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">getopts</span> optstring name [args]</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>man手册这样写的<br>              getopts被shell程序用来分析位置参数.optstring包含要识别的选项字符;如果一个字符后面跟着一个冒号,这个选项应该有一个参数,这个参数应该用空格隔开.冒号和问号字符不能用作选项字符。每次调用时,getopts都会将下一个选项放在name变量名称中(如果不存在则初始化name)，并将要处理的下一个参数的索引放入变量OPTIND中。每次调用shell或shell脚本时，OPTIND初始化为1。当选项需要参数时，getopts将该参数放入变量OPTARG中。shell不会自动重置OPTIND;如果要使用一组新的参数，则必须在多次调用之间的时候必须手动重置以在同一个shell调用中能多此使用getopts。<br>              遇到选项结束时，getopts以大于零的返回值退出。 OPTIND被设置为第一个非选项参数的索引，名称被设置为?<br>              getopts通常会分析位置参数，但是如果args中有很多参数，getopts会解析这些参数。<br>              getopts可以通过两种方式报告错误。如果optstring的第一个字符是冒号，则使用静默错误报告。在正常操作中，当遇到无效选项或缺少选项参数时，打印诊断消息。如果变量OPTERR设置为0，即使optstring的第一个字符不是冒号，也不会显示错误消息。<br>          如果看到一个无效的选项，getopts会把name设置成?,如果不是静音，则输出错误消息并取消OPTARG。如果getopts无声，则找到的选项字符被放置在OPTARG中，并且不打印诊断消息。</p>
+<pre><code>如果没有找到必需的参数，并且getopts不是忽略报错的，则会把name设置成?，并取消设置OPTARG，并打印诊断消息。如果getopts是沉默的，那么冒号（:)放在name中，OPTARG被设置为找到的选项字符。
+
+如果找到指定或未指定的选项，getopts将返回true。如果遇到选项结束或发生错误，它将返回false。
+</code></pre><p>说得比较理论,我实验了下结合文档来通俗易懂的解释下<br>opstring这部分就是你要支持的选项,也就是每个字符一个选项,要把你所有的选项字符写成一个字符串</p>
+<p>选项字符后面有冒号的是表示必须要有参数,例如’f:h:d’表示三个选项,其中f和h后面有冒号表示必须需要参数值,d后面没有冒号不需要参数值<br>当然也可以写成’df:h:’,注意:选项字符不能是冒号和问好<br>每次使用时,getopts都会把下一个选项字符放在上面命令格式的那个”name”这个shell变量里(如果这个变量不存在就初始化它),并把下一个<br>要处理的参数的下标放在变量OPTIND中。每次启动脚本时,都把OPTIND初始化为1<br>也就是说name是选项字符,OPTARG是选项对应的值<br>上面说了一大堆理论,我们来实践看看,先一个带参数选项看看<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">[root@guan temp]<span class="comment"># cat bashtest</span></div><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"><span class="keyword">while</span> <span class="built_in">getopts</span> <span class="string">'f:'</span> args;<span class="keyword">do</span></div><div class="line">	<span class="keyword">case</span> <span class="variable">$args</span> <span class="keyword">in</span></div><div class="line">	    f)</div><div class="line">	        <span class="built_in">echo</span> <span class="string">'use -f :'</span> <span class="variable">$OPTARG</span></div><div class="line">	        ;;</div><div class="line">	<span class="keyword">esac</span></div><div class="line"><span class="keyword">done</span></div><div class="line">[root@guan temp]<span class="comment"># ./bashtest -f 4</span></div><div class="line">use <span class="_">-f</span> : 4</div></pre></td></tr></table></figure></p>
+<p>加个带参数选项看看<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">[root@guan temp]<span class="comment"># cat bashtest</span></div><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"><span class="keyword">while</span> <span class="built_in">getopts</span> <span class="string">'f:h:'</span> args;<span class="keyword">do</span></div><div class="line">	<span class="keyword">case</span> <span class="variable">$args</span> <span class="keyword">in</span></div><div class="line">	    f)</div><div class="line">	        <span class="built_in">echo</span> <span class="string">'use -f :'</span> <span class="variable">$OPTARG</span></div><div class="line">	        ;;</div><div class="line">	    h)</div><div class="line">	        <span class="built_in">echo</span> <span class="string">'use -h :'</span> <span class="variable">$OPTARG</span></div><div class="line">	        ;;</div><div class="line">	<span class="keyword">esac</span></div><div class="line"><span class="keyword">done</span></div><div class="line">[root@guan temp]<span class="comment"># ./bashtest -f 3 -h 4</span></div><div class="line">use <span class="_">-f</span> : 3</div><div class="line">use -h : 4</div></pre></td></tr></table></figure></p>
+<p>加上一个不需要参数的选项试试<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">[root@guan temp]<span class="comment"># cat bashtest</span></div><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"><span class="keyword">while</span> <span class="built_in">getopts</span> <span class="string">'f:h:d'</span> args;<span class="keyword">do</span></div><div class="line"><span class="keyword">case</span> <span class="variable">$args</span> <span class="keyword">in</span></div><div class="line">    f)</div><div class="line">        <span class="built_in">echo</span> <span class="string">'use -f :'</span> <span class="variable">$OPTARG</span></div><div class="line">        ;;</div><div class="line">    h)</div><div class="line">        <span class="built_in">echo</span> <span class="string">'use -h :'</span> <span class="variable">$OPTARG</span></div><div class="line">        ;;</div><div class="line">    d)</div><div class="line">        <span class="built_in">echo</span> <span class="string">'used d'</span></div><div class="line">        ;;</div><div class="line"><span class="keyword">esac</span></div><div class="line">[root@guan temp]<span class="comment"># ./bashtest -f 3 -h 4 -d</span></div><div class="line">use <span class="_">-f</span> : 3</div><div class="line">use -h : 4</div><div class="line">used d</div></pre></td></tr></table></figure></p>
+<p>加上?处理下未知选项<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">[root@guan temp]<span class="comment"># cat bashtest</span></div><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"><span class="keyword">while</span> <span class="built_in">getopts</span> <span class="string">'f:h:d'</span> args;<span class="keyword">do</span></div><div class="line"><span class="keyword">case</span> <span class="variable">$args</span> <span class="keyword">in</span> </div><div class="line">    f)</div><div class="line">        <span class="built_in">echo</span> <span class="string">'use -f :'</span> <span class="variable">$OPTARG</span></div><div class="line">        ;;</div><div class="line">    h)</div><div class="line">        <span class="built_in">echo</span> <span class="string">'use -h :'</span> <span class="variable">$OPTARG</span></div><div class="line">        ;;</div><div class="line">    d)</div><div class="line">        <span class="built_in">echo</span> <span class="string">'used d'</span></div><div class="line">        ;;</div><div class="line">    ?)</div><div class="line">        <span class="built_in">echo</span> error</div><div class="line">        <span class="built_in">exit</span> 1</div><div class="line">    ;;</div><div class="line"><span class="keyword">esac</span></div><div class="line"><span class="keyword">done</span></div><div class="line">[root@guan temp]<span class="comment"># ./bashtest -c</span></div><div class="line">./bashtest: illegal option -- c</div><div class="line">error</div></pre></td></tr></table></figure></p>
+<p>有标准2的错误输出,选项字符开始加冒号静默试试’:f:h:d’<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@guan temp]<span class="comment"># ./bashtest -c</span></div><div class="line"><span class="keyword">error</span></div></pre></td></tr></table></figure></p>
+<p>然后测试下OPTIND<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">[root@guan temp]<span class="comment"># cat bashtest</span></div><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"><span class="keyword">while</span> <span class="built_in">getopts</span> <span class="string">':f:h:d'</span> args;<span class="keyword">do</span></div><div class="line"><span class="keyword">case</span> <span class="variable">$args</span> <span class="keyword">in</span> </div><div class="line">    f)</div><div class="line">        <span class="built_in">echo</span> <span class="string">'use -f: $OPTARG:'</span> <span class="variable">$OPTARG</span> -- <span class="string">'$OPTIND'</span> <span class="variable">$OPTIND</span></div><div class="line">        ;;</div><div class="line">    h)</div><div class="line">        <span class="built_in">echo</span> <span class="string">'use -h: $OPTARG:'</span> <span class="variable">$OPTARG</span> -- <span class="string">'$OPTIND'</span> <span class="variable">$OPTIND</span></div><div class="line">        ;;</div><div class="line">    d)</div><div class="line">        <span class="built_in">echo</span> <span class="string">'use -d: $OPTARG:'</span> <span class="variable">$OPTARG</span> -- <span class="string">'$OPTIND'</span> <span class="variable">$OPTIND</span></div><div class="line">        ;;</div><div class="line">    ?)</div><div class="line">        <span class="built_in">echo</span> error</div><div class="line">        <span class="built_in">exit</span> 1</div><div class="line">    ;;</div><div class="line"><span class="keyword">esac</span></div><div class="line"><span class="keyword">done</span></div><div class="line">[root@guan temp]<span class="comment"># ./bashtest -f 3 -h 2 -d</span></div><div class="line">use <span class="_">-f</span>: <span class="variable">$OPTARG</span>: 3 -- <span class="variable">$OPTIND</span> 3</div><div class="line">use -h: <span class="variable">$OPTARG</span>: 2 -- <span class="variable">$OPTIND</span> 5</div><div class="line">use <span class="_">-d</span>: <span class="variable">$OPTARG</span>: -- <span class="variable">$OPTIND</span> 6</div><div class="line">[root@guan temp]<span class="comment"># ./bashtest -f 3 -h2 -d</span></div><div class="line">use <span class="_">-f</span>: <span class="variable">$OPTARG</span>: 3 -- <span class="variable">$OPTIND</span> 3</div><div class="line">use -h: <span class="variable">$OPTARG</span>: 2 -- <span class="variable">$OPTIND</span> 4</div><div class="line">use <span class="_">-d</span>: <span class="variable">$OPTARG</span>: -- <span class="variable">$OPTIND</span> 5</div><div class="line">[root@guan temp]<span class="comment"># ./bashtest -f3 -h2 -d</span></div><div class="line">use <span class="_">-f</span>: <span class="variable">$OPTARG</span>: 3 -- <span class="variable">$OPTIND</span> 2</div><div class="line">use -h: <span class="variable">$OPTARG</span>: 2 -- <span class="variable">$OPTIND</span> 3</div><div class="line">use <span class="_">-d</span>: <span class="variable">$OPTARG</span>: -- <span class="variable">$OPTIND</span> 4</div><div class="line">[root@guan temp]<span class="comment"># ./bashtest -f3 -dh2 </span></div><div class="line">use <span class="_">-f</span>: <span class="variable">$OPTARG</span>: 3 -- <span class="variable">$OPTIND</span> 2</div><div class="line">use <span class="_">-d</span>: <span class="variable">$OPTARG</span>: -- <span class="variable">$OPTIND</span> 2</div><div class="line">use -h: <span class="variable">$OPTARG</span>: 2 -- <span class="variable">$OPTIND</span> 3</div></pre></td></tr></table></figure></p>
+<p>上面可以看出OPTIND是下一个选项的索引值,默认是被初始化成1的,你选项值和选项连着写也会智能识别到下一个选项的索引值<br>但是这样不支持类似cat -n那样参数是可选的方式,如下图-h的值是-d<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[root<span class="variable">@guan</span> temp]<span class="comment"># ./bashtest -f 3 -h -d</span></div><div class="line"><span class="keyword">use</span> -<span class="symbol">f:</span> <span class="variable">$OPTARG</span>: <span class="number">3</span> -- <span class="variable">$OPTIND</span> <span class="number">3</span></div><div class="line"><span class="keyword">use</span> -<span class="symbol">h:</span> <span class="variable">$OPTARG</span>: -d -- <span class="variable">$OPTIND</span> <span class="number">5</span></div></pre></td></tr></table></figure></p>
+<p>getopt命令是Linux下的命令行工具,并且getopt支持命令行的长选项(比如,–some-option)。另外,在脚本中它们的调用方式也不同。<br>看下命令帮助<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">名称</div><div class="line">       getopt - parse <span class="keyword">command</span> <span class="keyword">options</span> (enhanced)</div><div class="line">概要</div><div class="line">       getopt optstring parameters</div><div class="line">       getopt [<span class="keyword">options</span>] [--] optstring parameters</div><div class="line">       getopt [<span class="keyword">options</span>] -<span class="keyword">o</span> |--<span class="keyword">options</span> optstring [<span class="keyword">options</span>] [--] parameters</div><div class="line">...</div><div class="line">		-<span class="keyword">o</span>, --<span class="keyword">options</span> shortopts</div><div class="line">		-<span class="keyword">l</span>,--longoptions longopts</div></pre></td></tr></table></figure></p>
+<p>短选项在-o后面写,和getopts类似,不过getopts不支持可选选项,-l后面是长选项<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">getopt -o <span class="string">ut:</span><span class="string">r:</span><span class="string">p:</span>: -n <span class="string">"$0"</span> -l <span class="string">tlong:</span>,<span class="keyword">long</span>-<span class="string">t1:</span>,<span class="keyword">long</span>-<span class="string">t2:</span>:  -- <span class="string">"$@"</span></div></pre></td></tr></table></figure></p>
+<p>例如上面的u后面没有冒号和getopts一样,选项字符后面有冒号就是有参数,没冒号就没参数,俩个冒号就是可选参数,可选参数就是像cat -n和haed -n啥的,可有可无表示开启某个功能一样(至于这个选项是否需要值,例如head -n可以指定前多少行,这个后面会说到)<br>这个是个外部命令,所以它是返回东西需要我们去在shell里处理的<br><figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[<span class="name">root@guan</span> ~]# getopt -o ut:r:p:: -n <span class="string">"$0"</span> -l tlong:,long-t1:,long-t2:: -- -u -r3 -p --tlong <span class="number">1</span> </div><div class="line"> -u -r <span class="symbol">'3</span>' -p '' --tlong <span class="symbol">'1</span>' --</div><div class="line">[<span class="name">root@guan</span> ~]# getopt -o ut:r:p:: -n <span class="string">"$0"</span> -l tlong:,long-t1:,long-t2:: -- -u -r3 -p --tlong=1 </div><div class="line"> -u -r <span class="symbol">'3</span>' -p '' --tlong <span class="symbol">'1</span>' --</div><div class="line">[<span class="name">root@guan</span> ~]# getopt -o ut:r:p:: -n <span class="string">"$0"</span> -l tlong:,long-t1:,long-t2:: -- -u -r3 -p --tlong <span class="number">1</span> --long-t1=233</div><div class="line"> -u -r <span class="symbol">'3</span>' -p '' --tlong <span class="symbol">'1</span>' --long-t1 <span class="symbol">'233</span>' --</div></pre></td></tr></table></figure></p>
+<p>-o后面接短选项字符,-l后接长选项字符,长选项可以用等号也可以不用(不用的时候必须空格隔开选项和参数,不能像短选项那样贴着写),–是把后面的东西不当作选项,例如我们需要创建一个名为-p的文件夹,mkdir -p的话会把-p当作选项,mkdir – -p就行了,这个是交互式shell终端下就是不把–后面的内容当作选项,所有命令同理<br>–后面就是对应的需要解析的参数了,所以在脚本里一般这部分是– “$@”直接把脚本的选项部分全部传进来,然后把输出用’set – 输出’转换成位置参数后再用循环判断,输出里结尾的–是表示结束了,给用户判断的一个标识<br>–后面的部分如果有选项字符串里不存在的选项就会报错,例如<br><figure class="highlight moonscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[root@guan ~]# getopt -o <span class="name">ab</span>:<span class="name">c</span>::  <span class="comment">-- -a -b3 -d</span></div><div class="line"><span class="name">getopt</span>: invalid option <span class="comment">-- 'd'</span></div><div class="line"> -a -b <span class="string">'3'</span> <span class="comment">--</span></div></pre></td></tr></table></figure></p>
+<p>-n的作用就是把那个报错程序名的getopt换成-n的参数,一般在脚本里都是写-n $0<br>然后实战下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line">[root@guan temp]<span class="comment"># cat option.sh </span></div><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"><span class="comment">#将规范化后的命令行参数分配至位置参数（$1,$2,...)</span></div><div class="line">temp=`getopt -n <span class="variable">$0</span> -o ut:r:p:: <span class="_">-l</span> <span class="built_in">help</span>,tlong:,long-t1:,long-t2:: -- <span class="string">"<span class="variable">$@</span>"</span>`</div><div class="line"></div><div class="line">[ $? != 0 ] &amp;&amp; &#123; </div><div class="line">	<span class="built_in">echo</span> <span class="string">'Try '</span><span class="variable">$0</span> <span class="string">'--help for more information.'</span></div><div class="line">	<span class="built_in">exit</span> 1</div><div class="line">	&#125;</div><div class="line"><span class="built_in">set</span> -- <span class="variable">$temp</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="literal">true</span>;<span class="keyword">do</span></div><div class="line">    <span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></div><div class="line">        -u) </div><div class="line">            <span class="built_in">echo</span> <span class="string">'-u has be used'</span>;</div><div class="line">            <span class="built_in">shift</span></div><div class="line">            ;;</div><div class="line">        -r)</div><div class="line">            <span class="built_in">echo</span> <span class="string">'-r has be used with:'</span> <span class="variable">$2</span>;</div><div class="line">            <span class="built_in">shift</span> 2</div><div class="line">            ;;</div><div class="line">        -p)</div><div class="line">            <span class="keyword">case</span> <span class="string">"<span class="variable">$2</span>"</span> <span class="keyword">in</span></div><div class="line">                <span class="string">""</span>)</div><div class="line">                    <span class="built_in">echo</span> <span class="string">'-p has be used without arg'</span></div><div class="line">                    <span class="built_in">shift</span> 2</div><div class="line">                    ;;</div><div class="line">                *)</div><div class="line">                    <span class="built_in">echo</span> <span class="string">'-p has be used with:'</span> <span class="variable">$2</span></div><div class="line">                    <span class="built_in">shift</span> 2</div><div class="line">                    ;;</div><div class="line">            <span class="keyword">esac</span></div><div class="line">            ;;</div><div class="line">        -t|--tlong)</div><div class="line">        	<span class="built_in">echo</span> <span class="string">'-t or --tlong has be used with: '</span> <span class="variable">$2</span></div><div class="line">        	<span class="built_in">shift</span> 2</div><div class="line">        	;;</div><div class="line">        --help)</div><div class="line">        	<span class="comment">#help_function_msg</span></div><div class="line">			<span class="built_in">echo</span> <span class="string">'some information about how to usage'</span></div><div class="line">			<span class="built_in">shift</span> 1</div><div class="line">			;;</div><div class="line">		--long-t1)</div><div class="line">			<span class="built_in">echo</span> <span class="string">'--long-t1 has be used with: '</span> <span class="variable">$2</span></div><div class="line">			<span class="built_in">shift</span> 2</div><div class="line">			;;</div><div class="line">		--long-t2)</div><div class="line">			<span class="keyword">case</span> <span class="string">"<span class="variable">$2</span>"</span> <span class="keyword">in</span></div><div class="line">				<span class="string">""</span>)</div><div class="line">					<span class="built_in">echo</span> <span class="string">'--long-t2 has be used without arg'</span></div><div class="line">					;;</div><div class="line">				*)</div><div class="line">					<span class="built_in">echo</span> <span class="string">'--long-t2 has be used with:'</span> <span class="variable">$2</span></div><div class="line">					<span class="built_in">shift</span> 2</div><div class="line">					;;</div><div class="line">			<span class="keyword">esac</span></div><div class="line">			;;</div><div class="line">        --)</div><div class="line">            <span class="built_in">shift</span></div><div class="line">            <span class="built_in">break</span></div><div class="line">            ;;</div><div class="line">        *)</div><div class="line">            <span class="built_in">echo</span> <span class="string">"Internal error!"</span></div><div class="line">            <span class="built_in">exit</span> 1</div><div class="line">            ;;</div><div class="line">    <span class="keyword">esac</span></div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">[root@guan temp]# bash option.<span class="keyword">sh</span> -t <span class="number">2</span> -p22</div><div class="line">-t <span class="built_in">or</span> --tlong <span class="built_in">has</span> <span class="keyword">be</span> used with:  <span class="string">'2'</span></div><div class="line">-<span class="keyword">p</span> <span class="built_in">has</span> <span class="keyword">be</span> used with: <span class="string">'22'</span></div><div class="line">[root@guan temp]# bash option.<span class="keyword">sh</span> -t <span class="number">2</span> -<span class="keyword">p</span> <span class="number">22</span></div><div class="line">-t <span class="built_in">or</span> --tlong <span class="built_in">has</span> <span class="keyword">be</span> used with:  <span class="string">'2'</span></div><div class="line">-<span class="keyword">p</span> <span class="built_in">has</span> <span class="keyword">be</span> used with: <span class="string">''</span></div><div class="line">[root@guan temp]# bash option.<span class="keyword">sh</span> -t2 -p22 --long-t2=testlong</div><div class="line">-t <span class="built_in">or</span> --tlong <span class="built_in">has</span> <span class="keyword">be</span> used with:  <span class="string">'2'</span></div><div class="line">-<span class="keyword">p</span> <span class="built_in">has</span> <span class="keyword">be</span> used with: <span class="string">'22'</span></div><div class="line">--long-t2 <span class="built_in">has</span> <span class="keyword">be</span> used with: <span class="string">'testlong'</span></div><div class="line">[root@guan temp]# bash option.<span class="keyword">sh</span> --<span class="keyword">help</span></div><div class="line">some information about how <span class="keyword">to</span> usage</div></pre></td></tr></table></figure>
+<p>shift是移动位置参数,一般选项和它的参数都是成对的,所以循环+case判断–是否break退出循环,当然你也可以写到一个变量里用awk判断数量后循环里面内容<br>上面随便写了下,有的命令长短选项一样,就像上面的-t|–tlong,一般命令–help和–version都输出,有兴趣可以自己补全,脚本下载地址<a href="https://www.zhangguanzhang.com/download/option.sh" target="_blank" rel="external">https://www.zhangguanzhang.com/download/option.sh</a><br>还有测试发现可选的短参数必须要紧贴着选项字符,如上面结果所示,看了下man里的ftp地址结果找不到,命令属于util-linux,都找不到地方反馈,有兴趣的c大佬可以看下对应的源码包改下</p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/01/10/docker的一些概念/" title= docker的一些概念 >
+                    <div class="nextTitle">docker的一些概念</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2017/05/12/ssh互信/" title= ssh互信 >
+                    <div class="prevTitle">ssh互信</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+    <div id="lv-container" data-id="city" data-uid= MTAyMC8zMzk1OC8xMDQ5Mw>
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:zhangguanzhang@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/zhangguanzhang" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+        <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 22 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/10</span><a class="archive-post-title" href= "/2018/01/10/docker的一些概念/" >docker的一些概念</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/25</span><a class="archive-post-title" href= "/2017/05/25/shell脚本的选项处理/" >shell脚本的选项和参数处理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/12</span><a class="archive-post-title" href= "/2017/05/12/ssh互信/" >ssh互信</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/06</span><a class="archive-post-title" href= "/2017/05/06/shell快捷键提升效率/" >shell利用快捷键提升命令输入和编辑</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/29</span><a class="archive-post-title" href= "/2017/04/29/zabbixsetup/" >个人zabbix安装和坑的解决</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/26</span><a class="archive-post-title" href= "/2017/04/26/正则零宽断言的一个注意点/" >正则零宽断言的一个注意点</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/25</span><a class="archive-post-title" href= "/2017/04/25/转载-awk中RS-OFS-RS-ORS区别于联系/" >[转载]awk中RS,ORS,FS,OFS区别于联系</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/2017/04/20/记录LVM的练习/" >记录LVM和raid的练习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2017/04/17/iot/" >分享下自己做的外网控制硬件</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/15</span><a class="archive-post-title" href= "/2017/04/15/shell_process/" >shell多进程并发执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/15</span><a class="archive-post-title" href= "/2017/04/15/shellsubstring/" >shell的字符串截取</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2017/04/11/8266hexdownload/" >8266模块的烧写和sdk的坑</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/09</span><a class="archive-post-title" href= "/2017/04/09/armlnmp/" >安卓安装linux并且源码编译安装搭建lnmp的坑和总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/2017/03/15/lnmp/" >源码编译安装lnmp</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2017/02/26/ad/" >Altium Designer里走线开窗和挖除铺铜还有一些技巧</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href= "/2017/02/12/wx00/" >微信公众号接入自己服务器</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2017/02/02/lamp/" >lamp环境搭建总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/08</span><a class="archive-post-title" href= "/2017/01/08/tuling-wx/" >微信公众号接入图灵机器人api</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2016 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/2016/11/13/cad/" >cad</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2016/10/30/20161030/" >记录下自己制作的led-vu</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/29</span><a class="archive-post-title" href= "/2016/10/29/secondblog/" >原生js左右分散对齐文字</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/28</span><a class="archive-post-title" href= "/2016/10/28/hello/" >hello world</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Altium Designer"><span class="iconfont-archer">&#xe606;</span>Altium Designer</span>
+    
+        <span class="sidebar-tag-name" data-tags="总结"><span class="iconfont-archer">&#xe606;</span>总结</span>
+    
+        <span class="sidebar-tag-name" data-tags="8266"><span class="iconfont-archer">&#xe606;</span>8266</span>
+    
+        <span class="sidebar-tag-name" data-tags="lnmp"><span class="iconfont-archer">&#xe606;</span>lnmp</span>
+    
+        <span class="sidebar-tag-name" data-tags="安卓"><span class="iconfont-archer">&#xe606;</span>安卓</span>
+    
+        <span class="sidebar-tag-name" data-tags="diy"><span class="iconfont-archer">&#xe606;</span>diy</span>
+    
+        <span class="sidebar-tag-name" data-tags="hello world"><span class="iconfont-archer">&#xe606;</span>hello world</span>
+    
+        <span class="sidebar-tag-name" data-tags="cad"><span class="iconfont-archer">&#xe606;</span>cad</span>
+    
+        <span class="sidebar-tag-name" data-tags="js"><span class="iconfont-archer">&#xe606;</span>js</span>
+    
+        <span class="sidebar-tag-name" data-tags="原创"><span class="iconfont-archer">&#xe606;</span>原创</span>
+    
+        <span class="sidebar-tag-name" data-tags="左右分散对齐文字"><span class="iconfont-archer">&#xe606;</span>左右分散对齐文字</span>
+    
+        <span class="sidebar-tag-name" data-tags="mqtt"><span class="iconfont-archer">&#xe606;</span>mqtt</span>
+    
+        <span class="sidebar-tag-name" data-tags="shell"><span class="iconfont-archer">&#xe606;</span>shell</span>
+    
+        <span class="sidebar-tag-name" data-tags="docker"><span class="iconfont-archer">&#xe606;</span>docker</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="ssh"><span class="iconfont-archer">&#xe606;</span>ssh</span>
+    
+        <span class="sidebar-tag-name" data-tags="微信"><span class="iconfont-archer">&#xe606;</span>微信</span>
+    
+        <span class="sidebar-tag-name" data-tags="api"><span class="iconfont-archer">&#xe606;</span>api</span>
+    
+        <span class="sidebar-tag-name" data-tags="lamp"><span class="iconfont-archer">&#xe606;</span>lamp</span>
+    
+        <span class="sidebar-tag-name" data-tags="正则"><span class="iconfont-archer">&#xe606;</span>正则</span>
+    
+        <span class="sidebar-tag-name" data-tags="zabbix"><span class="iconfont-archer">&#xe606;</span>zabbix</span>
+    
+        <span class="sidebar-tag-name" data-tags="awk"><span class="iconfont-archer">&#xe606;</span>awk</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="日志"><span class="iconfont-archer">&#xe60a;</span>日志</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/闲搞"><span class="iconfont-archer">&#xe60a;</span>日志/闲搞</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/心得"><span class="iconfont-archer">&#xe60a;</span>日志/心得</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/闲聊"><span class="iconfont-archer">&#xe60a;</span>日志/闲聊</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/Auto-cad"><span class="iconfont-archer">&#xe60a;</span>日志/Auto-cad</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/总结"><span class="iconfont-archer">&#xe60a;</span>日志/总结</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/容器"><span class="iconfont-archer">&#xe60a;</span>日志/容器</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/技巧"><span class="iconfont-archer">&#xe60a;</span>日志/技巧</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/运维"><span class="iconfont-archer">&#xe60a;</span>日志/运维</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/LVM"><span class="iconfont-archer">&#xe60a;</span>日志/LVM</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/LVM/raid"><span class="iconfont-archer">&#xe60a;</span>日志/LVM/raid</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: '/'
+    }
+</script>
+    <!-- 不蒜子  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ统计  -->
+    
+    </div>
+    </body>
+</html>
+
+
