@@ -335,9 +335,9 @@
 <ul>
 <li>手工处理方式</li>
 <li>getopts</li>
-<li>getopt<br>手工处理不说了,手工处理高度依赖于你在命令行上所传参数的位置，所以一般都只用来处理较简单的参数<br>下面我们依次讨论这后两种处理方式<br>getopts是shell内置的,只支持短选项,也就是说getopts只支持带参数的和不带参数的,命令格式如下所示<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">getopts</span> optstring name [args]</div></pre></td></tr></table></figure>
-</li>
+<li>getopt<br>手工处理不说了,手工处理高度依赖于你在命令行上所传参数的位置，所以一般都只用来处理较简单的参数<br>下面我们依次讨论这后两种处理方式<br>getopts是shell内置的,只支持短选项,也就是说getopts只支持带参数的和不带参数的,命令格式如下所示</li>
 </ul>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">getopts optstring name <span class="string">[args]</span></div></pre></td></tr></table></figure>
 <p>man手册这样写的<br>              getopts被shell程序用来分析位置参数.optstring包含要识别的选项字符;如果一个字符后面跟着一个冒号,这个选项应该有一个参数,这个参数应该用空格隔开.冒号和问号字符不能用作选项字符。每次调用时,getopts都会将下一个选项放在name变量名称中(如果不存在则初始化name)，并将要处理的下一个参数的索引放入变量OPTIND中。每次调用shell或shell脚本时，OPTIND初始化为1。当选项需要参数时，getopts将该参数放入变量OPTARG中。shell不会自动重置OPTIND;如果要使用一组新的参数，则必须在多次调用之间的时候必须手动重置以在同一个shell调用中能多此使用getopts。<br>              遇到选项结束时，getopts以大于零的返回值退出。 OPTIND被设置为第一个非选项参数的索引，名称被设置为?<br>              getopts通常会分析位置参数，但是如果args中有很多参数，getopts会解析这些参数。<br>              getopts可以通过两种方式报告错误。如果optstring的第一个字符是冒号，则使用静默错误报告。在正常操作中，当遇到无效选项或缺少选项参数时，打印诊断消息。如果变量OPTERR设置为0，即使optstring的第一个字符不是冒号，也不会显示错误消息。<br>          如果看到一个无效的选项，getopts会把name设置成?,如果不是静音，则输出错误消息并取消OPTARG。如果getopts无声，则找到的选项字符被放置在OPTARG中，并且不打印诊断消息。</p>
 <pre><code>如果没有找到必需的参数，并且getopts不是忽略报错的，则会把name设置成?，并取消设置OPTARG，并打印诊断消息。如果getopts是沉默的，那么冒号（:)放在name中，OPTARG被设置为找到的选项字符。
 
