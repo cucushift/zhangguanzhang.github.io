@@ -342,9 +342,10 @@
 <p>也可能是<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="keyword">run</span><span class="bash"> <span class="_">-d</span> -p 80:80 nginx</span></div></pre></td></tr></table></figure></p>
 <p>一般来讲入门最先接触的就是docker run这个命令,这个命令可以理解为先查找本地有没有镜像<br>没有就从dockerhub拉取，然后镜像运行后就叫做容器<br>看下命令说明<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># docker run --help</span></div><div class="line"></div><div class="line">Usage:	docker <span class="keyword">run</span><span class="bash"> [OPTIONS] IMAGE [COMMAND] [ARG...]</span></div><div class="line"></div><div class="line"><span class="keyword">Run</span><span class="bash"> a <span class="built_in">command</span> <span class="keyword">in</span> a new container</span></div></pre></td></tr></table></figure></p>
 <p>先看命令帮助的一部分，<br>命令格式是docker run [选项] 镜像名 [命令] [参数]<br>是说在一个新容器里运行一个命令，但是用法部分显示command和command的arg部分是可选的，选项也是可选的<br>从上面两个常见的命令看看一个有command，一个没有，选项部分在剩下的docker run –help里<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">-<span class="ruby">i, --interactive                    Keep STDIN open even <span class="keyword">if</span> <span class="keyword">not</span> attached</span></div><div class="line">-<span class="ruby">p, --publish list                   Publish a container<span class="string">'s port(s) to the host</span></span></div><div class="line">-<span class="ruby"><span class="string">t, --tty                            Allocate a pseudo-TTY</span></span></div></pre></td></tr></table></figure></p>
-<p>-i是交互选项,-t是tty终端，-p是把容器的端口映射到宿主机的端口(可以多个-p选项)</p>
+<p>-i是交互选项不加-i所有输出输入全部是在容器里面,-t是分配一个tty终端，-p是把容器的端口映射到宿主机的端口(可以多个-p选项)</p>
 <p>前面说了，容器实质是个宿主机上的一个进程，一个进程一直运行容器就必须有主进程<br>上面两个命令的command部分其实就是所谓的主进程<br>至于nginx的为啥没有这就从构建镜像来讲<br>前面说了可以假想下容器是个最小系统安装了你要跑的业务进程<br>那如何构建自己的镜像呢，就是Dockerfile<br>有FROM命令，选取一个基础镜像构建,具体的dockerfile一些常用选项可以去上面那个博客去看下，功能不多，挺好记住的<br>就是个CMD和entrypoint很多人搞不清楚<br>拿nginx的官方的dockerfile来举例简化成下面的大概样子<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">FROM</span> xxx:xxx</div><div class="line"><span class="keyword">RUN</span><span class="bash"> apt-get install nginx</span></div><div class="line"><span class="keyword">CMD</span><span class="bash"> [ <span class="string">"nginx"</span>,<span class="string">"-g"</span>,<span class="string">"deamon off"</span>]</span></div></pre></td></tr></table></figure></p>
-<p>nginx镜像的主进程就是这个nginx -g deamon off的nginx前台命令作为默认的CMD<br>这就是为啥run nginx容器的时候不需要，因为run的时候结尾的command为空默认使用构建镜像写的CMD<br>默认的command可以通过docker inspect 镜像名 输出的一堆json找Cmd部分查看<br>然后docker run命令的结尾有command的话会覆盖掉默认的CMD<br>然后为啥那个-ti centos /bin/bash这么常见，很多人因为不懂在它的执行结果上把容器当作虚拟机了<br>先讲下非/bin/bash的cmd是啥效果<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">[root@guan ~]# docker run -d centos ls</div><div class="line"><span class="number">24</span>b2195731fef5b3e52898bcb7e2c6cebdb9afb8cfc929c1e69ed7126e967699</div><div class="line">[root@guan ~]# docker run -d centos sleep <span class="number">10</span></div><div class="line"><span class="number">8</span>c0a7cba4af9a847e0092e1855426149cf093ef90fd4b91b1cbf452001176a38</div><div class="line">[root@guan ~]# docker ps -a</div><div class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                     PORTS                                      NAMES</div><div class="line"><span class="number">8</span>c0a7cba4af9        centos              <span class="string">"sleep 10"</span>               <span class="number">4</span> seconds ago       Up <span class="number">3</span> seconds                                                     cocky_visvesvaraya</div><div class="line"><span class="number">24</span>b2195731fe        centos              <span class="string">"ls"</span>                     <span class="number">10</span> seconds ago      Exited (<span class="number">0</span>) <span class="number">9</span> seconds ago                                         friendly_mirzakhani</div><div class="line">[root@guan ~]# docker ps -a</div><div class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS                          PORTS                                      NAMES</div><div class="line"><span class="number">8</span>c0a7cba4af9        centos              <span class="string">"sleep 10"</span>               About a minute ago   Exited (<span class="number">0</span>) <span class="number">15</span> seconds ago                                       cocky_visvesvaraya</div><div class="line"><span class="number">24</span>b2195731fe        centos              <span class="string">"ls"</span>                     About a minute ago   Exited (<span class="number">0</span>) <span class="number">29</span> seconds ago                                       friendly_mirzakhani</div></pre></td></tr></table></figure></p>
+<p>nginx镜像的主进程就是这个nginx -g deamon off的nginx前台命令作为默认的CMD<br>这就是为啥run nginx容器的时候不需要，因为run的时候结尾的command为空默认使用构建镜像写的CMD<br>默认的command可以通过docker inspect 镜像名 输出的一堆json找Cmd部分查看<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="keyword">inspect</span> 镜像id(或者镜像名) | <span class="keyword">grep</span> -Poz <span class="string">'Cmd(\s|.)+?]'</span></div></pre></td></tr></table></figure></p>
+<p>然后docker run命令的结尾有command的话会覆盖掉默认的CMD<br>然后为啥那个-ti centos /bin/bash这么常见，很多人因为不懂在它的执行结果上把容器当作虚拟机了<br>先讲下非/bin/bash的cmd是啥效果<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">[root@guan ~]# docker run -d centos ls</div><div class="line"><span class="number">24</span>b2195731fef5b3e52898bcb7e2c6cebdb9afb8cfc929c1e69ed7126e967699</div><div class="line">[root@guan ~]# docker run -d centos sleep <span class="number">10</span></div><div class="line"><span class="number">8</span>c0a7cba4af9a847e0092e1855426149cf093ef90fd4b91b1cbf452001176a38</div><div class="line">[root@guan ~]# docker ps -a</div><div class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                     PORTS                                      NAMES</div><div class="line"><span class="number">8</span>c0a7cba4af9        centos              <span class="string">"sleep 10"</span>               <span class="number">4</span> seconds ago       Up <span class="number">3</span> seconds                                                     cocky_visvesvaraya</div><div class="line"><span class="number">24</span>b2195731fe        centos              <span class="string">"ls"</span>                     <span class="number">10</span> seconds ago      Exited (<span class="number">0</span>) <span class="number">9</span> seconds ago                                         friendly_mirzakhani</div><div class="line">[root@guan ~]# docker ps -a</div><div class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS                          PORTS                                      NAMES</div><div class="line"><span class="number">8</span>c0a7cba4af9        centos              <span class="string">"sleep 10"</span>               About a minute ago   Exited (<span class="number">0</span>) <span class="number">15</span> seconds ago                                       cocky_visvesvaraya</div><div class="line"><span class="number">24</span>b2195731fe        centos              <span class="string">"ls"</span>                     About a minute ago   Exited (<span class="number">0</span>) <span class="number">29</span> seconds ago                                       friendly_mirzakhani</div></pre></td></tr></table></figure></p>
 <p>上面用centos镜像(-d选项是把容器后台运行，毕竟容器执行命令，你不后台你就要等带容器执行完命令)来执行了两个命令<br>一个cmd是ls，一个是sleep 10<br>然后全部后台后用docker ps -a查看所有容器状态信息可以看到ls那个容器已经退出，sleep 10这个没退出,但是10秒过后这个容器也退出了<br>形象的说明了容器是需要主进程一直执行的<br>现在说下docker run -ti centos /bin/bash，很多命令需要交互终端来交互最常见的bash，所以一般-ti是成对出现的<br>你运行了docker run -ti centos /bin/bash后会进入一个生成的新容器里的交互式bash终端，这个时候很多初学者看到这个现象误以为容器是虚拟机<br>其实这样这个bash充当了主进程的身份而已，你可以ctrl+c退出这个交互式bash容器就退出了<br>可能有些人就挑出来说-d不是后台吗，我-tid就可以一直不退出了，或者说我容器先跑个业务进程，然后cmd部分是个死循环命令，不也可以吗<br>这样可以是可以的，但是违背了容器的设计理念，以及如果后续接触swarm或者k8s这样的容器编排工具的时候，一般都有策略，在访问量大的时候自动起容器应对压力,如果要起后端的，结果你后端的镜像里有前端的，这样最终你还是得一个镜像一个进程，还有方便收集日志以及解耦性，最好一个容器跑一个业务，且这个业务是主进程<br>然后说下docker exec，看看docker exec –help输出<br>格式和docker run差不多<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># docker exec --help</span></div><div class="line"></div><div class="line">Usage:	docker exec [OPTIONS] CONTAINER COMMAND [ARG...]</div><div class="line"></div><div class="line"><span class="keyword">Run</span><span class="bash"> a <span class="built_in">command</span> <span class="keyword">in</span> a running container</span></div></pre></td></tr></table></figure></p>
 <p>使用容器运行一个命令，但是可以说八成以上的用的都是<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker exec -ti 容器<span class="built_in">id</span>  /bin/bash</div></pre></td></tr></table></figure></p>
 <p>这样是进入了容器内部了,很多非运维的人不看命令帮助，又经常看到别人这么用误以为是exec是进入容器内部<br>其实是仅仅执行一个命令而已，看下实际出真知<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[root<span class="symbol">@guan</span> ~]<span class="meta"># docker run -d nginx</span></div><div class="line"><span class="number">8</span>c85f22f644cab32ef3dd4637e88ce799023a70f93656db0c20c8b1b70ee69d2</div><div class="line">[root<span class="symbol">@guan</span> uwsgi-django]<span class="meta"># docker exec 8c8 ls</span></div><div class="line">bin</div><div class="line">boot</div><div class="line">dev</div><div class="line">etc</div><div class="line">home</div><div class="line">....输出省略</div><div class="line">[root<span class="symbol">@guan</span> ~]<span class="meta">#</span></div></pre></td></tr></table></figure></p>
@@ -473,30 +474,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -914,35 +891,37 @@
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="Altium Designer"><span class="iconfont-archer">&#xe606;</span>Altium Designer</span>
+        <span class="sidebar-tag-name" data-tags="8266"><span class="iconfont-archer">&#xe606;</span>8266</span>
     
         <span class="sidebar-tag-name" data-tags="总结"><span class="iconfont-archer">&#xe606;</span>总结</span>
     
-        <span class="sidebar-tag-name" data-tags="8266"><span class="iconfont-archer">&#xe606;</span>8266</span>
+        <span class="sidebar-tag-name" data-tags="diy"><span class="iconfont-archer">&#xe606;</span>diy</span>
+    
+        <span class="sidebar-tag-name" data-tags="Altium Designer"><span class="iconfont-archer">&#xe606;</span>Altium Designer</span>
     
         <span class="sidebar-tag-name" data-tags="lnmp"><span class="iconfont-archer">&#xe606;</span>lnmp</span>
     
         <span class="sidebar-tag-name" data-tags="安卓"><span class="iconfont-archer">&#xe606;</span>安卓</span>
     
-        <span class="sidebar-tag-name" data-tags="diy"><span class="iconfont-archer">&#xe606;</span>diy</span>
-    
         <span class="sidebar-tag-name" data-tags="hello world"><span class="iconfont-archer">&#xe606;</span>hello world</span>
-    
-        <span class="sidebar-tag-name" data-tags="cad"><span class="iconfont-archer">&#xe606;</span>cad</span>
-    
-        <span class="sidebar-tag-name" data-tags="js"><span class="iconfont-archer">&#xe606;</span>js</span>
-    
-        <span class="sidebar-tag-name" data-tags="原创"><span class="iconfont-archer">&#xe606;</span>原创</span>
-    
-        <span class="sidebar-tag-name" data-tags="左右分散对齐文字"><span class="iconfont-archer">&#xe606;</span>左右分散对齐文字</span>
-    
-        <span class="sidebar-tag-name" data-tags="mqtt"><span class="iconfont-archer">&#xe606;</span>mqtt</span>
-    
-        <span class="sidebar-tag-name" data-tags="shell"><span class="iconfont-archer">&#xe606;</span>shell</span>
     
         <span class="sidebar-tag-name" data-tags="docker"><span class="iconfont-archer">&#xe606;</span>docker</span>
     
+        <span class="sidebar-tag-name" data-tags="cad"><span class="iconfont-archer">&#xe606;</span>cad</span>
+    
+        <span class="sidebar-tag-name" data-tags="mqtt"><span class="iconfont-archer">&#xe606;</span>mqtt</span>
+    
+        <span class="sidebar-tag-name" data-tags="原创"><span class="iconfont-archer">&#xe606;</span>原创</span>
+    
+        <span class="sidebar-tag-name" data-tags="lamp"><span class="iconfont-archer">&#xe606;</span>lamp</span>
+    
+        <span class="sidebar-tag-name" data-tags="js"><span class="iconfont-archer">&#xe606;</span>js</span>
+    
+        <span class="sidebar-tag-name" data-tags="左右分散对齐文字"><span class="iconfont-archer">&#xe606;</span>左右分散对齐文字</span>
+    
         <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="shell"><span class="iconfont-archer">&#xe606;</span>shell</span>
     
         <span class="sidebar-tag-name" data-tags="ssh"><span class="iconfont-archer">&#xe606;</span>ssh</span>
     
@@ -950,11 +929,9 @@
     
         <span class="sidebar-tag-name" data-tags="api"><span class="iconfont-archer">&#xe606;</span>api</span>
     
-        <span class="sidebar-tag-name" data-tags="lamp"><span class="iconfont-archer">&#xe606;</span>lamp</span>
+        <span class="sidebar-tag-name" data-tags="zabbix"><span class="iconfont-archer">&#xe606;</span>zabbix</span>
     
         <span class="sidebar-tag-name" data-tags="正则"><span class="iconfont-archer">&#xe606;</span>正则</span>
-    
-        <span class="sidebar-tag-name" data-tags="zabbix"><span class="iconfont-archer">&#xe606;</span>zabbix</span>
     
         <span class="sidebar-tag-name" data-tags="awk"><span class="iconfont-archer">&#xe606;</span>awk</span>
     
@@ -993,21 +970,21 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="日志"><span class="iconfont-archer">&#xe60a;</span>日志</span>
     
-        <span class="sidebar-category-name" data-categories="日志/闲搞"><span class="iconfont-archer">&#xe60a;</span>日志/闲搞</span>
-    
         <span class="sidebar-category-name" data-categories="日志/心得"><span class="iconfont-archer">&#xe60a;</span>日志/心得</span>
     
         <span class="sidebar-category-name" data-categories="日志/闲聊"><span class="iconfont-archer">&#xe60a;</span>日志/闲聊</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/容器"><span class="iconfont-archer">&#xe60a;</span>日志/容器</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/闲搞"><span class="iconfont-archer">&#xe60a;</span>日志/闲搞</span>
     
         <span class="sidebar-category-name" data-categories="日志/Auto-cad"><span class="iconfont-archer">&#xe60a;</span>日志/Auto-cad</span>
     
         <span class="sidebar-category-name" data-categories="日志/总结"><span class="iconfont-archer">&#xe60a;</span>日志/总结</span>
     
-        <span class="sidebar-category-name" data-categories="日志/容器"><span class="iconfont-archer">&#xe60a;</span>日志/容器</span>
+        <span class="sidebar-category-name" data-categories="日志/运维"><span class="iconfont-archer">&#xe60a;</span>日志/运维</span>
     
         <span class="sidebar-category-name" data-categories="日志/技巧"><span class="iconfont-archer">&#xe60a;</span>日志/技巧</span>
-    
-        <span class="sidebar-category-name" data-categories="日志/运维"><span class="iconfont-archer">&#xe60a;</span>日志/运维</span>
     
         <span class="sidebar-category-name" data-categories="日志/LVM"><span class="iconfont-archer">&#xe60a;</span>日志/LVM</span>
     
