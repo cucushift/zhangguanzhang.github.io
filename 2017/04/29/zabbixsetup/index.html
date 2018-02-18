@@ -338,7 +338,7 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>自己的摸索和坑的总结<br><a id="more"></a><br>系统是centos 6.8 64位,lnmp<br>环境搭建可以找我签名博客拿去参考<br>我是下载的源码编译安装的,下载地址往下拉就能看到源码包,下载地址<a href="http://www.zabbix.com/download" target="_blank">http://www.zabbix.com/download</a><br>然后官方手册地址<a href="https://www.zabbix.com/documentation/3.0/manual/installation/install" target="_blank">点我跳转到官方手册</a><br>下图是官方说明(点击图片放大),php的配置选项,自行修改,我用sed修改,下面是记录<br><a href="http://ww4.sinaimg.cn/large/00711cMmly1foksgkx61mj30wc0l4gng.jpg" target="_blank" rel="external"><img src="http://ww4.sinaimg.cn/large/00711cMmly1foksgkx61mj30wc0l4gng.jpg" alt="manual"></a></p>
+        <p>自己的摸索和坑的总结<br><a id="more"></a><br>系统是centos 6.8 64位,lnmp<br>环境搭建可以找我签名博客拿去参考<br>我是下载的源码编译安装的,下载地址往下拉就能看到源码包,下载地址<a href="http://www.zabbix.com/download" target="_blank">http://www.zabbix.com/download</a><br>然后官方手册地址<a href="https://www.zabbix.com/documentation/3.0/manual/installation/install" target="_blank">点我跳转到官方手册</a><br>下图是官方说明(点击图片放大),php的配置选项,自行修改,我用sed修改,下面是记录<br><a href="http://ww1.sinaimg.cn/large/0060lm7Tly1fokx69vm6nj316o0msmzr.jpg" target="_blank" rel="external"><img src="http://ww1.sinaimg.cn/large/0060lm7Tly1fokx69vm6nj316o0msmzr.jpg" alt="manual"></a></p>
 <pre><code>[root@guan etc]# grep 'max_execution_time' php.ini
 max_execution_time = 30
 [root@guan etc]# sed -i '/max_execution_time/s#30#300#' php.ini
