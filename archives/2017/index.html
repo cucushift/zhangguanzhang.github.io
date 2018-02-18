@@ -384,9 +384,10 @@ ctrl + ←    光标移动到前一个单词开头ctrl + →    光标移动到�
                     <span>个人zabbix安装和坑的解决</span>
             </a>
             <div class="abstract-content">
-                自己的摸索和坑的总结系统是centos 6.8 64位,lnmp环境搭建是我自己写的脚本搭建的,下载地址www.zhangguanzhang.com/download/lnmp.sh可以拿去参考或者修改下,个人需求来写的我是下载的源码编译安装的,下载地址往下拉就能看到源码包,下载地址http://www.zabbix.com/download然后官方手册地址点我跳转到官方手册下图是官方说明(点击图片放大),php的配置选项,自行修改,我用sed修改,下面是记录
+                自己的摸索和坑的总结系统是centos 6.8 64位,lnmp环境搭建可以找我签名博客拿去参考我是下载的源码编译安装的,下载地址往下拉就能看到源码包,下载地址http://www.zabbix.com/download然后官方手册地址点我跳转到官方手册下图是官方说明(点击图片放大),php的配置选项,自行修改,我用sed修改,下面是记录
 [root@guan etc]# grep 'max_execution_time' php.ini
-max_execution...
+max_execution_time = 30
+[root@guan etc]# sed -i '/max_execution_time/s#30#3...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
