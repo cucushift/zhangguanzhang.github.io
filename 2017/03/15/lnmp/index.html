@@ -721,7 +721,9 @@ source /etc/profile</code></pre>
 [root@guan redis-3.1.1]# cd </code></pre>
 
 <p>然后修改nginx的配置文件/etc/nginx/nginx.conf支持php解析</p>
-<p><img src="http://i4.piimg.com/596163/2c5937c62d86ae21.png"><br>第一个是根的index,后面加上index.php<br>下面是php的部分全部是注释，取消这几行注释,把scripts那改成$document_root<br>一般来说html和php都存放在一起的,所以静态80的web根和php的根没必要写成俩个,所以写一个就行了<br>改完如下图所示<br><img src="http://i4.piimg.com/596163/0b1e447a9a89dfa9.png"><br>如果你是要以其他目录作为web目录,那么这里的root后面写你的目录就行了,目录记得改成www所有者</p>
+<p>第一个是根的index,后面加上index.php<br><figure class="highlight glsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">location</span> / &#123;</div><div class="line">    <span class="keyword">index</span>  <span class="keyword">index</span>.html <span class="keyword">index</span>.htm <span class="keyword">index</span>.php;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>下面是php的部分全部是注释，取消这几行注释,把scripts那改成$document_root<br>一般来说html和php都存放在一起的,所以静态80的web根和php的根没必要写成俩个,所以写一个就行了<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">root</span> /data/web/w;  <span class="comment">#网页文件目录</span></div><div class="line"><span class="attribute">location</span> / &#123;</div><div class="line">    <span class="attribute">index</span>  index.html index.htm index.php;</div><div class="line">&#125;</div><div class="line"><span class="attribute">error_page</span>   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</div><div class="line"><span class="attribute">location</span> = /50x.html &#123;</div><div class="line">    <span class="attribute">root</span>   html;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="attribute">location</span> <span class="regexp">~ \.php$</span> &#123;</div><div class="line">    <span class="attribute">fastcgi_pass</span>   php:<span class="number">9000</span>;</div><div class="line">    <span class="attribute">fastcgi_index</span>  index.php;</div><div class="line">    <span class="attribute">fastcgi_param</span>  SCRIPT_FILENAME  <span class="variable">$document_root</span><span class="variable">$fastcgi_script_name</span>;</div><div class="line">    <span class="attribute">include</span>        fastcgi_params;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果你是要以其他目录作为web目录,那么这里的root后面写你的目录就行了,目录记得改成www所有者</p>
 <p>然后</p>
 <pre><code>[root@guan ~]# service nginx reload
 [root@guan ~]# service php-fpm restart</code></pre>
@@ -853,6 +855,14 @@ source /etc/profile</code></pre>
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -1270,23 +1280,23 @@ source /etc/profile</code></pre>
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="diy"><span class="iconfont-archer">&#xe606;</span>diy</span>
+    
         <span class="sidebar-tag-name" data-tags="8266"><span class="iconfont-archer">&#xe606;</span>8266</span>
     
         <span class="sidebar-tag-name" data-tags="总结"><span class="iconfont-archer">&#xe606;</span>总结</span>
     
-        <span class="sidebar-tag-name" data-tags="diy"><span class="iconfont-archer">&#xe606;</span>diy</span>
-    
         <span class="sidebar-tag-name" data-tags="Altium Designer"><span class="iconfont-archer">&#xe606;</span>Altium Designer</span>
+    
+        <span class="sidebar-tag-name" data-tags="cad"><span class="iconfont-archer">&#xe606;</span>cad</span>
     
         <span class="sidebar-tag-name" data-tags="lnmp"><span class="iconfont-archer">&#xe606;</span>lnmp</span>
     
         <span class="sidebar-tag-name" data-tags="安卓"><span class="iconfont-archer">&#xe606;</span>安卓</span>
     
-        <span class="sidebar-tag-name" data-tags="hello world"><span class="iconfont-archer">&#xe606;</span>hello world</span>
-    
         <span class="sidebar-tag-name" data-tags="docker"><span class="iconfont-archer">&#xe606;</span>docker</span>
     
-        <span class="sidebar-tag-name" data-tags="cad"><span class="iconfont-archer">&#xe606;</span>cad</span>
+        <span class="sidebar-tag-name" data-tags="hello world"><span class="iconfont-archer">&#xe606;</span>hello world</span>
     
         <span class="sidebar-tag-name" data-tags="mqtt"><span class="iconfont-archer">&#xe606;</span>mqtt</span>
     
@@ -1349,15 +1359,15 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="日志"><span class="iconfont-archer">&#xe60a;</span>日志</span>
     
-        <span class="sidebar-category-name" data-categories="日志/心得"><span class="iconfont-archer">&#xe60a;</span>日志/心得</span>
-    
-        <span class="sidebar-category-name" data-categories="日志/闲聊"><span class="iconfont-archer">&#xe60a;</span>日志/闲聊</span>
-    
-        <span class="sidebar-category-name" data-categories="日志/容器"><span class="iconfont-archer">&#xe60a;</span>日志/容器</span>
+        <span class="sidebar-category-name" data-categories="日志/Auto-cad"><span class="iconfont-archer">&#xe60a;</span>日志/Auto-cad</span>
     
         <span class="sidebar-category-name" data-categories="日志/闲搞"><span class="iconfont-archer">&#xe60a;</span>日志/闲搞</span>
     
-        <span class="sidebar-category-name" data-categories="日志/Auto-cad"><span class="iconfont-archer">&#xe60a;</span>日志/Auto-cad</span>
+        <span class="sidebar-category-name" data-categories="日志/心得"><span class="iconfont-archer">&#xe60a;</span>日志/心得</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/容器"><span class="iconfont-archer">&#xe60a;</span>日志/容器</span>
+    
+        <span class="sidebar-category-name" data-categories="日志/闲聊"><span class="iconfont-archer">&#xe60a;</span>日志/闲聊</span>
     
         <span class="sidebar-category-name" data-categories="日志/总结"><span class="iconfont-archer">&#xe60a;</span>日志/总结</span>
     
