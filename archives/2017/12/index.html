@@ -9,7 +9,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
-    <title>原生js左右分散对齐文字 · zhangguanzhang&#39;s Blog</title>
+    <title>zhangguanzhang&#39;s Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -252,8 +252,6 @@
 </head>
 
     
-        <body class="post-body">
-    
     
 <header class="header">
 
@@ -261,151 +259,63 @@
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
     
-    <div class="banner">
-            <div class="blog-title">
-                <a href="/" >zhangguanzhang&#39;s Blog</a>
-            </div>
-            <div class="post-title">
-                <a href="#" class="post-name">原生js左右分散对齐文字</a>
-            </div>
-    </div>
-    
     <a class="home-link" href=/>zhangguanzhang's Blog</a>
 </header>
     <div class="wrapper">
         <div class="site-intro">
     
     <!-- 主页  -->
-    
-    
-    <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            原生js左右分散对齐文字
-            <!-- 404 -->
-            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
-            
-            <!-- 404 -->
-            
         </p>
         <!-- 文章页meta -->
-        
-            <!-- 文章页标签  -->
-            
-                <div class= post-intro-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = js>js</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = 原创>原创</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = 左右分散对齐文字>左右分散对齐文字</a>
-    
-</div>
-            
-            <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = "/static/api/js/share.js"];</script>
-            <div class="post-intro-meta">
-                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                <span class="post-intro-time">2016/10/29</span>
-                
-                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
-                    <span class="iconfont-archer">&#xe604;</span>
-                    <span id="busuanzi_value_page_pv"></span>
-                </span>
-                
-                <span class="shareWrapper">
-                    <span class="iconfont-archer shareIcon">
-                        &#xe601;
-                    </span>
-                    <span class="bdsharebuttonbox">
-                        <a href="#" class="bds_more shareText" data-cmd="more">Share</a>
-                    </span>
-                </span>
-            </div>
         
     </div>
 </div>
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
 
         <div class="container container-unloaded">
-            <main class="main post-page">
-    <article class="article-entry">
-        <p>练习下<br><a id="more"></a></p>
-<h3 id="前天晚上看到群里有人问如何左右分散对齐文字"><a href="#前天晚上看到群里有人问如何左右分散对齐文字" class="headerlink" title="前天晚上看到群里有人问如何左右分散对齐文字"></a>前天晚上看到群里有人问如何左右分散对齐文字</h3><h3 id="网上查了下基本都是text-align-justify-text-justify-distribute-all-lines-的"><a href="#网上查了下基本都是text-align-justify-text-justify-distribute-all-lines-的" class="headerlink" title="网上查了下基本都是text-align:justify; text-justify:distribute-all-lines; 的"></a>网上查了下基本都是text-align:justify; text-justify:distribute-all-lines; 的</h3><p>这几种还不兼容，就自己想了个另类思路，每个文字之间插入一个div，然后把这些插入的div宽度设置成=（父级div宽度-文字宽度*文字个数）/（插入的div个数）</p>
-<hr>
-<h3 id="随便设置的父级宽度-以下是body内容"><a href="#随便设置的父级宽度-以下是body内容" class="headerlink" title="随便设置的父级宽度,以下是body内容"></a>随便设置的父级宽度,以下是body内容</h3><p><img src="http://oftgpeto9.bkt.clouddn.com/w1.png" alt="codebody"></p>
-<hr>
-<h4 id="以下是函数"><a href="#以下是函数" class="headerlink" title="以下是函数"></a>以下是函数</h4><p><img src="http://oftgpeto9.bkt.clouddn.com/w2.png" alt="jscode"></p>
-<hr>
-<h4 id="下面是测试"><a href="#下面是测试" class="headerlink" title="下面是测试"></a>下面是测试</h4><p><img src="http://oftgpeto9.bkt.clouddn.com/w3.png" alt="test"><br><img src="http://oftgpeto9.bkt.clouddn.com/w4.png" alt="test1"><br><img src="http://oftgpeto9.bkt.clouddn.com/w5.png" alt="test2"><br>改变父级div宽度和文字内容,依旧分散对齐，成功！</p>
-<blockquote>
-<p>文字宽度总不可能比超过文字高度吧，这里我用16代替，倘若你自己设置了字体大小js获取代替掉16即可</p>
-<hr>
-</blockquote>
-<h4 id="有一点我很好奇-我也是刚接触js，刚开始写的时候没有33行插入的div会有undefine字样"><a href="#有一点我很好奇-我也是刚接触js，刚开始写的时候没有33行插入的div会有undefine字样" class="headerlink" title="有一点我很好奇,我也是刚接触js，刚开始写的时候没有33行插入的div会有undefine字样"></a>有一点我很好奇,我也是刚接触js，刚开始写的时候没有33行插入的div会有undefine字样</h4><p>具体点击<a href="http://i1.piimg.com/4851/5a494aef0dd69550.png" target="_blank" rel="external">这里</a></p>
-<hr>
-<blockquote>
-<p>以下是总结<br>刚接触，也算业余学学吧，之前都是慕课上敲代码，比较简单性的，前天晚上到今天早晨，虽然思路清晰，但是实际写起来还是依靠百度，有些细节性的东西还是得实际中才能学到<br>,还没完善，js还没学完，初学点皮毛，思路就是上面这样，如果有人看到这篇文章可以考虑完善下直接几个id或者类名参数输进去直接就自动分散那就更好了。话说上面undefined真是莫名其妙，问了很多人都没得到解决</p>
-</blockquote>
-
-    </article>
-    <!-- 前后页  -->
-    <ul class="post-paginator">
-        <li class="next">
-            
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2016/10/30/20161030/" title= 记录下自己制作的led-vu >
-                    <div class="nextTitle">记录下自己制作的led-vu</div>
-                </a>
-            
-        </li>
-        <li class="previous">
-            
-                <div class="prevSlogan">Previous Post</div>
-                <a href= "/2016/10/28/hello/" title= hello world >
-                    <div class="prevTitle">hello world</div>
-                </a>
-            
-        </li>
-    </ul>
-    <!-- 评论插件 -->
-    <!-- 来必力City版安装代码 -->
-
-    <div id="lv-container" data-id="city" data-uid= MTAyMC8zMzk1OC8xMDQ5Mw>
-        <script type="text/javascript">
-            (function (d, s) {
-                var j, e = d.getElementsByTagName(s)[0];
-                if (typeof LivereTower === 'function') { return; }
-                j = d.createElement(s);
-                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-                j.async = true;
-
-                e.parentNode.insertBefore(j, e);
-            })(document, 'script');
-        </script>
-        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-    </div>
-
-<!-- City版安装代码已完成 -->
+            <main class="main index-page">
     
     
-    <!--PC版-->
-
-    <!--PC版-->
-
-
     
-    <!-- 评论 -->
+        <article class="index-post">
+            <a class="abstract-title" href = "/2017/12/24/docker容器访问宿主机/" >
+                
+                    <span>docker容器访问宿主机</span>
+            </a>
+            <div class="abstract-content">
+                有时候使用docker容器的时候经常有需要访问宿主机ip的需求,虽然可以用宿主机网卡的ip访问,但是有时候有些人的宿主机ip是dhcp方式通用方法就是给宿主机加个不可达的回环地址,然后容器的host指向这个回环地址(容器host这步是可选的)环境如下123456[root@guanvps ~]# cat /etc/redhat-release CentOS Linux release 7.4.1708 (Core) [root@guanvps ~]# uname -aLinux guanvps 3.10.0-693.el7.x86_64 #1 SMP Tue Aug 22 21:09:2...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/12/24</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = docker>docker</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    <!-- paginator  -->
+    
 </main>
             <!-- profile -->
             
@@ -465,13 +375,6 @@
 </footer>
     </div>
     <!-- toc -->
-    
-    <div class="toc-wrapper">
-        <div class="toc-catalog">
-            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
-        </div>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前天晚上看到群里有人问如何左右分散对齐文字"><span class="toc-number">1.</span> <span class="toc-text">前天晚上看到群里有人问如何左右分散对齐文字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网上查了下基本都是text-align-justify-text-justify-distribute-all-lines-的"><span class="toc-number">2.</span> <span class="toc-text">网上查了下基本都是text-align:justify; text-justify:distribute-all-lines; 的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#随便设置的父级宽度-以下是body内容"><span class="toc-number">3.</span> <span class="toc-text">随便设置的父级宽度,以下是body内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#以下是函数"><span class="toc-number">3.1.</span> <span class="toc-text">以下是函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#下面是测试"><span class="toc-number">3.2.</span> <span class="toc-text">下面是测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#有一点我很好奇-我也是刚接触js，刚开始写的时候没有33行插入的div会有undefine字样"><span class="toc-number">3.3.</span> <span class="toc-text">有一点我很好奇,我也是刚接触js，刚开始写的时候没有33行插入的div会有undefine字样</span></a></li></ol></li></ol>
-    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
