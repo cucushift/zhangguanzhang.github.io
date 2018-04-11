@@ -296,7 +296,7 @@
                     <span>docker容器访问宿主机</span>
             </a>
             <div class="abstract-content">
-                有时候使用docker容器的时候经常有需要访问宿主机ip的需求,虽然可以用宿主机网卡的ip访问,但是有时候有些人的宿主机ip是dhcp方式通用方法就是给宿主机加个不可达的回环地址,然后容器的host指向这个回环地址(容器host这步是可选的)环境如下123456[root@guanvps ~]# cat /etc/redhat-release CentOS Linux release 7.4.1708 (Core) [root@guanvps ~]# uname -aLinux guanvps 3.10.0-693.el7.x86_64 #1 SMP Tue Aug 22 21:09:2...
+                有时候使用docker容器的时候经常有需要访问宿主机ip的需求,虽然可以用宿主机网卡的ip访问,但是有时候有些人的宿主机ip是dhcp方式通用方法就是给宿主机加个不可达的回环地址,然后容器的host指向这个回环地址(容器host这步是可选的)(PS:1.1.1.1这个地址在2018/04初成为了公共DNS所以能ping通了,不过思路是可行的)环境如下123456[root@guanvps ~]# cat /etc/redhat-release CentOS Linux release 7.4.1708 (Core) [root@guanvps ~]# uname -aLinux guan...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
