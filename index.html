@@ -336,7 +336,7 @@
                     <span>docker容器访问宿主机</span>
             </a>
             <div class="abstract-content">
-                有时候使用docker容器的时候经常有需要访问宿主机ip的需求,虽然可以用宿主机网卡的ip访问,但是有时候有些人的宿主机ip是dhcp方式通用方法就是给宿主机加个不可达的回环地址,然后容器的host指向这个回环地址(容器host这步是可选的)(PS:1.1.1.1这个地址在2018/04初成为了公共DNS所以能ping通了,不过思路是可行的)环境如下123456[root@guanvps ~]# cat /etc/redhat-release CentOS Linux release 7.4.1708 (Core) [root@guanvps ~]# uname -aLinux guan...
+                有时候使用docker容器的时候经常有需要访问宿主机ip的需求,虽然可以用宿主机网卡的ip访问,但是有时候有些人的宿主机ip是dhcp方式通用方法就是给宿主机加个不可达的回环地址,然后容器的host指向这个回环地址(容器host这步是可选的)(PS:1.1.1.1这个地址在2018/04初成为了公共DNS所以能ping通了,不过思路还是一样的)环境如下123456[root@guanvps ~]# cat /etc/redhat-release CentOS Linux release 7.4.1708 (Core) [root@guanvps ~]# uname -aLinux gua...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
@@ -362,7 +362,7 @@
                     <span>docker容器网络互联</span>
             </a>
             <div class="abstract-content">
-                官方文档说–link将来会被废弃，而且确实很鸡肋,有时候还要进去容器改东西。这里写下规范的容器互联方法1234567(ps:2018年4月初1.1.1.1成为了公共dns能ping通了,不过文章思路还是一样的)[root@guan ~]# cat /etc/redhat-release CentOS Linux release 7.3.1611 (Core) [root@guan ~]# uname -aLinux guan 3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017 x86_64 x86_64 x86_64...
+                官方文档说–link将来会被废弃，而且确实很鸡肋,有时候还要进去容器改东西。这里写下规范的容器互联方法123456[root@guan ~]# cat /etc/redhat-release CentOS Linux release 7.3.1611 (Core) [root@guan ~]# uname -aLinux guan 3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux[root@guan ~]# docker --versionDocker ...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
