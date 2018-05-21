@@ -350,7 +350,7 @@
 </ul>
 </blockquote>
 <p><img src="https://kairen.github.io/images/kube/kubernetes-aa-ha.png" alt=""></p>
-<p><span style="font-size: 1.4em;color: #333;font-weight:bold">节点资讯</span><br>本教学将以下列节点数与规格来进行部署Kubernetes集群,系统可采用<code>Ubuntu 16.x</code>与<code>CentOS 7.x</code></p>
+<p><span style="font-size: 1.4em;color: #333;font-weight:bold">节点信息</span><br>本教学将以下列节点数与规格来进行部署Kubernetes集群,系统可采用<code>Ubuntu 16.x</code>与<code>CentOS 7.x</code></p>
 <table>
 <thead>
 <tr>
@@ -422,10 +422,10 @@
 <blockquote>
 <ul>
 <li>不管是在Ubuntu或CentOS都只需要执行该指令就会自动安装最新版Docker。</li>
-<li>CentOS安装完成后，需要再执行以下指令：<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> systemctl <span class="built_in">enable</span> docker &amp;&amp; systemctl start docker</span></span><br></pre></td></tr></table></figure>
-</li>
+<li>CentOS安装完成后，需要再执行以下指令：</li>
 </ul>
 </blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> systemctl <span class="built_in">enable</span> docker &amp;&amp; systemctl start docker</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li><p>所有節點需要设定/etc/sysctl.d/k8s.conf的系统参数。</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ cat &lt;&lt;EOF &gt; /etc/sysctl.d/k8s.conf</span><br><span class="line">net<span class="selector-class">.ipv4</span><span class="selector-class">.ip_forward</span> = <span class="number">1</span></span><br><span class="line">net<span class="selector-class">.bridge</span><span class="selector-class">.bridge-nf-call-ip6tables</span> = <span class="number">1</span></span><br><span class="line">net<span class="selector-class">.bridge</span><span class="selector-class">.bridge-nf-call-iptables</span> = <span class="number">1</span></span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">$ sysctl -<span class="selector-tag">p</span> /etc/sysctl.d/k8s.conf</span><br></pre></td></tr></table></figure>
@@ -557,10 +557,10 @@
 <p>接着确认服务能够执行logs 等指令：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl -n kube-system logs -f kube-scheduler-k8s-m2</span><br><span class="line"><span class="builtin-name">Error</span> <span class="keyword">from</span><span class="built_in"> server </span>(Forbidden): Forbidden (<span class="attribute">user</span>=kube-apiserver, <span class="attribute">verb</span>=get, <span class="attribute">resource</span>=nodes, <span class="attribute">subresource</span>=proxy) ( pods/log kube-scheduler-k8s-m2)</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <ul>
-<li>这边会发现出现403 Forbidden问题，这是因为kube-apiserveruser并没有nodes的资源存取权限，属于正常。<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl apply -f <span class="string">"<span class="variable">$&#123;CORE_URL&#125;</span>/apiserver-to-kubelet-rbac.yml.conf"</span></span><br><span class="line">clusterrole.rbac.authorization.k8s.io <span class="string">"system:kube-apiserver-to-kubelet"</span> configured</span><br><span class="line">clusterrolebinding.rbac.authorization.k8s.io <span class="string">"system:kube-apiserver"</span> configured</span><br><span class="line"></span><br><span class="line"><span class="comment"># 測試 logs</span></span><br><span class="line">$ kubectl -n kube-system logs -f kube-scheduler-k8s-m2</span><br><span class="line"><span class="built_in">..</span>.</span><br><span class="line">I0403 02:30:36.375935       1 server.go:555] Version: v1.10.0</span><br><span class="line">I0403 02:30:36.378208       1 server.go:574] starting healthz<span class="built_in"> server </span>on 127.0.0.1:10251</span><br></pre></td></tr></table></figure>
-</li>
+<li>这边会发现出现403 Forbidden问题，这是因为kube-apiserveruser并没有nodes的资源存取权限，属于正常。</li>
 </ul>
 </blockquote>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl apply -f <span class="string">"<span class="variable">$&#123;CORE_URL&#125;</span>/apiserver-to-kubelet-rbac.yml.conf"</span></span><br><span class="line">clusterrole.rbac.authorization.k8s.io <span class="string">"system:kube-apiserver-to-kubelet"</span> configured</span><br><span class="line">clusterrolebinding.rbac.authorization.k8s.io <span class="string">"system:kube-apiserver"</span> configured</span><br><span class="line"></span><br><span class="line"><span class="comment"># 測試 logs</span></span><br><span class="line">$ kubectl -n kube-system logs -f kube-scheduler-k8s-m2</span><br><span class="line"><span class="built_in">..</span>.</span><br><span class="line">I0403 02:30:36.375935       1 server.go:555] Version: v1.10.0</span><br><span class="line">I0403 02:30:36.378208       1 server.go:574] starting healthz<span class="built_in"> server </span>on 127.0.0.1:10251</span><br></pre></td></tr></table></figure>
 <p>设定<code>master</code>节点允许Taint：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl taint nodes node-role<span class="selector-class">.kubernetes</span><span class="selector-class">.io</span>/master=<span class="string">""</span>:NoSchedule --all</span><br><span class="line">node <span class="string">"k8s-m1"</span> tainted</span><br><span class="line">node <span class="string">"k8s-m2"</span> tainted</span><br><span class="line">node <span class="string">"k8s-m3"</span> tainted</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <ul>
