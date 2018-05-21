@@ -9,7 +9,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
-    <title>lamp环境搭建总结 · zhangguanzhang&#39;s Blog</title>
+    <title>zhangguanzhang&#39;s Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -252,8 +252,6 @@
 </head>
 
     
-        <body class="post-body">
-    
     
 <header class="header">
 
@@ -261,479 +259,77 @@
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
     
-    <div class="banner">
-            <div class="blog-title">
-                <a href="/" >zhangguanzhang&#39;s Blog</a>
-            </div>
-            <div class="post-title">
-                <a href="#" class="post-name">lamp环境搭建总结</a>
-            </div>
-    </div>
-    
     <a class="home-link" href=/>zhangguanzhang's Blog</a>
 </header>
     <div class="wrapper">
         <div class="site-intro">
     
     <!-- 主页  -->
-    
-    
-    <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            lamp环境搭建总结
-            <!-- 404 -->
-            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
-            
-            <!-- 404 -->
-            
         </p>
         <!-- 文章页meta -->
-        
-            <!-- 文章页标签  -->
-            
-                <div class= post-intro-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = 原创>原创</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = lamp>lamp</a>
-    
-</div>
-            
-            <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = "/static/api/js/share.js"];</script>
-            <div class="post-intro-meta">
-                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                <span class="post-intro-time">2017/02/02</span>
-                
-                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
-                    <span class="iconfont-archer">&#xe604;</span>
-                    <span id="busuanzi_value_page_pv"></span>
-                </span>
-                
-                <span class="shareWrapper">
-                    <span class="iconfont-archer shareIcon">
-                        &#xe601;
-                    </span>
-                    <span class="bdsharebuttonbox">
-                        <a href="#" class="bds_more shareText" data-cmd="more">Share</a>
-                    </span>
-                </span>
-            </div>
         
     </div>
 </div>
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
 
         <div class="container container-unloaded">
-            <main class="main post-page">
-    <article class="article-entry">
-        <p>网上杂七杂八的lamp搭建或者到处抄袭的博客真是心烦<br><a id="more"></a></p>
-<h3 id="自己亲身实践搭建的lamp环境-原创，转载需同意-盗版必究"><a href="#自己亲身实践搭建的lamp环境-原创，转载需同意-盗版必究" class="headerlink" title="自己亲身实践搭建的lamp环境,原创，转载需同意,盗版必究"></a>自己亲身实践搭建的lamp环境,原创，转载需同意,盗版必究</h3><p>主机用的腾讯云的centos 6.7 64位,腾讯云的学生认证后每个月可以领取64元的代金卷,你把配置弄成65左右就是每个月1块钱了,非常优惠<br><br>另外也用centos 6.5实践过<br><br><img src="http://oftgpeto9.bkt.clouddn.com/ssh.png"><br>首先我们需要俩工具，左边ftp文件传输用，右边ssh软件<br>链接: <a href="https://pan.baidu.com/s/1pLfMHcf" target="_blank" rel="noopener">https://pan.baidu.com/s/1pLfMHcf</a> 密码: 3hjn(如果链接失效了自己去网上下吧….)<br>打开xsehll后文件-新建一个链接，主机那填写你的云主机外网ip<br><img src="http://oftgpeto9.bkt.clouddn.com/l1.png"></p>
-<p>然后文件-打开-双击你新建的<br>用户名输入root,密码为你创建时的root密码,链接成功后就是图下的界面</p>
-<p><img src="http://oftgpeto9.bkt.clouddn.com/l2.png"></p>
-<pre><code>cd /usr/local
-mkdir download
-cd download</code></pre>
-cd就是change directory就是改变目录<br>
-mkdir就是make directory创建目录<br>
-上面三句就是进去/usr/local下创建一个download目录然后进去这个目录<br>
-安装基本依赖
-<pre><code>yum install -y gcc gcc-c++ wget make vim</code></pre>
-<hr>
-<h3>首先我们来安装apache</h3>
-<br>进入官网后点击右击这个<br>右击tar.gz获取链接
-注意我此时是2.4.25可能你看到这的时候版本就不一样了,具体是因为目录结构
-http://mirror.bit.edu.cn/apache//httpd/里面是latest版本
-<span style="font-size: 20px;color: red">下方的wget后面的url是粘贴你上面右键复制的链接</span>
-<img src="https://ws1.sinaimg.cn/large/005ZEsHqly1fkrccf7j8cj30te0nntbq.jpg"><br>
-
-然后在ssh软件里下面这输入wget空格并且粘贴<span style="font-size: 20px;color: red">你上面获取的链接</span><br>
-<img src="http://oftgpeto9.bkt.clouddn.com/l4.png">
-<br><br>
-
-下面全文不会再讲关于命令如何输入的问题了...
-<br>
-wget是从url下载文件
-<span style="font-size: 20px;color: red">!!!下方的wget后面的url是粘贴你上面右键复制的链接,可能版本更新了,千万别抄我的</span>
-<pre><code>wget http://mirror.bit.edu.cn/apache//httpd/httpd-2.4.25.tar.gz</code></pre>
-
-<pre><code>tar zxvf httpd*</code></pre>
-这个是解压一个名字里开头是httpd的tar.gz的压缩包,这里的星号*是通配符<br>
-在解压的时候文件名单一的可以不用输入全名来解压,建议大家以后在删除文件的时候不要这样用通配符<br>
-<pre><code>wget http://archive.apache.org/dist/apr/apr-1.4.5.tar.gz
-wget http://archive.apache.org/dist/apr/apr-util-1.3.12.tar.gz</code></pre>
-apache安装需要apr和apr-util和pcre,所以下载apr和apr-util,如果你下载的是其他版本的话注意下路径和文件夹名<br>
-ll命令是ls -l就是列出文件,后面有些命令的间隔里也可以用ll看看这些命令是干啥的<br><br>
-<img src="http://oftgpeto9.bkt.clouddn.com/l5.png">
-<pre><code>tar zxvf apr-1.4.5.tar.gz
-tar zxvf apr-util-1.3.12.tar.gz</code></pre>
-mv是移动，倘若加了名字就是重命令
-<pre><code>mv apr-1.4.5 apr
-mv apr-util-1.3.12 apr-util
-mv apr apr-util httpd-2*/srclib/
-wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.39.tar.gz
-tar zxvf pcre-8.39.tar.gz
-cd pcre*</code></pre><br><br>
-<span style="font-size: 20px;color: red">如果上面的wget下载pcre失败了在xshell里按方向键上可以使用上一次命令,也就是重试</span>
-<br><br>
-
-配置pcre
-<pre><code>./configure --prefix=/usr/local/pcre</code></pre>
-./configure就是配置,参数--prefix=/usr/local/pcre就是说把软件安装在/usr/local/pcre这个目录下<br>
-配置完成如图所示
-<img src="http://oftgpeto9.bkt.clouddn.com/l6.png">
-然后
-<pre><code>make && make install</code></pre>
-make就是编译,make install就是编译安装
-<pre><code>cd ../httpd*</code></pre>
-../是linux里的相对路径,意思是返回上一级目录下<br>
-cd ../httpd*就是进入上一级目录下的一个开头httpd的目录<br>
-配置安装apache然后备份默认配置文件并启动
-<pre><code>./configure --prefix=/usr/local/apache -with-pcre=/usr/local/pcre/bin/pcre-config -with-included-apr
-make
-make install
-cd /usr/local/apache/bin
-cp /usr/local/apache/conf/httpd.conf{,.bak}
-./apachectl -k start</code></pre>
-回车后有段输出,那些不用管他
-<br>
-输入
-<pre><code>curl 127.0.0.1</code></pre>
-输出<pre><code>&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</code></pre>
-本地电脑在浏览器打开服务器ip也能看到网页，成功
-<img src="http://oftgpeto9.bkt.clouddn.com/l7.png">
-<br><br>
-如果外网打开看不到到:<br>一是可能你的防火墙没有开启80端口<br>二是你的云主机的规则没开放80端口
-<br><br>
-这里我以腾讯云为例
-<img src="http://oftgpeto9.bkt.clouddn.com/l8.png">
-<br><br>
-倘若你curl有输出it works字样但你外网打不开，可以在图上里那个全部端口加入你的主机<br>
-apache的配置文件是apache安装目录下的conf文件夹里的httpd.conf,我是安装在/usr/local/apache/conf
-<br><br>
-<img src="http://oftgpeto9.bkt.clouddn.com/l9.png">
-<pre><code>cp /usr/local/apache/bin/apachectl /etc/init.d/httpd</code></pre>
-经过上面这条命令操作后你以后开启apache或者关闭重启就可以直接输入
-<pre><code>service httpd start</code></pre>
-stop停止,restart是重启
-把apache下的bin加入环境变量里
-<pre><code>echo 'export PATH=/usr/local/apache/bin:$PATH'>>/etc/profile
-source /etc/profile</code></pre>
-<br><br><br>
-<hr>
-<h3>接下来是安装mysql</h3>
-5.7以及以上安装有点不同
-这里我安装的是5.6.35<br>链接: https://pan.baidu.com/s/1kVc7e9T 密码: wf5v<br>
-mysql的官网下载特慢，这里我用ftp上传到服务器<br>在xftp和xshell都安装的情况下我们可以在xshell里通过图里打开一个连接主机的ftp窗口
-<img src="http://oftgpeto9.bkt.clouddn.com/l10.png">
-<br>
-然后把mysql压缩包上传
-<br>
-<img src="http://oftgpeto9.bkt.clouddn.com/l11.png">
-
-进入xshell里
-<pre><code>cd /usr/local/download
-tar zxvf mysql*</code></pre>
-安装依赖
-<pre><code>yum install cmake ncurses-devel bison -y</code></pre>
-创建一个名为mysql且没有登录权限的用户和一个名为mysql的用户组并把mysql用户加进mysql用户组里
-<pre><code>groupadd -r mysql && useradd -r -g mysql -s /bin/false -M mysql</code></pre>
-进入mysql的解压目录并配置
-<pre><code>cd mysql*
-cmake \
--DCMAKE_INSTALL_PREFIX=/usr/local/mysql \
--DMYSQL_DATADIR=/usr/local/mysql/data \
--DSYSCONFDIR=/etc \
--DMYSQL_USER=mysql \
--DWITH_MYISAM_STORAGE_ENGINE=1 \
--DWITH_INNOBASE_STORAGE_ENGINE=1 \
--DWITH_ARCHIVE_STORAGE_ENGINE=1 \
--DWITH_MEMORY_STORAGE_ENGINE=1 \
--DWITH_READLINE=1 \
--DMYSQL_UNIX_ADDR=/var/run/mysql/mysql.sock \
--DMYSQL_TCP_PORT=3306 \
--DENABLED_LOCAL_INFILE=1 \
--DENABLE_DOWNLOADS=1 \
--DWITH_PARTITION_STORAGE_ENGINE=1 \
--DEXTRA_CHARSETS=all \
--DDEFAULT_CHARSET=utf8 \
--DDEFAULT_COLLATION=utf8_general_ci \
--DWITH_DEBUG=0 \
--DMYSQL_MAINTAINER_MODE=0 \
--DWITH_SSL:STRING=bundled \
--DWITH_ZLIB:STRING=bundled
-</code></pre>
-<img src="http://oftgpeto9.bkt.clouddn.com/l12.png">
-<br><br>
-<pre><code>make && make install</code></pre>
-
-<pre><code>cd /usr/local/mysql
-chown -R mysql:mysql /usr/local/mysql</code></pre>
-chown是改变文件所有者,change owner,R参数是递归，遍历目录下所有目录和文件<br>
-上面整个命令是改变/usr/local/mysql下所有的文件拥有者为mysql用户，用户组为mysql<br>
-<br>
-初始化mysql
-<pre><code>./scripts/mysql_install_db --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data</code></pre>
-<img src="http://oftgpeto9.bkt.clouddn.com/l13.png">
-完成后如图上面有些信息来叫你如何完善mysql以及安全<br>
-mysql默认的配置文件路径是/etc/my.cnf，我们复制安装自带的默认配置文件过去
-<pre><code>cp support-files/my-default.cnf /etc/my.cnf</code></pre>询问覆盖的时候输入y
-<br>
-配置/etc/my.cnf
-<pre><code>sed -i 's/# basedir = \.\.\.\.\./ basedir = \/usr\/local\/mysql/' /etc/my.cnf
-sed -i 's/# datadir = \.\.\.\.\./ datadir = \/usr\/local\/mysql\/data/' /etc/my.cnf
-sed -i 's/# port = \.\.\.\.\./ port = 3306/' /etc/my.cnf
-sed -i 's/# socket = \.\.\.\.\./ socket = \/var\/run\/mysql\/mysql.sock/' /etc/my.cnf
-num=$(sed -n '/socket/=' /etc/my.cnf)
-sed -i "$num a[mysqld_safe]\nlog-error=/var/log/mysqld.log\npid-file=/var/run/mysqld/mysqld.pid\n" /etc/my.cnf</code></pre>
-<br>
-cmake的时候把mysql的sock文件指定到/var/run/mysql里符合linux文件目录规范方便日后管理,但是默认没有这个文件夹,手动创建
-<pre><code>
-mkdir /var/run/mysql
-chown mysql:mysql /var/run/mysql</code></pre>
-启动mysql
-<pre><code>./support-files/mysql.server start</code></pre>
-进入mysql客户端<br>
-<pre><code>bin/mysql -uroot -p</code></pre>
-回车后会有个输出提示没有设置密码<br>
-此时直接回车,然后进去mysql客户端里
-<img src="http://oftgpeto9.bkt.clouddn.com/l14.png">
-<br><br>
-进入mysql的客户端后，我们来在客户端里的命令行里给mysql设置root密码<br>
-<pre><code>use mysql;
-delete from mysql.user where user='';
-update user set password=password("123456") where user="root";
-flush privileges;
-exit</code></pre>
-其中123456为你要设置的密码<br>
-第二行是删除mysql的匿名用户
-flush privileges 命令本质上的作用是将当前user和privilige表中的用户信息/权限设置从mysql库(MySQL数据库的内置库)中提取到内存里。MySQL用户数据和权限有修改后，希望在不重启MySQL服务的情况下直接生效
-<br>
-添加到service里
-<pre><code>cp support-files/mysql.server /etc/init.d/mysqld
-chmod u+x /etc/init.d/mysqld
-</code></pre>
-以后我们启动mysql服务直接输入<pre><code>service mysqld start</code></pre>就行了,如果要开机自启就输入下面的命令
-<pre><code>chkconfig --add mysqld</code></pre>
-<br><br>
-把mysql的安装目录下的bin加入环境变量里
-<pre><code>echo 'export PATH=/usr/local/mysql/bin:$PATH'>>/etc/profile
-source /etc/profile</code></pre>
-以后进入mysql客户端输入下面命令就可以了
-<pre><code>mysql -uroot -p</code></pre>
-<br>
-<hr>
-<h3>下面来安装php</h3>
-先安装curl为了后面给php添加curl扩展<a href="https://curl.haxx.se/download" target="_blank"><span style="font-size: 20px">点我进入curl下载页面</span></a>
-注意curl页面里的最新版本在网页里的最下面
-也可以直接wget下载,wget下载的话输入!!回车就是重新下载
-然后解压进入解压目录
-<pre><code>
-cd /usr/local/download
-wget http://ojt8x896o.bkt.clouddn.com/curl-7.52.1.tar.gz
-tar -zxvf curl-7.52.1.tar.gz
-cd curl-7.52.1
-./configure --prefix=/usr/local/curl
-make && make install
-</code></pre>
-
-<p>安装mhash库给php开启扩展</p>
-<pre><code>cd /usr/local/download
-wget https://ncu.dl.sourceforge.net/project/mhash/mhash/0.9.9.9/mhash-0.9.9.9.tar.gz
-tar -zxvf mhash-0.9.9.9.tar.gz
-cd mhash-0.9.9.9
-./configure
-make && make install
-</code></pre>
-
-<p>进入php官网,进入download页面点击tar.gz包<br><img src="http://oftgpeto9.bkt.clouddn.com/l15.png"><br><br><br>进去后我们找香港的源，右击后选择复制链接<br><br><br><img src="http://oftgpeto9.bkt.clouddn.com/l16.png"><br><br><br>在xshell里</p>
-<pre><code>cd /usr/local/download</code></pre>
-<br>
-<pre><code>wget http://hk1.php.net/get/php-5.6.29.tar.gz/from/this/mirror -O php-5.6.29.tar.gz</code></pre>
-<span style="font-size: 20px;color: red">上面的wget下载失败的话尝试下面这个</span>
-<pre><code>wget http://ojt8x896o.bkt.clouddn.com/php-5.6.29.tar.gz -O php-5.6.29.tar.gz</code></pre>
-<pre><code>tar zxvf php*
-cd php*</code></pre>
-<span style="font-size:18px;color: red">这里wget下载php有时候被保存为mirrors,有时候被保存为php加版本号,所以上面wget后面我加了-O参数下载保存为php-5.6.29.tar.gz</span>
-<br>
-安装依赖
-<pre><code>yum install openssl openssl-devel bzip2-devel libxslt libxslt-devel libmcrypt libmcrypt-devel libxml2 libxml2-devel autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel  zlib zlib-devel glibc glibc-devel glib2 glib2-devel</code></pre>
-<span style="font-size: 20px;color: red">如果输出提示有问题最后俩glibc依赖先不装试试(centos6.7的偶尔没问题，6.5的话最后俩依赖别安装了)</span><br>
-<span style="font-size: 18px;color: red">下面参数开启了很多功能,等你以后熟悉了就会知道这步位你带来的多方便了</span>
-<h3>64位</h3>
-
-<pre><code>./configure --prefix=/usr/local/php \
-./configure --prefix=/usr/local/php \
---enable-bcmath \
---enable-calendar \
---enable-ftp \
---enable-mbstring \
---enable-pcntl \
---enable-shmop \
---enable-soap \
---enable-sockets \
---enable-sysvsem \
---enable-zip \
---with-apxs2=/usr/local/apache/bin/apxs \
---with-bz2 \
---with-curl=/usr/local/curl \
---with-freetype-dir=/usr/lib64 \
---with-gettext \
---with-gd \
---with-jpeg-dir=/usr/lib64 \
---with-openssl \
---with-png-dir=/usr/lib64 \
---with-xmlrpc \
---with-xsl \
---with-mcrypt \
---with-mhash \
---with-mysql \
---with-mysqli \
---with-pdo-mysql \
---with-zlib \
---with-config-file-path=/usr/local/php/etc/
-</code></pre>
-
-<h3>32位</h3>
-
-<pre><code>./configure --prefix=/usr/local/php \
---enable-fpm \
---with-apxs2=/usr/local/apache/bin/apxs \
---with-zlib \
---with-mysql \
---with-mysqli \
---with-pdo-mysql \
---enable-mbstring \
---with-gd \
---with-curl=/usr/local/curl \
---with-config-file-path=/usr/local/php/etc/
-</code></pre>
-
-<p><img src="http://oftgpeto9.bkt.clouddn.com/l17.png"><br><br><br><br>配置没错的话就是图里的信息<br>然后<br><span style="font-size: 20px;color: red">编译php需要资源,make的时候有时候会因为内存不够而中断,关键字memory字样,所以建议先关闭apache和mysqld</span><br></p>
-<pre><code>service httpd stop</code></pre>
-<pre><code>service mysqld stop</code></pre>
-<pre><code>make</code></pre>
-<img src="http://oftgpeto9.bkt.clouddn.com/l18.png"><br><br>
-
-make提示complete后直接
-
-<pre><code>make install</code></pre>
-等输出完成后
-php默认的配置文件php.ini是不存在的我们需要手背拷贝过去
-在源码包里有俩ini,php.ini-development和php.ini-production
-我是拷贝的development,并且修改配置文件里的时区为PRC
-<pre><code>cp ./php.ini-development /usr/local/php/etc/php.ini
-sed -ri '/;date.timezone =/s#;date.timezone =#date.timezone = PRC#' /usr/local/php/etc/php.ini</code></pre>
-成功安装php后我们要吧php安装目录下的bin弄到环境变量里面
-<pre><code>echo 'export PATH=/usr/local/php/bin:$PATH'>>/etc/profile
-source /etc/profile</code></pre>
-输入<pre><code>php -v</code></pre>
-成功安装好php并且配置环境变量
-
-<br><br>
-<span style="font-size: 18px">然后按需求给php开启redis</span>
-<a href="http://pecl.php.net/package/redis" target="_blank"><span style="font-size: 20px">点我进入redis下载页面</span></a><br>
-网站下面的Dependencies说明redis版本对应的php版本
-Release 3.1.1:    <br>PHP Version: PHP version 7.9.99 or older<br>
-PHP Version: PHP 5.2.0 or newer
-3.1.1的支持5.2.0或者更新的
-<pre><code>cd /usr/local/download/
-wget http://pecl.php.net/get/redis-3.1.1.tgz
-tar -zxvf redis*
-cd redis*
-/usr/local/php/bin/phpize
-./configure --with-php-config=/usr/local/php/bin/php-config
-make && make install
-echo -e "extension=/usr/local/php/lib/php/extensions/no-debug-zts-20131226/redis.so" >> /usr/local/php/etc/php.ini
-</code></pre>
-关于php-fpm的配置参考这个链接<a href="http://www.jb51.net/article/42716.htm" target="_blank" rel="noopener">php配置php-fpm启动参数及配置详解</a>
-<br><br>
-然后进入apache的conf配置文件
-<pre><code>vim /usr/local/apache/conf/httpd*</code></pre>
-在里面按下i后进去vim的编辑模式,添加一行
-<pre><code>AddType application/x-httpd-php .php</code></pre>
-<img src="http://oftgpeto9.bkt.clouddn.com/l20.png">
-<br>
-然后再图中位置那后面加入index.php
-<br>
-<img src="http://oftgpeto9.bkt.clouddn.com/l21.png">
-<br>
-看到apache启动的时候输出了一段信息烦人?那你在配置里找到ServerName取消注释并把后面www.example.com修改为localhost
-<br>
-vim的退出和保存操作是按住shift后按分号,也就是键盘L右边的然后下面出现一个冒号进入vim的命令行模式,输入wq回车保存退出<br>
-<br>
-然后用ftp在apache的wwwroot目录(默认是你安装的apache里的htdocs,这里是在/usr/local/apache/htdocs/)把默认的index.html改名为index.php内容为
-<pre><code>&lt;?php
-phpinfo();</code></pre>的页面
-
-然后在xshell里重启apache
-<pre><code>service httpd restart</code></pre>
-
-<p>外网打开服务器ip看到输出，成功apache加载php<br><img src="http://oftgpeto9.bkt.clouddn.com/l22.png"></p>
-<p>首先你得有个域名,没有的话去买一个,一年要不了多少钱<br>买了后尽量早点备案<br>cn域名一定要备案,其他域名如果你主机非大陆的就可以不用备案<br>不备案备扫到就会封你ip好像<br>域名这个东西就是个名字,服务器都是ip的,假设没有域名,你要访问别人网站输入ip岂不是很麻烦<br>域名就是个别名可以理解为<br><br \=""><br><img src="https://ws1.sinaimg.cn/large/005ZEsHqly1fkrbb9v800j30s50dj0ta.jpg" alt="y1"><br>在域名解析那里添加一个www和@记录,这样别人就可以通过www和不带www访问你的页面了,这里我是*和@<br>不过这样俩种url访问的都是你的index页面<br>我们可以通过配置虚拟主机来让俩种不一样的页面</p>
-<p>如果你不习惯vim可以在ftp里这样选择你的windows下的编辑器<br>我安装了sublime,然后xftp的使用本地编辑器那设置成sublime的安装路径<br>然后你这样点击了后本地保存后会自动上传的<br>httpd.conf里<br \=""><br>取消这俩段前面的#号</p>
-<p>#LoadModule vhost_alias_module modules/mod_vhost_alias.so</p>
-<p>#Include conf/extra/httpd-vhosts.conf<br><img src="https://ws1.sinaimg.cn/large/005ZEsHqly1fksfha48fxj30el08tdgh.jpg" alt="d1"><br><img src="https://ws1.sinaimg.cn/large/005ZEsHqly1fksfhccbs7j30ff0ag756.jpg" alt="d2"><br><br \=""><br \=""><br>然后去你apache安装目录下的conf/extra里打开httpd-vhosts.conf<br \=""><br><img src="https://ws1.sinaimg.cn/large/005ZEsHqly1fksfjp1kv4j30e708h74s.jpg" alt="v1"><br \=""><br>仿着给定的设置下就行了,如何出现访问不了的情况可能dns问题<br>刚开始我没写ServerAlias<br \=""><br>写的目录一定要在httpd.conf里填写的DocumentRoot目录下的子目录<br>编辑完成后在www和blog文件夹下写一个内容不同的index.html或者index.php<br>可以访问的话你就把域名解析暂停了赶紧去备案,一般是两个星期左右</p>
-
-    </article>
-    <!-- 前后页  -->
-    <ul class="post-paginator">
-        <li class="next">
-            
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2017/02/12/wx00/" title= 微信公众号接入自己服务器 >
-                    <div class="nextTitle">微信公众号接入自己服务器</div>
-                </a>
-            
-        </li>
-        <li class="previous">
-            
-                <div class="prevSlogan">Previous Post</div>
-                <a href= "/2017/01/08/tuling-wx/" title= 微信公众号接入图灵机器人api >
-                    <div class="prevTitle">微信公众号接入图灵机器人api</div>
-                </a>
-            
-        </li>
-    </ul>
-    <!-- 评论插件 -->
-    <!-- 来必力City版安装代码 -->
-
-    <div id="lv-container" data-id="city" data-uid= MTAyMC8zMzk1OC8xMDQ5Mw>
-        <script type="text/javascript">
-            (function (d, s) {
-                var j, e = d.getElementsByTagName(s)[0];
-                if (typeof LivereTower === 'function') { return; }
-                j = d.createElement(s);
-                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-                j.async = true;
-
-                e.parentNode.insertBefore(j, e);
-            })(document, 'script');
-        </script>
-        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-    </div>
-
-<!-- City版安装代码已完成 -->
+            <main class="main index-page">
     
     
-    <!--PC版-->
-
-    <!--PC版-->
-
-
     
-    <!-- 评论 -->
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/05/05/kubernetes安装部署/" >
+                
+                    <span>[转载+修正]Kubernetes v1.10.x HA全手动苦工安装教学</span>
+            </a>
+            <div class="abstract-content">
+                转载自https://kairen.github.io/2018/04/05/kubernetes/deploy/manual-v1.10/作者文章的安装步骤文字是复制作者的1.8的安装步骤然后改的,安装过程变了部分,但是文字没有改正过来。
+以下我转载过来并修改+上我的提醒
+管理组件采用daemonSet形式跑的,仅供学习实验
+本次安裝的版本：
+
+
+Kubernetes v1.10.0
+CNI v0.6.0
+Etcd v3.1.13
+Calico v3.0.4
+Docker CE latest version
+
+
+
+节点资讯本教学将以下列节点数与规格来进行部署Kubernetes集群,系...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/05</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = k8s>k8s</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    <!-- paginator  -->
+    
 </main>
             <!-- profile -->
             
@@ -793,13 +389,6 @@ phpinfo();</code></pre>的页面
 </footer>
     </div>
     <!-- toc -->
-    
-    <div class="toc-wrapper">
-        <div class="toc-catalog">
-            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
-        </div>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#自己亲身实践搭建的lamp环境-原创，转载需同意-盗版必究"><span class="toc-number">1.</span> <span class="toc-text">自己亲身实践搭建的lamp环境,原创，转载需同意,盗版必究</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">首先我们来安装apache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">接下来是安装mysql</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.</span> <span class="toc-text">下面来安装php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">5.</span> <span class="toc-text">64位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">6.</span> <span class="toc-text">32位</span></a></li></ol>
-    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">

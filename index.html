@@ -304,6 +304,46 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/05/05/kubernetes安装部署/" >
+                
+                    <span>[转载+修正]Kubernetes v1.10.x HA全手动苦工安装教学</span>
+            </a>
+            <div class="abstract-content">
+                转载自https://kairen.github.io/2018/04/05/kubernetes/deploy/manual-v1.10/作者文章的安装步骤文字是复制作者的1.8的安装步骤然后改的,安装过程变了部分,但是文字没有改正过来。
+以下我转载过来并修改+上我的提醒
+管理组件采用daemonSet形式跑的,仅供学习实验
+本次安裝的版本：
+
+
+Kubernetes v1.10.0
+CNI v0.6.0
+Etcd v3.1.13
+Calico v3.0.4
+Docker CE latest version
+
+
+
+节点资讯本教学将以下列节点数与规格来进行部署Kubernetes集群,系...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/05</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = k8s>k8s</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/01/10/docker的一些概念/" >
                 
                     <span>docker的一些概念</span>
@@ -554,35 +594,6 @@ max_execution_time = 30
                 <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = awk>awk</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2017/04/20/记录LVM的练习/" >
-                
-                    <span>记录LVM和raid的练习</span>
-            </a>
-            <div class="abstract-content">
-                LVM和raid的创建和调整LVM就不用讲了,动态调整大小…总结来说就是:    磁盘创建成PV物理卷    PV物理卷组成VG卷组    然后在卷组上创建LV1,创建分区给LVM实例使用(没有多个硬盘,没办法,只有用一个盘分成多个分区来模仿实际生活里的多块硬盘了)用的云主机,俩块硬盘,用另一块没使用的数据盘做例子,分成四个分区使用fdisk来分区,n是增加分区表，p是打印分区表，创建三个逻辑分区然后一个扩展分区
-[root@guan ~]# fdisk -l
-Disk /dev/vda: 21.5 GB, 21474836480 bytes
-255 heads, 63 sectors/...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/04/20</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = linux>linux</a>
     
 </div>
                 
@@ -1043,7 +1054,40 @@ Disk /dev/vda: 21.5 GB, 21474836480 bytes
     
     
     
-    <div class="total-archive"> Total : 24 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 25 </div>
     
     <div class="post-archive">
     
@@ -1052,6 +1096,11 @@ Disk /dev/vda: 21.5 GB, 21474836480 bytes
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/05</span><a class="archive-post-title" href= "/2018/05/05/kubernetes安装部署/" >[转载+修正]Kubernetes v1.10.x HA全手动苦工安装教学</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1240,6 +1289,8 @@ Disk /dev/vda: 21.5 GB, 21474836480 bytes
     
         <span class="sidebar-tag-name" data-tags="正则"><span class="iconfont-archer">&#xe606;</span>正则</span>
     
+        <span class="sidebar-tag-name" data-tags="k8s"><span class="iconfont-archer">&#xe606;</span>k8s</span>
+    
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
@@ -1296,6 +1347,8 @@ jsonContent:
         <span class="sidebar-category-name" data-categories="日志/LVM"><span class="iconfont-archer">&#xe60a;</span>日志/LVM</span>
     
         <span class="sidebar-category-name" data-categories="日志/LVM/raid"><span class="iconfont-archer">&#xe60a;</span>日志/LVM/raid</span>
+    
+        <span class="sidebar-category-name" data-categories="kubernetes"><span class="iconfont-archer">&#xe60a;</span>kubernetes</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
