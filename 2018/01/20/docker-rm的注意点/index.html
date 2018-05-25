@@ -9,7 +9,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
-    <title>zhangguanzhang&#39;s Blog</title>
+    <title>慎用docker的--rm选项!!! · zhangguanzhang&#39;s Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -252,6 +252,8 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
@@ -259,226 +261,134 @@
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
     
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >zhangguanzhang&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">慎用docker的--rm选项!!!</a>
+            </div>
+    </div>
+    
     <a class="home-link" href=/>zhangguanzhang's Blog</a>
 </header>
     <div class="wrapper">
         <div class="site-intro">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
+            慎用docker的--rm选项!!!
+            <!-- 404 -->
+            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Dockerfile>Dockerfile</a>
+    
+</div>
+            
+            <script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = "/static/api/js/share.js"];</script>
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/01/20</span>
+                
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe604;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">
+                        &#xe601;
+                    </span>
+                    <span class="bdsharebuttonbox">
+                        <a href="#" class="bds_more shareText" data-cmd="more">Share</a>
+                    </span>
+                </span>
+            </div>
         
     </div>
 </div>
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
 
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2017/02/02/lamp/" >
-                
-                    <span>lamp环境搭建总结</span>
-            </a>
-            <div class="abstract-content">
-                网上杂七杂八的lamp搭建或者到处抄袭的博客真是心烦
-自己亲身实践搭建的lamp环境,原创，转载需同意,盗版必究主机用的腾讯云的centos 6.7 64位,腾讯云的学生认证后每个月可以领取64元的代金卷,你把配置弄成65左右就是每个月1块钱了,非常优惠另外也用centos 6.5实践过首先我们需要俩工具，左边ftp文件传输用，右边ssh软件链接: https://pan.baidu.com/s/1pLfMHcf 密码: 3hjn(如果链接失效了自己去网上下吧….)打开xsehll后文件-新建一个链接，主机那填写你的云主机外网ip
-然后文件-打开-双击你新建的用户名输入root,密码为你...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/02/02</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = 原创>原创</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = lamp>lamp</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2017/01/08/tuling-wx/" >
-                
-                    <span>微信公众号接入图灵机器人api</span>
-            </a>
-            <div class="abstract-content">
-                最近在弄微信远程控制，闲来无聊把图灵机器人接入自己公众号
-网上的有的是直接图灵官网那接入，但是那样就完全接管了公众号的消息管理了，自己的就没用了，然后百度了一番，终于弄出来了预备条件:服务器(云主机，自己买)，微信公众号，和一个图灵的apikey(图灵官网申请个机器人后就可以获得),会点php基础(我用php开发的..)先自己微信公众号先对接上自己主机。怎么对接有时间我发下教程。。。另外再废话点,微信公众号一般是三种,订阅号(个人),服务号(工商个体户),企业号(企业用),订阅号只能个人用并且开启开发者模式后(也就是你对接服务器了后无法自定义菜单，这点很坑….),服务号和企业号不说了,反...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/01/08</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = 原创>原创</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = 微信>微信</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = api>api</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2016/11/13/cad/" >
-                
-                    <span>cad</span>
-            </a>
-            <div class="abstract-content">
-                以前自己录制的cad的一些gif图，百度取消了百度相册，只能转移到这里了正文:
-图片太小的话可以右击在新选项卡里打开
+            <main class="main post-page">
+    <article class="article-entry">
+        <p><code>Dockerfile</code>里的<code>VOLUME</code>和<code>docker run</code>的时候-v 挂载容器的挂载点效果是一致的会在宿主机<code>/var/lib/docker/volumes</code>目录生成随机目录<br>发现<code>--rm</code>不单单是删除掉容器，还会删掉挂载点的数据</p>
+<p>首先不使用–rm下看看效果<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@guan_tx ]<span class="comment">#  docker run  -tid --name busybox -v /guan busybox</span></span><br><span class="line">be59bd455fbde8a8d195220d96c6676ad8fa6f26e1ebac6533020c83dacbf907</span><br><span class="line">[root@guan_tx ]<span class="comment"># docker exec busybox touch /guan/test.file</span></span><br><span class="line">[root@guan_tx ]<span class="comment"># docker stop busybox</span></span><br><span class="line">busybox</span><br><span class="line">[root@guan_tx ]<span class="comment"># find /var/lib/docker/ -name 'test.file' -type f</span></span><br><span class="line">/var/<span class="class"><span class="keyword">lib</span>/<span class="title">docker</span>/<span class="title">volumes</span>/2<span class="title">f759d991f3d845dd63d2fbac08c587b7452b87e1b9b8a8450960edd0fdeb93d</span>/<span class="title">_data</span>/<span class="title">test</span>.<span class="title">file</span></span></span><br><span class="line">[root@guan_tx ]<span class="comment"># docker rm busybox</span></span><br><span class="line">busybox</span><br><span class="line">[root@guan_tx ]<span class="comment"># find /var/lib/docker/ -name 'test.file' -type f</span></span><br><span class="line">/var/<span class="class"><span class="keyword">lib</span>/<span class="title">docker</span>/<span class="title">volumes</span>/2<span class="title">f759d991f3d845dd63d2fbac08c587b7452b87e1b9b8a8450960edd0fdeb93d</span>/<span class="title">_data</span>/<span class="title">test</span>.<span class="title">file</span></span></span><br></pre></td></tr></table></figure></p>
+<p>上面看到是删掉容器挂载点的文件还存在,删掉这个还存在的文件后我们再试试–rm的效果<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@guan_tx ]<span class="comment"># docker run --rm -tid --name busybox -v /guan busybox</span></span><br><span class="line">f51a32541b7f99f8b1d14042479f3c7df4b7b30db2cb6a2072af1b17f5654c32</span><br><span class="line">[root@guan_tx ]<span class="comment"># docker exec busybox touch /guan/test.file</span></span><br><span class="line">[root@guan_tx ]<span class="comment"># find /var/lib/docker/ -name 'test.file' -type f</span></span><br><span class="line">/var/<span class="class"><span class="keyword">lib</span>/<span class="title">docker</span>/<span class="title">volumes</span>/7<span class="title">fa030713fd794d1882ec00877300d8bc1574f9fbecef13deade787aed52f8af</span>/<span class="title">_data</span>/<span class="title">test</span>.<span class="title">file</span></span></span><br><span class="line">[root@guan_tx ]<span class="comment"># docker stop busybox</span></span><br><span class="line">busybox</span><br><span class="line">[root@guan_tx ]<span class="comment"># find /var/lib/docker/ -name 'test.file' -type f</span></span><br><span class="line">[root@guan_tx ]<span class="comment">#</span></span><br></pre></td></tr></table></figure></p>
+<p>上面命令可以看出使用了<code>--rm</code>选项停掉容器后(会自动删掉容器)会删掉挂载点</p>
 
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/11/13</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = cad>cad</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2016/10/30/20161030/" >
-                
-                    <span>记录下自己制作的led-vu</span>
-            </a>
-            <div class="abstract-content">
-                记录下自己制作的led-vu在贴吧看到有人放出的图经过一番搜索在youtube上找到制作人,发现似乎两年前这东西就在外国火了一阵子
-看视频发现老外遥控器上20种颜色，思考了好久后才明白老外用的是灯带控制器来调色就图里右下角那个东西于是我就上某宝上搜索，结果还真搜到了，但是30多块钱，好贵阿在店里逛了下发现另一款小巧的控制器 老外也是用的灯带，自己画板子的话成本太高了  然后如上图所示，买了灯带+控制器（第一次是只买了灯带，当时没想到用那个控制器，后面发现买的灯带是0.5m的，一层用10cm，10层一共1m。。。于是又买了条1m的，后来想到用那个控制器的时候灯带早就到了，没办法又再店里买了...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/10/30</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = diy>diy</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2016/10/29/secondblog/" >
-                
-                    <span>原生js左右分散对齐文字</span>
-            </a>
-            <div class="abstract-content">
-                练习下
-前天晚上看到群里有人问如何左右分散对齐文字网上查了下基本都是text-align:justify; text-justify:distribute-all-lines; 的这几种还不兼容，就自己想了个另类思路，每个文字之间插入一个div，然后把这些插入的div宽度设置成=（父级div宽度-文字宽度*文字个数）/（插入的div个数）
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/05/05/Kubernetes_install/" title= [转载+修正]Kubernetes v1.10.x HA全手动苦工安装教学 >
+                    <div class="nextTitle">[转载+修正]Kubernetes v1.10.x HA全手动苦工安装教学</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/01/10/docker的一些概念/" title= docker的一些概念 >
+                    <div class="prevTitle">docker的一些概念</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
 
-随便设置的父级宽度,以下是body内容
+    <div id="lv-container" data-id="city" data-uid= MTAyMC8zMzk1OC8xMDQ5Mw>
+        <script type="text/javascript">
+            (function (d, s) {
+                var j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') { return; }
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
 
-以下是函数
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
 
-下面是测试改变父级div宽度和文字内容,依旧分散对齐，成功！
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
 
-文字宽度总不可能比超过文字高度吧，这里我用16代替，倘若你自己设置了字体大小js获取代替掉16即可
+    <!--PC版-->
 
 
-有一点我很好奇,我也是刚接...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/10/29</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = 原创>原创</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = js>js</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = 左右分散对齐文字>左右分散对齐文字</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2016/10/28/hello/" >
-                
-                    <span>hello world</span>
-            </a>
-            <div class="abstract-content">
-                花了一两个小时终于弄好了第一个博客正文:花了一两个小时终于弄好了博客然后又弄了一个小时弄好主题，没有艺术细胞就这样吧虽然是静态的，以后了解多了弄个域名在我云主机上弄个wordpress的试试
-
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/10/28</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = hello world>hello world</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    <!-- paginator  -->
-    
-    <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/page/2/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
-    
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -538,6 +448,13 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">

@@ -291,182 +291,24 @@
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2017/02/02/lamp/" >
+            <a class="abstract-title" href = "/2018/01/20/docker-rm的注意点/" >
                 
-                    <span>lamp环境搭建总结</span>
+                    <span>慎用docker的--rm选项!!!</span>
             </a>
             <div class="abstract-content">
-                网上杂七杂八的lamp搭建或者到处抄袭的博客真是心烦
-自己亲身实践搭建的lamp环境,原创，转载需同意,盗版必究主机用的腾讯云的centos 6.7 64位,腾讯云的学生认证后每个月可以领取64元的代金卷,你把配置弄成65左右就是每个月1块钱了,非常优惠另外也用centos 6.5实践过首先我们需要俩工具，左边ftp文件传输用，右边ssh软件链接: https://pan.baidu.com/s/1pLfMHcf 密码: 3hjn(如果链接失效了自己去网上下吧….)打开xsehll后文件-新建一个链接，主机那填写你的云主机外网ip
-然后文件-打开-双击你新建的用户名输入root,密码为你...
+                Dockerfile里的VOLUME和docker run的时候-v 挂载容器的挂载点效果是一致的会在宿主机/var/lib/docker/volumes目录生成随机目录发现--rm不单单是删除掉容器，还会删掉挂载点的数据
+首先不使用–rm下看看效果1234567891011[root@guan_tx ]#  docker run  -tid --name busybox -v /guan busyboxbe59bd455fbde8a8d195220d96c6676ad8fa6f26e1ebac6533020c83dacbf907[root@guan_tx ]# docker exec ...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
                 <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/02/02</span>
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/20</span>
                 </div>
                 <!-- tags  -->
                 
                 <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = 原创>原创</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = lamp>lamp</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2017/01/08/tuling-wx/" >
-                
-                    <span>微信公众号接入图灵机器人api</span>
-            </a>
-            <div class="abstract-content">
-                最近在弄微信远程控制，闲来无聊把图灵机器人接入自己公众号
-网上的有的是直接图灵官网那接入，但是那样就完全接管了公众号的消息管理了，自己的就没用了，然后百度了一番，终于弄出来了预备条件:服务器(云主机，自己买)，微信公众号，和一个图灵的apikey(图灵官网申请个机器人后就可以获得),会点php基础(我用php开发的..)先自己微信公众号先对接上自己主机。怎么对接有时间我发下教程。。。另外再废话点,微信公众号一般是三种,订阅号(个人),服务号(工商个体户),企业号(企业用),订阅号只能个人用并且开启开发者模式后(也就是你对接服务器了后无法自定义菜单，这点很坑….),服务号和企业号不说了,反...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/01/08</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = 原创>原创</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = 微信>微信</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = api>api</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2016/11/13/cad/" >
-                
-                    <span>cad</span>
-            </a>
-            <div class="abstract-content">
-                以前自己录制的cad的一些gif图，百度取消了百度相册，只能转移到这里了正文:
-图片太小的话可以右击在新选项卡里打开
-
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/11/13</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = cad>cad</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2016/10/30/20161030/" >
-                
-                    <span>记录下自己制作的led-vu</span>
-            </a>
-            <div class="abstract-content">
-                记录下自己制作的led-vu在贴吧看到有人放出的图经过一番搜索在youtube上找到制作人,发现似乎两年前这东西就在外国火了一阵子
-看视频发现老外遥控器上20种颜色，思考了好久后才明白老外用的是灯带控制器来调色就图里右下角那个东西于是我就上某宝上搜索，结果还真搜到了，但是30多块钱，好贵阿在店里逛了下发现另一款小巧的控制器 老外也是用的灯带，自己画板子的话成本太高了  然后如上图所示，买了灯带+控制器（第一次是只买了灯带，当时没想到用那个控制器，后面发现买的灯带是0.5m的，一层用10cm，10层一共1m。。。于是又买了条1m的，后来想到用那个控制器的时候灯带早就到了，没办法又再店里买了...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/10/30</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = diy>diy</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2016/10/29/secondblog/" >
-                
-                    <span>原生js左右分散对齐文字</span>
-            </a>
-            <div class="abstract-content">
-                练习下
-前天晚上看到群里有人问如何左右分散对齐文字网上查了下基本都是text-align:justify; text-justify:distribute-all-lines; 的这几种还不兼容，就自己想了个另类思路，每个文字之间插入一个div，然后把这些插入的div宽度设置成=（父级div宽度-文字宽度*文字个数）/（插入的div个数）
-
-随便设置的父级宽度,以下是body内容
-
-以下是函数
-
-下面是测试改变父级div宽度和文字内容,依旧分散对齐，成功！
-
-文字宽度总不可能比超过文字高度吧，这里我用16代替，倘若你自己设置了字体大小js获取代替掉16即可
-
-
-有一点我很好奇,我也是刚接...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/10/29</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = 原创>原创</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = js>js</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = 左右分散对齐文字>左右分散对齐文字</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2016/10/28/hello/" >
-                
-                    <span>hello world</span>
-            </a>
-            <div class="abstract-content">
-                花了一两个小时终于弄好了第一个博客正文:花了一两个小时终于弄好了博客然后又弄了一个小时弄好主题，没有艺术细胞就这样吧虽然是静态的，以后了解多了弄个域名在我云主机上弄个wordpress的试试
-
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/10/28</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = hello world>hello world</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = Dockerfile>Dockerfile</a>
     
 </div>
                 
@@ -474,10 +316,6 @@
         </article>
     
     <!-- paginator  -->
-    
-    <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/page/2/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
     
 </main>
             <!-- profile -->
