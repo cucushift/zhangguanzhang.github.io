@@ -340,8 +340,8 @@
                     <span>慎用docker的--rm选项!!!</span>
             </a>
             <div class="abstract-content">
-                Dockerfile里的VOLUME和docker run的时候-v 挂载容器的挂载点效果是一致的会在宿主机/var/lib/docker/volumes目录生成随机目录发现--rm不单单是删除掉容器，还会删掉挂载点的数据
-首先不使用–rm下看看效果1234567891011[root@guan_tx ]#  docker run  -tid --name busybox -v /guan busyboxbe59bd455fbde8a8d195220d96c6676ad8fa6f26e1ebac6533020c83dacbf907[root@guan_tx ]# docker exec ...
+                Dockerfile里的VOLUME和docker run -v /path的时候挂载容器的挂载点效果是一致的会在宿主机/var/lib/docker/volumes目录生成随机目录发现--rm不单单是删除掉容器，还会删掉挂载点的数据
+首先不使用–rm下看看效果1234567891011[root@guan_tx ]#  docker run  -tid --name busybox -v /guan busyboxbe59bd455fbde8a8d195220d96c6676ad8fa6f26e1ebac6533020c83dacbf907[root@guan_tx ]# docker...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
