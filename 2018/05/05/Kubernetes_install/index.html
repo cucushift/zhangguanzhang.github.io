@@ -434,12 +434,15 @@
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ cat &lt;&lt;EOF &gt; /etc/sysctl.d/k8s.conf</span><br><span class="line">net<span class="selector-class">.ipv4</span><span class="selector-class">.ip_forward</span> = <span class="number">1</span></span><br><span class="line">net<span class="selector-class">.bridge</span><span class="selector-class">.bridge-nf-call-ip6tables</span> = <span class="number">1</span></span><br><span class="line">net<span class="selector-class">.bridge</span><span class="selector-class">.bridge-nf-call-iptables</span> = <span class="number">1</span></span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">$ sysctl -<span class="selector-tag">p</span> /etc/sysctl.d/k8s.conf</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Kubernetes v1.8+要求关闭系统Swap，若不关闭则需要修改kubelet设定参数，在<code>所有机器</code>使用以下指令关闭：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ swapoff -a &amp;&amp; sysctl -w vm.<span class="attribute">swappiness</span>=0</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> swapoff -a &amp;&amp; sysctl -w vm.swappiness=0</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sed -ri <span class="string">'/^[^#]*swap/s@^@#@'</span> /etc/fstab</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <blockquote>
 <ul>
-<li>记得/etc/fstab也要注解掉SWAP挂载。</li>
+<li><p>记得/etc/fstab也要注解掉SWAP挂载。</p>
+</li>
+<li><p>确保getenforce的值是Disabled,如果不是请重启</p>
+</li>
 </ul>
 <ul>
 <li>所有机器提前拉取以下镜像</li>
