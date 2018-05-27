@@ -339,7 +339,7 @@
             </a>
             <div class="abstract-content">
                 Dockerfile里的VOLUME和docker run -v /path的时候挂载容器的挂载点效果是一致的会在宿主机/var/lib/docker/volumes目录生成随机目录发现--rm不单单是删除掉容器，还会删掉挂载点的数据
-首先不使用–rm下看看效果1234567891011[root@guan_tx ]#  docker run  -tid --name busybox -v /guan busyboxbe59bd455fbde8a8d195220d96c6676ad8fa6f26e1ebac6533020c83dacbf907[root@guan_tx ]# docker...
+首先不使用--rm下看看效果1234567891011[root@guan_tx ]#  docker run  -tid --name busybox -v /guan busyboxbe59bd455fbde8a8d195220d96c6676ad8fa6f26e1ebac6533020c83dacbf907[root@guan_tx ]# docke...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
@@ -366,7 +366,13 @@
             </a>
             <div class="abstract-content">
                 总结下容器的一些概念和虚拟机的区别以及CMD和entrypoint先直接切入主题，容器好处和虚拟机的一些差异以及需要看懂本文的基础知识可以稍微看下面的博客过一遍http://www.cnblogs.com/linuxops/p/6781047.html
-容器是利用linux的cgroup和namespace隔离的，在宿主机上本质是个隔离的进程。因为是进程，一个容器(进程)要一直运行，那容器里得有个主进程一直运行。容器很多东西(命令，文件啥的)和虚拟机有点类似，但是你不能把它当虚拟机用，因为容器本质是解耦的，一个容器一个业务可以这样假想下，拿nginx这个来举例子，nginx其实就是个进程...
+
+
+容器是利用linux的cgroup和namespace隔离的，在宿主机上本质是个隔离的进程。
+
+
+因为是进程，一个容器(进程)要一直运行，那容器里得有个主进程一直运行。
+容器很多东西(命令，文件啥的)和虚拟机有点类似，但是你不能把它当虚拟机用，因为容器本质是解耦的，一个容器一个业务可以这样假想下，拿nginx这个来举例子，nginx其...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
@@ -460,6 +466,14 @@ getopt
                 </div>
                 <!-- tags  -->
                 
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = shell>shell</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = bash>bash</a>
+    
+</div>
+                
             </div>
         </article>
     
@@ -472,10 +486,7 @@ getopt
             </a>
             <div class="abstract-content">
                 ssh公钥免密码登录ssh-keygen命令用来生成公钥和私钥密钥对的工具，通常用法是-t指定加密算法,-f指定输出路径，一般是~/.ssh/id_rsa，-P是指定私钥密码
-[root@guan ~]# ssh-keygen -t rsa    # -t参数指定算法，可以是rsa或dsa
-Generating public/private rsa key pair.
-Enter file in which to save the key (/root/.ssh/id_rsa):  # 询问私钥保存路径
-Enter passphrase (empty for no passphrase)...
+1234567[root@guan ~]# ssh-keygen -t rsa    # -t参数指定算法，可以是rsa或dsaGenerating public/private rsa key pair.Enter file in which to save the key (/root/.ssh/id_rsa):  # 询问私钥保存路径Enter passphrase (empty for no passphr...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
@@ -1275,6 +1286,8 @@ max_execution_time = 30
         <span class="sidebar-tag-name" data-tags="正则"><span class="iconfont-archer">&#xe606;</span>正则</span>
     
         <span class="sidebar-tag-name" data-tags="awk"><span class="iconfont-archer">&#xe606;</span>awk</span>
+    
+        <span class="sidebar-tag-name" data-tags="bash"><span class="iconfont-archer">&#xe606;</span>bash</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

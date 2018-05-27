@@ -342,10 +342,17 @@
                     <span>记录LVM和raid的练习</span>
             </a>
             <div class="abstract-content">
-                LVM和raid的创建和调整LVM就不用讲了,动态调整大小…总结来说就是:    磁盘创建成PV物理卷    PV物理卷组成VG卷组    然后在卷组上创建LV1,创建分区给LVM实例使用(没有多个硬盘,没办法,只有用一个盘分成多个分区来模仿实际生活里的多块硬盘了)用的云主机,俩块硬盘,用另一块没使用的数据盘做例子,分成四个分区使用fdisk来分区,n是增加分区表，p是打印分区表，创建三个逻辑分区然后一个扩展分区
+                LVM和raid的创建和调整LVM就不用讲了,动态调整大小…总结来说就是:    磁盘创建成PV物理卷    PV物理卷组成VG卷组    然后在卷组上创建LV
+
+
+1,创建分区给LVM实例使用(没有多个硬盘,没办法,只有用一个盘分成多个分区来模仿实际生活里的多块硬盘了)
+用的云主机,俩块硬盘,用另一块没使用的数据盘做例子,分成四个分区
+使用fdisk来分区,n是增加分区表，p是打印分区表，创建三个逻辑分区然后一个扩展分区
+
+
 [root@guan ~]# fdisk -l
 Disk /dev/vda: 21.5 GB, 21474836480 bytes
-255 heads, 63 sectors/...
+255 heads, 63 s...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
@@ -1296,6 +1303,8 @@ cd /usr/local/download
         <span class="sidebar-tag-name" data-tags="正则"><span class="iconfont-archer">&#xe606;</span>正则</span>
     
         <span class="sidebar-tag-name" data-tags="awk"><span class="iconfont-archer">&#xe606;</span>awk</span>
+    
+        <span class="sidebar-tag-name" data-tags="bash"><span class="iconfont-archer">&#xe606;</span>bash</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

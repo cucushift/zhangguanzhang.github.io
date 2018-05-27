@@ -337,31 +337,21 @@
             <main class="main post-page">
     <article class="article-entry">
         <p>ssh公钥免密码登录<br><a id="more"></a><br><img src="http://mmbiz.qpic.cn/mmbiz_jpg/IP70Vic417DPlnSnZ9Dfrm0DkSHG5zWEy0wGzmZ0S27a6dwjziaRicDQeicgcStBpfiaU3RDGzUbUTh4bAibQiccKBMaA/640.jpeg?tp=webp&wxfrom=5&wx_lazy=1" alt=""><br>ssh-keygen命令用来生成公钥和私钥密钥对的工具，通常用法是-t指定加密算法,-f指定输出路径，一般是~/.ssh/id_rsa，-P是指定私钥密码</p>
-<pre><code>[root@guan ~]# ssh-keygen -t rsa    # -t参数指定算法，可以是rsa或dsa
-Generating public/private rsa key pair.
-Enter file in which to save the key (/root/.ssh/id_rsa):  # 询问私钥保存路径
-Enter passphrase (empty for no passphrase):               # 询问是否加密私钥文件
-Enter same passphrase again:            
-Your identification has been saved in /root/.ssh/id_rsa. 
-Your public key has been saved in /root/.ssh/id_rsa.pub.</code></pre>
-
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@guan ~]<span class="meta"># ssh-keygen -t rsa    # -t参数指定算法，可以是rsa或dsa</span></span><br><span class="line">Generating <span class="keyword">public</span>/<span class="keyword">private</span> rsa <span class="keyword">key</span> pair.</span><br><span class="line">Enter file <span class="keyword">in</span> which <span class="keyword">to</span> save the <span class="keyword">key</span> (/root/.ssh/id_rsa):  <span class="meta"># 询问私钥保存路径</span></span><br><span class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase):               <span class="meta"># 询问是否加密私钥文件</span></span><br><span class="line">Enter same passphrase again:            </span><br><span class="line">Your identification has been saved <span class="keyword">in</span> /root/.ssh/id_rsa. </span><br><span class="line">Your <span class="keyword">public</span> <span class="keyword">key</span> has been saved <span class="keyword">in</span> /root/.ssh/id_rsa.pub.</span><br></pre></td></tr></table></figure>
 <p>如果不想被询问，则可以使用下面一条命令完成：”-f”指定私钥文件，”-P”指定passphrase，或者”-N”也一样。</p>
-<pre><code>[root@guan ~]# ssh-keygen -t rsa -f ~/.ssh/id_rsa -P ''   # 指定加密私钥文件的密码为空密码，即不加密
-</code></pre>
-
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@guan</span> ~]<span class="meta"># ssh-keygen -t rsa -f ~/.ssh/id_rsa -P <span class="string">''</span>   # 指定加密私钥文件的密码为空密码，即不加密</span></span><br></pre></td></tr></table></figure>
 <p>然后用ssh-copy-id分发公钥，ssh-copy-id用法很简单，只需指定待信任主机及目标用户即可。如果生成的公钥文件，路径不是~/.ssh/id_rsa.pub，则使用”-i”选项指定要分发的公钥。<br>例如分发到192.168.1.105上</p>
 <pre><code>[root@guan ~]# ssh-copy-id 192.168.1.105
 root@192.168.1.105's password:   #输入目标主机密码即可
 </code></pre>
 
-<p>ssh-copy-id唯一需要注意的是，如果ssh服务端的端口不是22，则需要给ssh-copy-id传递端口号，传递方式为”-p port_num [user@]hostname”，例如”-p 22222 root@172.16.10.6”。之所以要如此传递，见下面摘自ssh-copy-id中公钥分发的命令部分。</p>
-<pre><code>{ eval "$GET_ID" ; } | ssh $1 "umask 077; test -d ~/.ssh || mkdir ~/.ssh ; cat >> ~/.ssh/authorized_keys && (test -x /sbin/restorecon && /sbin/restorecon ~/.ssh ~/.ssh/authorized_keys >/dev/null 2>&1 || true)" || exit 1</code></pre>
-
+<p><code>ssh-copy-id</code>唯一需要注意的是，如果ssh服务端的端口不是22，则需要给ssh-copy-id传递端口号，传递方式为”-p port_num [user@]hostname”，例如”-p 22222 root@172.16.10.6”。之所以要如此传递，见下面摘自ssh-copy-id中公钥分发的命令部分。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; eval <span class="string">"$GET_ID"</span> ; &#125; | ssh <span class="variable">$1</span> <span class="string">"umask 077; test -d ~/.ssh || mkdir ~/.ssh ; cat &gt;&gt; ~/.ssh/authorized_keys &amp;&amp; (test -x /sbin/restorecon &amp;&amp; /sbin/restorecon ~/.ssh ~/.ssh/authorized_keys &gt;/dev/null 2&gt;&amp;1 || true)"</span> || <span class="keyword">exit</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
 <p>其中”{ eval “$GET_ID” ; }”可理解为待分发的本地公钥内容，”(test -x /sbin/restorecon &amp;&amp; /sbin/restorecon ~/.ssh ~/.ssh/authorized_keys &gt;/dev/null 2&gt;&amp;1 || true)”和selinux有关，不用管，所以上述命令简化为：</p>
-<pre><code>cat ~/.ssh/id_rsa.pub | ssh $1 "umask 077; test -d ~/.ssh || mkdir ~/.ssh ; cat >> ~/.ssh/authorized_keys || exit 1</code></pre>
-
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cat</span> ~/.ssh/id_rsa.pub | ssh <span class="variable">$1</span> "umask 077; <span class="keyword">test</span> -<span class="keyword">d</span> ~/.ssh || <span class="keyword">mkdir</span> ~/.ssh ; <span class="keyword">cat</span> &gt;&gt; ~/.ssh/authorized_keys || <span class="keyword">exit</span> 1</span><br></pre></td></tr></table></figure>
 <p>可见，ssh-copy-id的所有参数都是存储在位置变量$1中传递给ssh，所以应该将ssh的端口选项”-p port_num”和user@hostname放在一起传递。</p>
 <p>通过分析上面的命令，也即知道了ssh-copy-id的作用：在目标主机的指定用户的家目录下，检测是否有~/.ssh目录，如果没有，则以700权限创建该目录，然后将本地的公钥追加到目标主机指定用户家目录下的~/.ssh/authorized_keys文件中。</p>
+<p><code>-o StrictHostKeyChecking=no</code>可以跳过证书验证,配合sshpass即可满足所有情况，否则初次的证书的yes得由expect脚本处理</p>
 
     </article>
     <!-- 前后页  -->
@@ -1040,6 +1030,8 @@ root@192.168.1.105's password:   #输入目标主机密码即可
         <span class="sidebar-tag-name" data-tags="正则"><span class="iconfont-archer">&#xe606;</span>正则</span>
     
         <span class="sidebar-tag-name" data-tags="awk"><span class="iconfont-archer">&#xe606;</span>awk</span>
+    
+        <span class="sidebar-tag-name" data-tags="bash"><span class="iconfont-archer">&#xe606;</span>bash</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

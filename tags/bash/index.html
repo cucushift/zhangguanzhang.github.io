@@ -291,22 +291,24 @@
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2017/05/06/shell快捷键提升效率/" >
+            <a class="abstract-title" href = "/2017/05/25/shell脚本的选项处理/" >
                 
-                    <span>shell利用快捷键提升命令输入和编辑</span>
+                    <span>shell脚本的选项和参数处理</span>
             </a>
             <div class="abstract-content">
-                快速编辑命令高效率输入并非大型软件或者IDE才有快捷键,shell也有,如果能够熟练使用快捷键,做起事情来且不事半功倍。网上流传的快捷键在xshell下可能和菜单的快捷键alt啥的冲突我只说下xshell下和用的最多的
-光标部分总的来说就是移动,最常用的就四个:移动到行首和行尾部
-ctrl + a  行首ctrl + e  行末
-然后单词移动,xshell下alt不起作用,esc+b/f可以前后但是ctrl+左/右也可以,所以建议单词之间移动使用:
-ctrl + ←    光标移动到前一个单词开头ctrl + →    光标移动到后一个单词结尾
-配合下面的ctrl+w或者esc+d来删除...
+                在写shell脚本时经常会用到命令行选项、参数处理方式，如:1./test.sh -f 5 -rF --host-file=/etc/hosts
+其中-f和-rF都是短选项,–host-file是长选项短选项又分为可选参数和必选参数,不需要参数的短选项可以合着写例如cat和tail的-n有默认值10在shell中，可以用以下三种方式来处理命令行参数，每种方式都有自己的应用场景
+
+手工处理方式
+getopts
+getopt
+
+手工处理不说了,手工处理高度依赖于你在命令行上所传参数的位置，所以一般都只用来处理较简单的参数下面我们依次讨论这后两种处理方式getopts是shell内置的,只支持...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
                 <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/05/06</span>
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/05/25</span>
                 </div>
                 <!-- tags  -->
                 
@@ -314,67 +316,7 @@ ctrl + ←    光标移动到前一个单词开头ctrl + →    光标移动到�
     
         <a class="post-tag" href="javascript:void(0);" data-tags = shell>shell</a>
     
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2017/04/25/转载-awk中RS-OFS-RS-ORS区别于联系/" >
-                
-                    <span>[转载]awk中RS,ORS,FS,OFS区别于联系</span>
-            </a>
-            <div class="abstract-content">
-                awk中RS,ORS,FS,OFS区别于联系转载地址http://blog.51yip.com/shell/1151.html学习awk时，一定要记得动手去实践，只有在实践中才能发现问题，以下就我在学习中和实践中的经验，总结一下RS,ORS,FS,OFS的区别和联系。
-一，RS与ORS1，RS是记录分隔符，默认的分隔符是\n，具体用法看下
-[root@guan test]# cat test1     //测试文件  
- 111 222  
- 333 444  
- 555 666  
-2，RS默认分割符\n
-[root@guan test]# awk '{print $0}' test1...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/04/25</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = awk>awk</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2017/04/15/shellsubstring/" >
-                
-                    <span>shell的字符串截取</span>
-            </a>
-            <div class="abstract-content">
-                shell的字符串截取
-提取子串
-${string:position}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在$string中从位置$position开始提取子串.如果$string是”*”或者”@”, 那么将会提取从位置$position开始的位置参数.
-1234567[root@guan temp]# [root@guan temp]# cat&gt;test.sh&lt;&lt;'eof'&gt; #!/bin/bash&gt; echo $&#123;*:3&#125;&gt; eof[root@guan temp]# s...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/04/15</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = shell>shell</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = bash>bash</a>
     
 </div>
                 

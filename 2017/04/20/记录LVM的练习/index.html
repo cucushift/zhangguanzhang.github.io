@@ -336,7 +336,14 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>LVM和raid的创建和调整<br><a id="more"></a><br>LVM就不用讲了,动态调整大小…<br>总结来说就是:<br>    磁盘创建成PV物理卷<br>    PV物理卷组成VG卷组<br>    然后在卷组上创建LV<br><a href="http://i1.piimg.com/1949/d42a0767ce28dca6.png" target="_blank"><img src="http://i1.piimg.com/1949/d42a0767ce28dca6.png" alt=""></a><br>1,创建分区给LVM实例使用(没有多个硬盘,没办法,只有用一个盘分成多个分区来模仿实际生活里的多块硬盘了)<br>用的云主机,俩块硬盘,用另一块没使用的数据盘做例子,分成四个分区<br>使用fdisk来分区,n是增加分区表，p是打印分区表，创建三个逻辑分区然后一个扩展分区</p>
+        <p>LVM和raid的创建和调整<br><a id="more"></a><br>LVM就不用讲了,动态调整大小…<br>总结来说就是:<br>    磁盘创建成PV物理卷<br>    PV物理卷组成VG卷组<br>    然后在卷组上创建LV</p>
+<blockquote>
+<ul>
+<li>1,创建分区给LVM实例使用(没有多个硬盘,没办法,只有用一个盘分成多个分区来模仿实际生活里的多块硬盘了)</li>
+<li>用的云主机,俩块硬盘,用另一块没使用的数据盘做例子,分成四个分区</li>
+<li>使用fdisk来分区,n是增加分区表，p是打印分区表，创建三个逻辑分区然后一个扩展分区</li>
+</ul>
+</blockquote>
 <pre><code>[root@guan ~]# fdisk -l<br>
 Disk /dev/vda: 21.5 GB, 21474836480 bytes
 255 heads, 63 sectors/track, 2610 cylinders
@@ -543,7 +550,11 @@ Number  Start   End     Size    Type      File system  Flags
 
 (parted) q</code></pre>
 
-<p>2,创建PV物理卷并查看</p>
+<blockquote>
+<ul>
+<li>2,创建PV物理卷并查看</li>
+</ul>
+</blockquote>
 <pre><code>[root@guan ~]# pvcreate /dev/vdb{1,2,3,5}
   Physical volume "/dev/vdb1" successfully created
   Physical volume "/dev/vdb2" successfully created
@@ -599,7 +610,11 @@ Number  Start   End     Size    Type      File system  Flags
   PV UUID               iXsXMU-xtF1-HU5H-1Shu-qk0a-Gfhz-CufnJf
 </code></pre>
 
-<p>3,创建卷组VG并查看</p>
+<blockquote>
+<ul>
+<li>3,创建卷组VG并查看</li>
+</ul>
+</blockquote>
 <pre><code>[root@guan ~]# vgcreate test_vg /dev/vdb{1,2,3,5}
   Volume group "test_vg" successfully created
 [root@guan ~]# vgdisplay 
@@ -625,7 +640,11 @@ Number  Start   End     Size    Type      File system  Flags
   VG UUID               uApKmt-Bnpz-yYKo-lK4B-u6RU-tbQf-HXpctt
 </code></pre>
 
-<p>4,创建LV逻辑卷并查看</p>
+<blockquote>
+<ul>
+<li>4,创建LV逻辑卷并查看</li>
+</ul>
+</blockquote>
 <pre><code>[root@guan ~]# lvcreate -n test_233 -L 40G test_vg
   Logical volume "test_233" created
 [root@guan ~]# lvdisplay 
@@ -647,7 +666,11 @@ Number  Start   End     Size    Type      File system  Flags
   Block device           253:0
 </code></pre>
 
-<p>5,格式化并且挂载</p>
+<blockquote>
+<ul>
+<li>5,格式化并且挂载</li>
+</ul>
+</blockquote>
 <pre><code>[root@guan ~]# mkfs.ext3 /dev/test_vg/test_233 
 mke2fs 1.41.12 (17-May-2010)
 Filesystem label=
@@ -680,7 +703,11 @@ Filesystem                    Size  Used Avail Use% Mounted on
 /dev/mapper/test_vg-test_233   40G  177M   38G   1% /mnt/test
 </code></pre>
 
-<p>6,给LVM扩容</p>
+<blockquote>
+<ul>
+<li>6,给LVM扩容</li>
+</ul>
+</blockquote>
 <pre><code>[root@guan ~]# lvextend -L +10G /dev/test_vg/test_233 
   Extending logical volume test_233 to 50.00 GiB
   Logical volume test_233 successfully resized
@@ -697,7 +724,11 @@ Filesystem                    Size  Used Avail Use% Mounted on
 /dev/mapper/test_vg-test_233   50G  180M   47G   1% /mnt/test
 </code></pre>
 
-<p>7,给卷组VG扩容</p>
+<blockquote>
+<ul>
+<li>7,给卷组VG扩容</li>
+</ul>
+</blockquote>
 <pre><code>
 没办法,分区全部分完了...大致就是分一个区然后用pvcreate来转成物理卷
 然后用vgextend vgname /dev/partname加进卷组然后用vgdisplay查看下容量是否扩大,然后如果是卷组不够用下想给逻辑卷扩容的话最后参照第六步用lvextend扩容下逻辑卷
@@ -716,8 +747,16 @@ Do you really want to remove active logical volume test_233? [y/n]: y
 [root@guan ~]# 
 </code></pre>
 
-<p>!!!生产环境里调整文件系统大小前一定要做好数据备份</p>
-<p>二:raid部分<br>1,主机只有一块闲置硬盘，先分区来给raid用</p>
+<blockquote>
+<ul>
+<li>!!!生产环境里调整文件系统大小前一定要做好数据备份</li>
+</ul>
+</blockquote>
+<h1 id="二-raid部分"><a href="#二-raid部分" class="headerlink" title="二:raid部分"></a>二:raid部分</h1><blockquote>
+<ul>
+<li>1,主机只有一块闲置硬盘，先分区来给raid用</li>
+</ul>
+</blockquote>
 <pre><code>
 [root@guan ~]# fdisk /dev/vdb 
 
@@ -775,8 +814,7 @@ Calling ioctl() to re-read partition table.
 Syncing disks.
 </code></pre>
 
-<p>raid0<br><img src="http://i2.muimg.com/1949/1a165aeb8e225777.png" alt=""></p>
-<p>-C　　–create　  创建阵列;</p>
+<h2 id="raid0"><a href="#raid0" class="headerlink" title="raid0"></a>raid0</h2><p>-C　　–create　  创建阵列;</p>
 <p>-a　　–auto　　  同意创建设备，如不加此参数时必须先使用mknod 命令来创建一个RAID设备，不过推荐使用-a yes参数一次性创建;</p>
 <p>-l　　 –level　　　阵列模式，支持的阵列模式有 linear, raid0, raid1, raid4, raid5, raid6, raid10, multipath, faulty, container;</p>
 <p>-n     –raid-devices    阵列中活动磁盘的数目，该数目加上备用磁盘的数目应该等于阵列中总的磁盘数目;</p>
@@ -1331,7 +1369,7 @@ mdadm: stopped /dev/md0
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#二-raid部分"><span class="toc-number">1.</span> <span class="toc-text">二:raid部分</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#raid0"><span class="toc-number">1.1.</span> <span class="toc-text">raid0</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1896,6 +1934,8 @@ mdadm: stopped /dev/md0
         <span class="sidebar-tag-name" data-tags="正则"><span class="iconfont-archer">&#xe606;</span>正则</span>
     
         <span class="sidebar-tag-name" data-tags="awk"><span class="iconfont-archer">&#xe606;</span>awk</span>
+    
+        <span class="sidebar-tag-name" data-tags="bash"><span class="iconfont-archer">&#xe606;</span>bash</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
